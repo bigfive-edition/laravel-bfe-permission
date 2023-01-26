@@ -7,7 +7,7 @@ convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsol
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="Permissions Test Suite">
+    <testsuite name="Permission Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>
