@@ -33,7 +33,7 @@ class BfePermissionServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(
-			__DIR__ . '/../config/bfe-permission.php',
+			__DIR__ . '/../../config/bfe-permission.php',
 			'bfe-permission'
 		);
 
@@ -50,7 +50,7 @@ class BfePermissionServiceProvider extends ServiceProvider
 		}
 
 		$this->publishes([
-			__DIR__ . '/../config/bfe-permission.php' => config_path('bfe-permission.php'),
+			__DIR__ . '/../../config/bfe-permission.php' => config_path('bfe-permission.php'),
 		], 'bfe-permission-config');
 
 //		$this->publishes([
