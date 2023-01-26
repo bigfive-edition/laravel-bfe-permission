@@ -23,7 +23,7 @@ class InstallBfePermission extends Command
 	public function handle()
 	{
 		$this->call("vendor:publish", [
-			'--provider' => '\Spatie\Permission\PermissionServiceProvider',
+			'--provider' => 'Spatie\Permission\PermissionServiceProvider',
 		]);
 		$this->call("vendor:publish", [
 			'--provider' => 'BigFiveEdition\Permission\Providers\BfePermissionServiceProvider',
