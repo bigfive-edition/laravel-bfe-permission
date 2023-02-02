@@ -10,7 +10,7 @@ class Role extends Model implements RoleContract
 {
 	public $incrementing = true;
 	public $timestamps = true;
-	protected $table = 'bfe_roles';
+	protected $table = 'bfe_permission_roles';
 	protected $fillable = [
 	];
 	protected $guarded = [

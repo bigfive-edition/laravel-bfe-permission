@@ -10,7 +10,7 @@ class Ability extends Model implements AbilityContract
 {
 	public $incrementing = true;
 	public $timestamps = true;
-	protected $table = 'bfe_abilities';
+	protected $table = 'bfe_permission_abilities';
 	protected $fillable = [
 	];
 	protected $guarded = [
