@@ -15,8 +15,8 @@ class CreateBfePermissionTables extends Migration
 		//--------- Teams ----------
         Schema::create('bfe_teams', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('slug')->unique();
-            $table->string('name');
+            $table->string('slug')->nullable(false)->unique();
+            $table->string('name')->nullable();
             $table->timestamps();
         });
 	    Schema::create('bfe_model_belongs_teams', function (Blueprint $table) {
@@ -36,8 +36,8 @@ class CreateBfePermissionTables extends Migration
 	    //--------- Roles ----------
 	    Schema::create('bfe_roles', function (Blueprint $table) {
 		    $table->bigIncrements('id');
-		    $table->string('slug')->unique();
-		    $table->string('name');
+		    $table->string('slug')->nullable(false)->unique();
+            $table->string('name')->nullable();
 		    $table->timestamps();
 	    });
 	    Schema::create('bfe_model_has_roles', function (Blueprint $table) {
@@ -56,8 +56,8 @@ class CreateBfePermissionTables extends Migration
 	    //--------- Abilities ----------
 	    Schema::create('bfe_abilities', function (Blueprint $table) {
 		    $table->bigIncrements('id');
-		    $table->string('slug')->unique();
-		    $table->string('name');
+		    $table->string('slug')->nullable(false)->unique();
+            $table->string('name')->nullable();
 		    $table->timestamps();
 	    });
 	    Schema::create('bfe_model_has_abilities_on_resource', function (Blueprint $table) {
@@ -74,7 +74,7 @@ class CreateBfePermissionTables extends Migration
 
 		    $table->boolean('allowed')->default(true);
 
-		    $table->unique(['ability_id', 'model_type', 'model_id', 'resource_type', 'resource_id'], 'bfe_model_has_abilities_on_resource_unique');
+		    //$table->unique(['ability_id', 'model_type', 'model_id', 'resource_type', 'resource_id', 'allowed'], 'bfe_model_has_abilities_on_resource_unique');
 	    });
     }
 
