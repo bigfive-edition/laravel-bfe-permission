@@ -9,6 +9,9 @@ Route::group([
 	'middleware' => []
 ], function () {
 	Route::apiResource('test', 'BigFiveEdition\Permission\Http\Controllers\Test\TestController');
+	Route::apiResource('teams', 'BigFiveEdition\Permission\Http\Controllers\Team\TeamController');
+	Route::apiResource('roles', 'BigFiveEdition\Permission\Http\Controllers\Role\RoleController');
+	Route::apiResource('abilities', 'BigFiveEdition\Permission\Http\Controllers\Ability\AbilityController');
 });
 
 /* Public________________________________________________________________ */
