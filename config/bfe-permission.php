@@ -3,5 +3,6 @@
 return [
 
 	'default_teams' => [],
-	'default_roles' => ['sysadmin', 'admin', 'pro_user', 'regular_user']
+	'default_roles' => ['sysadmin', 'admin', 'pro_user', 'regular_user'],
+	'routes_prefix' => '',
 ];
