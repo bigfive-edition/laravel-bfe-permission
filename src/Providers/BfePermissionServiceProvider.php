@@ -6,6 +6,8 @@ use BigFiveEdition\Permission\Commands\CreateBfePermissionAbility;
 use BigFiveEdition\Permission\Commands\CreateBfePermissionRole;
 use BigFiveEdition\Permission\Commands\CreateBfePermissionTeam;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionAbilities;
+use BigFiveEdition\Permission\Commands\GenerateBfePermissionRoles;
+use BigFiveEdition\Permission\Commands\GenerateBfePermissionTeams;
 use BigFiveEdition\Permission\Commands\InstallBfePermission;
 use BigFiveEdition\Permission\Commands\RunBfePermissionSeeders;
 use Illuminate\Filesystem\Filesystem;
@@ -65,8 +67,10 @@ class BfePermissionServiceProvider extends ServiceProvider
 	{
 		$this->commands([
 			InstallBfePermission::class,
+			GenerateBfePermissionTeams::class,
+			GenerateBfePermissionRoles::class,
 			GenerateBfePermissionAbilities::class,
-			RunBfePermissionSeeders::class,
+//			RunBfePermissionSeeders::class,
 			CreateBfePermissionTeam::class,
 			CreateBfePermissionRole::class,
 			CreateBfePermissionAbility::class,
