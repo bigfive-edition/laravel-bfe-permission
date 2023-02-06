@@ -48,11 +48,11 @@ class Ability extends Model implements AbilityContract
 		return $ability;
 	}
 
-	public static function findOrCreate(string $name, string $slug): AbilityContract
+	public static function findOrCreate(string $name, string $slug, ?string $resource): AbilityContract
 	{
-		$ability = static::findByParam(['name' => $name, 'slug' => $slug]);
+		$ability = static::findByParam(['name' => $name, 'slug' => $slug, 'resource' => $resource]);
 		if (!$ability) {
-			return static::query()->create(['name' => $name, 'slug' => $slug]);
+			return static::query()->create(['name' => $name, 'slug' => $slug, 'resource' => $resource]);
 		}
 		return $ability;
 	}

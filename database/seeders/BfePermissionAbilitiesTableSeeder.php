@@ -55,7 +55,7 @@ class BfePermissionAbilitiesTableSeeder extends Seeder
 						$abilitiesData[] = [
 							'slug' => $slug,
 							'name' => ucwords($operation) . ' ' . ucwords($modelSlug),
-							'resource_type' => $model,
+							'resource' => $model,
 						];
 					} catch (Exception $e) {
 						Log::error($e->getMessage());
@@ -81,7 +81,8 @@ class BfePermissionAbilitiesTableSeeder extends Seeder
 			try {
 				$slug = Arr::get($data, 'slug');
 				$name = Arr::get($data, 'name');
-				$role = Ability::findOrCreate($name, $slug);
+				$resource = Arr::get($data, 'resource');
+				$role = Ability::findOrCreate($name, $slug, $resource);
 			} catch (Exception $e) {
 				Log::error($e->getMessage());
 				Log::error($e->getTraceAsString());
