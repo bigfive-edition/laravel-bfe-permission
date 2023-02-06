@@ -46,7 +46,7 @@ class BfePermissionAbilitiesTableSeeder extends Seeder
 			$abilitiesData = [];
 			$models = ModelClass::all();
 			foreach ($models as $model) {
-				$operations = AbilityOperationType::ALL;
+				$operations = config('bfe-permission.ability_operations', AbilityOperationType::ALL);
 				foreach ($operations as $operation) {
 					try {
 						$reflect = new ReflectionClass($model);
