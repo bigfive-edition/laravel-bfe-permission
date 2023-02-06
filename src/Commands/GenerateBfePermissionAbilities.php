@@ -89,7 +89,7 @@ class GenerateBfePermissionAbilities extends Command
 			try {
 				$slug = Arr::get($data, 'slug');
 				$name = Arr::get($data, 'name');
-				$role = Ability::findOrCreate($slug, $name);
+				$role = Ability::findOrCreate($name, $slug);
 			} catch (Exception $e) {
 				Log::error($e->getMessage());
 				Log::error($e->getTraceAsString());
