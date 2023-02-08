@@ -10,6 +10,8 @@ use BigFiveEdition\Permission\Http\Requests\Role\BfePermission_Role_GetOneReques
 use BigFiveEdition\Permission\Http\Requests\Role\BfePermission_Role_UpdateOneRequest;
 use BigFiveEdition\Permission\Http\Resources\Role\BfePermission_Role_Resource;
 use BigFiveEdition\Permission\Http\Resources\Role\BfePermission_Role_ResourceCollection;
+use BigFiveEdition\Permission\Models\Role;
+use BigFiveEdition\Permission\Models\Team;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -45,8 +47,11 @@ class RoleController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 
+		$entities = Role::query()
+			->paginate($request->get('per_page'));
+
 		//Build API Response
-		$data = BfePermission_Role_ResourceCollection::make(['value 1', 'value 2']);
+		$data = BfePermission_Role_ResourceCollection::make($entities);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -71,9 +76,11 @@ class RoleController extends BfePermissionBaseController
 	public function show(BfePermission_Role_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity =  Role::query()
+			->find($request->id());
 
 		//Build API Response
-		$data = BfePermission_Role_Resource::make([$request->id() => 'value 1']);
+		$data = BfePermission_Role_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -97,9 +104,18 @@ class RoleController extends BfePermissionBaseController
 	public function store(BfePermission_Role_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Role::create($attributes);
 
 		//Build API Response
-		$data = BfePermission_Role_Resource::make($request->all());
+		$data = BfePermission_Role_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -123,9 +139,20 @@ class RoleController extends BfePermissionBaseController
 	public function update(BfePermission_Role_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Role::findOrFail($request->id());
+		$entity->fill($attributes);
+		$entity->save();
 
 		//Build API Response
-		$data = BfePermission_Role_Resource::make([$request->id() => $request->all()]);
+		$data = BfePermission_Role_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -148,11 +175,12 @@ class RoleController extends BfePermissionBaseController
 	public function destroy(BfePermission_Role_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity = Role::findOrFail($request->id());
+		$deleted = $entity->delete();
 
 		//Build API Response
 		$data = [
-			'deleted' => $request->id() != null,
-			'data' => $request->id()
+			'deleted' => $deleted,
 		];
 		$message = 'message';
 		$notification = [];

@@ -10,6 +10,7 @@ use BigFiveEdition\Permission\Http\Requests\Team\BfePermission_Team_GetOneReques
 use BigFiveEdition\Permission\Http\Requests\Team\BfePermission_Team_UpdateOneRequest;
 use BigFiveEdition\Permission\Http\Resources\Team\BfePermission_Team_Resource;
 use BigFiveEdition\Permission\Http\Resources\Team\BfePermission_Team_ResourceCollection;
+use BigFiveEdition\Permission\Models\Team;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -45,8 +46,11 @@ class TeamController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 
+		$entities = Team::query()
+			->paginate($request->get('per_page'));
+
 		//Build API Response
-		$data = BfePermission_Team_ResourceCollection::make(['value 1', 'value 2']);
+		$data = BfePermission_Team_ResourceCollection::make($entities);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -71,9 +75,11 @@ class TeamController extends BfePermissionBaseController
 	public function show(BfePermission_Team_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity =  Team::query()
+			->find($request->id());
 
 		//Build API Response
-		$data = BfePermission_Team_Resource::make([$request->id() => 'value 1']);
+		$data = BfePermission_Team_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -97,9 +103,18 @@ class TeamController extends BfePermissionBaseController
 	public function store(BfePermission_Team_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Team::create($attributes);
 
 		//Build API Response
-		$data = BfePermission_Team_Resource::make($request->all());
+		$data = BfePermission_Team_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -123,9 +138,20 @@ class TeamController extends BfePermissionBaseController
 	public function update(BfePermission_Team_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Team::findOrFail($request->id());
+		$entity->fill($attributes);
+		$entity->save();
 
 		//Build API Response
-		$data = BfePermission_Team_Resource::make([$request->id() => $request->all()]);
+		$data = BfePermission_Team_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -148,11 +174,12 @@ class TeamController extends BfePermissionBaseController
 	public function destroy(BfePermission_Team_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity = Team::findOrFail($request->id());
+		$deleted = $entity->delete();
 
 		//Build API Response
 		$data = [
-			'deleted' => $request->id() != null,
-			'data' => $request->id()
+			'deleted' => $deleted,
 		];
 		$message = 'message';
 		$notification = [];
