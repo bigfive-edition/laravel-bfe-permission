@@ -11,7 +11,6 @@ use BigFiveEdition\Permission\Http\Requests\Role\BfePermission_Role_UpdateOneReq
 use BigFiveEdition\Permission\Http\Resources\Role\BfePermission_Role_Resource;
 use BigFiveEdition\Permission\Http\Resources\Role\BfePermission_Role_ResourceCollection;
 use BigFiveEdition\Permission\Models\Role;
-use BigFiveEdition\Permission\Models\Team;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -76,7 +75,7 @@ class RoleController extends BfePermissionBaseController
 	public function show(BfePermission_Role_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$entity =  Role::query()
+		$entity = Role::query()
 			->findOrFail($request->id());
 
 		//Build API Response
@@ -177,7 +176,7 @@ class RoleController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$entity = Role::query()
-		->findOrFail($request->id());
+			->findOrFail($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

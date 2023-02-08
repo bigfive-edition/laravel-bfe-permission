@@ -24,6 +24,6 @@ class CreateBfePermissionAbility extends Command
 	{
 		$ability = Ability::findOrCreate($this->argument('name'), $this->argument('slug'), $this->argument('resource'));
 
-		$this->info("Ability `{$ability->name}` ".($ability->wasRecentlyCreated ? 'created' : 'updated'));
+		$this->info("Ability `{$ability->name}` " . ($ability->wasRecentlyCreated ? 'created' : 'updated'));
 	}
 }

@@ -23,6 +23,6 @@ class CreateBfePermissionRole extends Command
 	{
 		$role = Role::findOrCreate($this->argument('name'), $this->argument('slug'));
 
-		$this->info("Role `{$role->name}` ".($role->wasRecentlyCreated ? 'created' : 'updated'));
+		$this->info("Role `{$role->name}` " . ($role->wasRecentlyCreated ? 'created' : 'updated'));
 	}
 }

@@ -19,7 +19,7 @@ class TeamMiddleware
 			? $team
 			: explode('|', $team);
 
-		if (! $authGuard->user()->hasAnyTeams($teams)) {
+		if (!$authGuard->user()->hasAnyTeams($teams)) {
 			throw UnauthorizedException::forTeams($teams);
 		}
 

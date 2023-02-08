@@ -19,7 +19,7 @@ class AbilityMiddleware
 			? $ability
 			: explode('|', $ability);
 
-		if (! $authGuard->user()->hasAnyAbilities($abilities)) {
+		if (!$authGuard->user()->hasAnyAbilities($abilities)) {
 			throw UnauthorizedException::forAbilities($abilities);
 		}
 

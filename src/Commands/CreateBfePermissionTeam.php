@@ -23,6 +23,6 @@ class CreateBfePermissionTeam extends Command
 	{
 		$team = Team::findOrCreate($this->argument('name'), $this->argument('slug'));
 
-		$this->info("Team `{$team->name}` ".($team->wasRecentlyCreated ? 'created' : 'updated'));
+		$this->info("Team `{$team->name}` " . ($team->wasRecentlyCreated ? 'created' : 'updated'));
 	}
 }

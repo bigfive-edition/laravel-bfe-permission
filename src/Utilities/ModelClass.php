@@ -3,13 +3,12 @@
 namespace BigFiveEdition\Permission\Utilities;
 
 use Cache;
-use File;
 use Exception;
+use File;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use ReflectionClass;
 
 class ModelClass
@@ -29,14 +28,14 @@ class ModelClass
 				->filter(function ($class) {
 					$valid = false;
 //					if (Str::contains($class, '\\Models\\')) {
-						try {
-							$reflection = new ReflectionClass($class);
-							$valid = $reflection->isSubclassOf(Model::class) &&
-								!$reflection->isAbstract();
-						} catch (Exception $e) {
-							Log::error($e->getMessage());
-							Log::error($e->getTraceAsString());
-						}
+					try {
+						$reflection = new ReflectionClass($class);
+						$valid = $reflection->isSubclassOf(Model::class) &&
+							!$reflection->isAbstract();
+					} catch (Exception $e) {
+						Log::error($e->getMessage());
+						Log::error($e->getTraceAsString());
+					}
 //					}
 					return $valid;
 				});
