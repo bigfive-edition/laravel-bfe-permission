@@ -2,8 +2,10 @@
 
 namespace BigFiveEdition\Permission\Models;
 
-use BigFiveEdition\Permission\Contracts\TeamModel as TeamModelContract;
+use BigFiveEdition\Permission\Contracts\TeamModelContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class TeamModel extends Model implements TeamModelContract
 {
@@ -18,5 +20,15 @@ class TeamModel extends Model implements TeamModelContract
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
+	}
+
+	public function team(): BelongsTo
+	{
+		return $this->belongsTo(Role::class, 'role_id', 'id');
+	}
+
+	public function model(): MorphTo
+	{
+		return $this->morphTo(null, 'model_type', 'model_id', 'id');
 	}
 }

@@ -2,9 +2,10 @@
 
 namespace BigFiveEdition\Permission\Models;
 
-use BigFiveEdition\Permission\Contracts\Ability as AbilityContract;
+use BigFiveEdition\Permission\Contracts\AbilityContract;
 use BigFiveEdition\Permission\Exceptions\AbilityDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ability extends Model implements AbilityContract
 {
@@ -19,6 +20,11 @@ class Ability extends Model implements AbilityContract
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
+	}
+
+	public function ability_models(): HasMany
+	{
+		return $this->hasMany(AbilityModel::class, 'ability_id', 'id');
 	}
 
 	public static function findBySlug(string $slug): AbilityContract

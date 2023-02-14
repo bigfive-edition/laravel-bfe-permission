@@ -2,9 +2,10 @@
 
 namespace BigFiveEdition\Permission\Models;
 
-use BigFiveEdition\Permission\Contracts\Team as TeamContract;
+use BigFiveEdition\Permission\Contracts\TeamContract;
 use BigFiveEdition\Permission\Exceptions\TeamDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model implements TeamContract
 {
@@ -19,6 +20,11 @@ class Team extends Model implements TeamContract
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
+	}
+
+	public function team_models(): HasMany
+	{
+		return $this->hasMany(TeamModel::class, 'team_id', 'id');
 	}
 
 	public static function findBySlug(string $slug): TeamContract

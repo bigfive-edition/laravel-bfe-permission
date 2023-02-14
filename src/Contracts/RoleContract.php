@@ -3,14 +3,17 @@
 namespace BigFiveEdition\Permission\Contracts;
 
 use BigFiveEdition\Permission\Exceptions\RoleDoesNotExist;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-interface Role
+interface RoleContract
 {
+	public function role_models(): HasMany;
+
 	/**
 	 * Find a role by its name and guard name.
 	 *
 	 * @param string $slug
-	 * @return Role
+	 * @return RoleContract
 	 *
 	 * @throws RoleDoesNotExist
 	 */
@@ -20,7 +23,7 @@ interface Role
 	 * Find a role by its name and guard name.
 	 *
 	 * @param string $name
-	 * @return Role
+	 * @return RoleContract
 	 *
 	 * @throws RoleDoesNotExist
 	 */
@@ -30,7 +33,7 @@ interface Role
 	 * Find a role by its id and guard name.
 	 *
 	 * @param int $id
-	 * @return Role
+	 * @return RoleContract
 	 *
 	 * @throws RoleDoesNotExist
 	 */
@@ -41,7 +44,7 @@ interface Role
 	 *
 	 * @param string $name
 	 * @param string $slug
-	 * @return Role
+	 * @return RoleContract
 	 */
 	public static function findOrCreate(string $name, string $slug): self;
 }

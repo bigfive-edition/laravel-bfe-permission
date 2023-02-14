@@ -3,14 +3,17 @@
 namespace BigFiveEdition\Permission\Contracts;
 
 use BigFiveEdition\Permission\Exceptions\AbilityDoesNotExist;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-interface Ability
+interface AbilityContract
 {
+	public function ability_models(): HasMany;
+
 	/**
 	 * Find a ability by its name and guard name.
 	 *
 	 * @param string $slug
-	 * @return Ability
+	 * @return AbilityContract
 	 *
 	 * @throws AbilityDoesNotExist
 	 */
@@ -20,7 +23,7 @@ interface Ability
 	 * Find a ability by its name and guard name.
 	 *
 	 * @param string $name
-	 * @return Ability
+	 * @return AbilityContract
 	 *
 	 * @throws AbilityDoesNotExist
 	 */
@@ -30,7 +33,7 @@ interface Ability
 	 * Find a ability by its id and guard name.
 	 *
 	 * @param int $id
-	 * @return Ability
+	 * @return AbilityContract
 	 *
 	 * @throws AbilityDoesNotExist
 	 */
@@ -41,7 +44,7 @@ interface Ability
 	 *
 	 * @param string $name
 	 * @param string $slug
-	 * @return Ability
+	 * @return AbilityContract
 	 */
 	public static function findOrCreate(string $name, string $slug, ?string $resource): self;
 }
