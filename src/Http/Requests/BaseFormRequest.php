@@ -36,7 +36,7 @@ abstract class BaseFormRequest extends FormRequest
 	public function with(): array
 	{
 		$param = $this->get('with', '');
-		if (stripos($param, ';')) {
+		if (!empty($param) || stripos($param, ';')) {
 			return explode(';', $param);
 		}
 		return [];
@@ -44,7 +44,7 @@ abstract class BaseFormRequest extends FormRequest
 	public function withCount(): array
 	{
 		$param = $this->get('with_count', '');
-		if (stripos($param, ';')) {
+		if (!empty($param) || stripos($param, ';')) {
 			return explode(';', $param);
 		}
 		return [];
