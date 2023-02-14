@@ -46,9 +46,9 @@ class RoleModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		$entities = RoleModel::query()
 			->with($with)
@@ -83,9 +83,9 @@ class RoleModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = RoleModel::query()
 			->with($with)
 			->withCount($withCounts)
@@ -118,9 +118,9 @@ class RoleModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -162,9 +162,9 @@ class RoleModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -207,9 +207,9 @@ class RoleModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = RoleModel::query()
 			->with($with)
 			->withCount($withCounts)

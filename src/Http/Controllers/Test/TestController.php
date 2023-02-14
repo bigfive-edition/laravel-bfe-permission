@@ -45,9 +45,9 @@ class TestController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		//Build API Response
 		$data = BfePermission_Test_ResourceCollection::make(['value 1', 'value 2']);
@@ -76,9 +76,9 @@ class TestController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => 'value 1']);
@@ -106,9 +106,9 @@ class TestController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make($request->all());
@@ -136,9 +136,9 @@ class TestController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => $request->all()]);
@@ -165,9 +165,9 @@ class TestController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		//Build API Response
 		$data = [

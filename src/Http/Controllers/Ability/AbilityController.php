@@ -46,9 +46,9 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entities = Ability::query()
 			->with($with)
 			->withCount($withCounts)
@@ -81,9 +81,9 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = Ability::query()
 			->with($with)
 			->withCount($withCounts)
@@ -115,9 +115,9 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'slug',
 			'name',
@@ -159,9 +159,9 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'slug',
 			'name',
@@ -203,9 +203,9 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = Ability::query()
 			->with($with)
 			->withCount($withCounts)
