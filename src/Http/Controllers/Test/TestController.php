@@ -44,6 +44,10 @@ class TestController extends BfePermissionBaseController
 	public function index(BfePermission_Test_GetListRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		//Build API Response
 		$data = BfePermission_Test_ResourceCollection::make(['value 1', 'value 2']);
@@ -71,6 +75,10 @@ class TestController extends BfePermissionBaseController
 	public function show(BfePermission_Test_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => 'value 1']);
@@ -97,6 +105,10 @@ class TestController extends BfePermissionBaseController
 	public function store(BfePermission_Test_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make($request->all());
@@ -123,6 +135,10 @@ class TestController extends BfePermissionBaseController
 	public function update(BfePermission_Test_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => $request->all()]);
@@ -148,6 +164,10 @@ class TestController extends BfePermissionBaseController
 	public function destroy(BfePermission_Test_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		//Build API Response
 		$data = [

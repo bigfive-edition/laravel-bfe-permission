@@ -45,7 +45,13 @@ class AbilityModelController extends BfePermissionBaseController
 	public function index(BfePermission_AbilityModel_GetListRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entities = AbilityModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('ability_id', $request->abilityId())
 			->paginate($request->get('per_page'));
 
@@ -75,7 +81,13 @@ class AbilityModelController extends BfePermissionBaseController
 	public function show(BfePermission_AbilityModel_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = AbilityModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('ability_id', $request->abilityId())
 			->findOrFail($request->id());
 
@@ -104,6 +116,10 @@ class AbilityModelController extends BfePermissionBaseController
 	public function store(BfePermission_AbilityModel_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -117,6 +133,10 @@ class AbilityModelController extends BfePermissionBaseController
 		$attributes['ability_id'] = $request->abilityId();
 
 		$entity = AbilityModel::create($attributes);
+		$entity = Ability::query()
+			->with($with)
+			->withCount($withCounts)
+			->findOrFail($entity->id);
 
 		//Build API Response
 		$data = BfePermission_AbilityModel_Resource::make($entity);
@@ -143,6 +163,10 @@ class AbilityModelController extends BfePermissionBaseController
 	public function update(BfePermission_AbilityModel_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -156,6 +180,8 @@ class AbilityModelController extends BfePermissionBaseController
 		$attributes['ability_id'] = $request->abilityId();
 
 		$entity = AbilityModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('ability_id', $request->abilityId())
 			->findOrFail($request->id());
 		$entity->fill($attributes);
@@ -185,7 +211,13 @@ class AbilityModelController extends BfePermissionBaseController
 	public function destroy(BfePermission_AbilityModel_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = AbilityModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('ability_id', $request->abilityId())
 			->findOrFail($request->id());
 		$deleted = $entity->delete();

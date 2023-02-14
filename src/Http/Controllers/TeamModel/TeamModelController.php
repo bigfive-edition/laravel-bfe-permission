@@ -45,8 +45,14 @@ class TeamModelController extends BfePermissionBaseController
 	public function index(BfePermission_TeamModel_GetListRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		$entities = TeamModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('team_id', $request->teamId())
 			->paginate($request->get('per_page'));
 
@@ -76,7 +82,13 @@ class TeamModelController extends BfePermissionBaseController
 	public function show(BfePermission_TeamModel_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = TeamModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('team_id', $request->teamId())
 			->findOrFail($request->id());
 
@@ -105,6 +117,10 @@ class TeamModelController extends BfePermissionBaseController
 	public function store(BfePermission_TeamModel_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -116,6 +132,10 @@ class TeamModelController extends BfePermissionBaseController
 		$attributes['team_id'] = $request->teamId();
 
 		$entity = TeamModel::create($attributes);
+		$entity = Ability::query()
+			->with($with)
+			->withCount($withCounts)
+			->findOrFail($entity->id);
 
 		//Build API Response
 		$data = BfePermission_TeamModel_Resource::make($entity);
@@ -142,6 +162,10 @@ class TeamModelController extends BfePermissionBaseController
 	public function update(BfePermission_TeamModel_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -153,6 +177,8 @@ class TeamModelController extends BfePermissionBaseController
 		$attributes['team_id'] = $request->teamId();
 
 		$entity = TeamModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('team_id', $request->teamId())
 			->findOrFail($request->id());
 		$entity->fill($attributes);
@@ -182,7 +208,13 @@ class TeamModelController extends BfePermissionBaseController
 	public function destroy(BfePermission_TeamModel_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = TeamModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('team_id', $request->teamId())
 			->findOrFail($request->id());
 		$deleted = $entity->delete();
