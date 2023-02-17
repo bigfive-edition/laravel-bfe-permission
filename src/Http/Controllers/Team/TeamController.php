@@ -128,7 +128,7 @@ class TeamController extends BfePermissionBaseController
 		});
 
 		$entity = Team::create($attributes);
-		$entity = Ability::query()
+		$entity = Team::query()
 			->with($with)
 			->withCount($withCounts)
 			->findOrFail($entity->id);

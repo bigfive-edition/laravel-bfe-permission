@@ -128,7 +128,7 @@ class RoleController extends BfePermissionBaseController
 		});
 
 		$entity = Role::create($attributes);
-		$entity = Ability::query()
+		$entity = Role::query()
 			->with($with)
 			->withCount($withCounts)
 			->findOrFail($entity->id);
