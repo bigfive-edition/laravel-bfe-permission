@@ -24,7 +24,7 @@ class TeamModel extends Model implements TeamModelContract
 
 	public function team(): BelongsTo
 	{
-		return $this->belongsTo(Role::class, 'role_id', 'id');
+		return $this->belongsTo(Team::class, 'team_id', 'id');
 	}
 
 	public function model(): MorphTo

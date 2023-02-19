@@ -22,26 +22,63 @@ trait HasBfePermissionAbilities
 
 	public function addAbilitiesOn($abilities, $resources): Collection|array|null
 	{
-		return null;
+		$abilityIds = Ability::query()
+			->whereIn('slug', $abilities)
+			->pluck('id')->all();
+
+		$this->ability_models()->saveMany(collect($abilityIds)->map(function ($abilityId) {
+			return AbilityModel::firstOrCreate(
+				[
+					'ability_id' => $abilityId,
+					'model_id' => $this->id,
+					'model_type' => $this->getMorphClass(),
+				],
+				[
+					'attribute' => 'member',
+				]);
+		}));
+		$this->refresh();
+
+		return $this->abilities;
 	}
 
 	public function removeAbilitiesOn($abilities, $resources): Collection|array|null
 	{
-		return null;
+		$abilityIds = Ability::query()
+			->whereIn('slug', $abilities)
+			->pluck('id')->all();
+
+		$this->abilities()->detach($abilityIds);
+		$this->refresh();
+
+		return $this->abilities;
 	}
 
 	public function syncAbilitiesOn($abilities, $resources): Collection|array|null
 	{
-		return null;
+		$abilityIds = Ability::query()
+			->whereIn('slug', $abilities)
+			->pluck('id')->all();
+
+		$this->abilities()->sync($abilityIds);
+		$this->refresh();
+
+		return $this->abilities;
 	}
 
 	public function hasAnyAbilitiesOn($abilities, $resources): bool
 	{
-		return false;
+		return $this->abilities()
+				->whereIn('slug', $abilities)
+				->count() > 0;
 	}
 
 	public function hasAllAbilitiesOn($abilities, $resources): bool
 	{
-		return false;
+		$count = $this->abilities()
+			->whereIn('slug', $abilities)
+			->count();
+
+		return $count >= count($abilities);
 	}
 }
