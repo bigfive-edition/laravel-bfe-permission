@@ -18,15 +18,21 @@ class TeamMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-		$teams = is_array($team) ? $team : explode('|', $team);
-
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (stripos($team, '|') && !$user->belongsToAnyTeams($teams)) {
-			throw UnauthorizedException::forTeams($teams);
+
+		if (stripos($team, '|')) {
+			$teams = is_array($team) ? $team : explode('|', $team);
+			if (!$user->belongsToAnyTeams($teams)) {
+				throw UnauthorizedException::forTeams($teams);
+			}
 		}
-		if (stripos($team, '&') && !$user->belongsToAllTeams($teams)) {
-			throw UnauthorizedException::forTeams($teams);
+
+		if (stripos($team, '&')) {
+			$teams = is_array($team) ? $team : explode('&', $team);
+			if (!$user->belongsToAllTeams($teams)) {
+				throw UnauthorizedException::forTeams($teams);
+			}
 		}
 
 		return $next($request);

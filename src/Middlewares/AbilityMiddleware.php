@@ -16,17 +16,24 @@ class AbilityMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-		$abilities = is_array($ability) ? $ability : explode('|', $ability);
 		$type = $resourceType ? trim($resourceType) : null;
 		$id = $resourceId ? trim($resourceId) : null;
 
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (stripos($ability, '|') && !$user->hasAnyAbilitiesOn($abilities, $type, $id)) {
-			throw UnauthorizedException::forAbilities($abilities);
+
+		if (stripos($ability, '|')) {
+			$abilities = is_array($ability) ? $ability : explode('|', $ability);
+			if (!$user->belongsToAnyAbilities($abilities, $type, $id)) {
+				throw UnauthorizedException::forAbilities($abilities);
+			}
 		}
-		if (stripos($ability, '&') && !$user->hasAllAbilitiesOn($abilities, $type, $id)) {
-			throw UnauthorizedException::forAbilities($abilities);
+
+		if (stripos($ability, '&')) {
+			$abilities = is_array($ability) ? $ability : explode('&', $ability);
+			if (!$user->belongsToAllAbilities($abilities, $type, $id)) {
+				throw UnauthorizedException::forAbilities($abilities);
+			}
 		}
 
 		return $next($request);

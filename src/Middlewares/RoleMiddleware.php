@@ -18,15 +18,21 @@ class RoleMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-		$roles = is_array($role) ? $role : explode('|', $role);
-
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (stripos($role, '|') && !$user->hasAnyRoles($roles)) {
-			throw UnauthorizedException::forRoles($roles);
+
+		if (stripos($role, '|')) {
+			$roles = is_array($role) ? $role : explode('|', $role);
+			if (!$user->belongsToAnyRoles($roles)) {
+				throw UnauthorizedException::forRoles($roles);
+			}
 		}
-		if (stripos($role, '&') && !$user->hasAllRoles($roles)) {
-			throw UnauthorizedException::forRoles($roles);
+
+		if (stripos($role, '&')) {
+			$roles = is_array($role) ? $role : explode('&', $role);
+			if (!$user->belongsToAllRoles($roles)) {
+				throw UnauthorizedException::forRoles($roles);
+			}
 		}
 
 		return $next($request);
