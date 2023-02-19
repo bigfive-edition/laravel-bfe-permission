@@ -29,3 +29,13 @@ php artisan migrate
 ```
 Assuming that we are using the default config values and haven't changed anything in the package's config/bfe-permission.php, 
 we should now have five new tables in our database:
+
+
+Adding middlewares:
+
+```
+bfe-permission.teams:waiters,managers
+bfe-permission.roles:admin,system_admin
+bfe-permission.abilities:read_all_users|create_one_vehicle,{resource_class},{resource_id}
+bfe-permission.abilities:read_all_users&create_one_vehicle,{resource_class},{resource_id}
+```
