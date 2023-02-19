@@ -20,15 +20,10 @@ class TeamMiddleware
 
 		$teams = is_array($team) ? $team : explode('|', $team);
 
-		try {
-//			$user = $authGuard->user();
-			$user = $request->user();
-			if (!$user->belongsToAnyTeams($teams)) {
-				throw UnauthorizedException::forTeams($teams);
-			}
-		} catch (Exception $e) {
-			Log::error($e->getMessage());
-			Log::error($e->getTraceAsString());
+//		$user = $authGuard->user();
+		$user = $request->user();
+		if (!$user->belongsToAnyTeams($teams)) {
+			throw UnauthorizedException::forTeams($teams);
 		}
 
 		return $next($request);
