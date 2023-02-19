@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class AbilityMiddleware
 {
-	public function handle($request, Closure $next, $ability, $guard = null)
+	public function handle($request, Closure $next, $ability, $resourceType = null, $resourceId = null, $guard = null)
 	{
 		$authGuard = Auth::guard($guard);
 
@@ -19,10 +19,12 @@ class AbilityMiddleware
 		}
 
 		$abilities = is_array($ability) ? $ability : explode('|', $ability);
+		$type = $resourceType ? trim($resourceType) : null;
+		$id = $resourceId ? trim($resourceId) : null;
 
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (!$user->hasAnyAbilitiesOn($abilities)) {
+		if (!$user->hasAllAbilitiesOn($abilities, $type, $id)) {
 			throw UnauthorizedException::forAbilities($abilities);
 		}
 
