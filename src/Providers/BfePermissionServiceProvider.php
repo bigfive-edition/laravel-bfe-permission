@@ -9,6 +9,9 @@ use BigFiveEdition\Permission\Commands\GenerateBfePermissionAbilities;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionRoles;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionTeams;
 use BigFiveEdition\Permission\Commands\InstallBfePermission;
+use BigFiveEdition\Permission\Middlewares\AbilityMiddleware;
+use BigFiveEdition\Permission\Middlewares\RoleMiddleware;
+use BigFiveEdition\Permission\Middlewares\TeamMiddleware;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -28,6 +31,7 @@ class BfePermissionServiceProvider extends ServiceProvider
 		$this->registerModelBindings();
 
 		$this->registerRoutes();
+		$this->registerRouteMiddlewares();
 
 		$this->app->singleton(BfePermissionRegistrar::class, function ($app) use ($permissionLoader) {
 			return $permissionLoader;
@@ -97,6 +101,13 @@ class BfePermissionServiceProvider extends ServiceProvider
 	protected function registerRoutes()
 	{
 		$this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+	}
+
+	protected function registerRouteMiddlewares()
+	{
+		app('router')->aliasMiddleware('bfe-permission.teams', TeamMiddleware::class);
+		app('router')->aliasMiddleware('bfe-permission.roles', RoleMiddleware::class);
+		app('router')->aliasMiddleware('bfe-permission.abilities', AbilityMiddleware::class);
 	}
 
 	public function register()
