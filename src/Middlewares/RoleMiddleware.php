@@ -2,8 +2,11 @@
 
 namespace BigFiveEdition\Permission\Middlewares;
 
+use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RoleMiddleware
 {
@@ -15,12 +18,17 @@ class RoleMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-		$roles = is_array($role)
-			? $role
-			: explode('|', $role);
+		$roles = is_array($role) ? $role : explode('|', $role);
 
-		if (!$authGuard->user()->hasAnyRoles($roles)) {
-			throw UnauthorizedException::forRoles($roles);
+		try {
+//			$user = $authGuard->user();
+			$user = $request->user();
+			if (!$user->hasAnyRoles($roles)) {
+				throw UnauthorizedException::forRoles($roles);
+			}
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
+			Log::error($e->getTraceAsString());
 		}
 
 		return $next($request);

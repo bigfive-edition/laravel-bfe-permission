@@ -2,8 +2,11 @@
 
 namespace BigFiveEdition\Permission\Middlewares;
 
+use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AbilityMiddleware
 {
@@ -15,12 +18,17 @@ class AbilityMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-		$abilities = is_array($ability)
-			? $ability
-			: explode('|', $ability);
+		$abilities = is_array($ability) ? $ability : explode('|', $ability);
 
-		if (!$authGuard->user()->hasAnyAbilities($abilities)) {
-			throw UnauthorizedException::forAbilities($abilities);
+		try {
+//			$user = $authGuard->user();
+			$user = $request->user();
+			if (!$user->hasAnyAbilitiesOn($abilities)) {
+				throw UnauthorizedException::forAbilities($abilities);
+			}
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
+			Log::error($e->getTraceAsString());
 		}
 
 		return $next($request);
