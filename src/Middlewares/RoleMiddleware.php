@@ -23,14 +23,14 @@ class RoleMiddleware
 
 		if (stripos($role, '|')) {
 			$roles = is_array($role) ? $role : explode('|', $role);
-			if (!$user->belongsToAnyRoles($roles)) {
+			if (!$user->hasAnyRoles($roles)) {
 				throw UnauthorizedException::forRoles($roles);
 			}
 		}
 
 		if (stripos($role, '&')) {
 			$roles = is_array($role) ? $role : explode('&', $role);
-			if (!$user->belongsToAllRoles($roles)) {
+			if (!$user->hasAllRoles($roles)) {
 				throw UnauthorizedException::forRoles($roles);
 			}
 		}

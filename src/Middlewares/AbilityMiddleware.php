@@ -24,14 +24,14 @@ class AbilityMiddleware
 
 		if (stripos($ability, '|')) {
 			$abilities = is_array($ability) ? $ability : explode('|', $ability);
-			if (!$user->belongsToAnyAbilities($abilities, $type, $id)) {
+			if (!$user->hasAnyAbilitiesOn($abilities, $type, $id)) {
 				throw UnauthorizedException::forAbilities($abilities);
 			}
 		}
 
 		if (stripos($ability, '&')) {
 			$abilities = is_array($ability) ? $ability : explode('&', $ability);
-			if (!$user->belongsToAllAbilities($abilities, $type, $id)) {
+			if (!$user->hasAllAbilitiesOn($abilities, $type, $id)) {
 				throw UnauthorizedException::forAbilities($abilities);
 			}
 		}
