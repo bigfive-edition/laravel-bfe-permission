@@ -14,7 +14,7 @@ class UnauthorizedException extends HttpException
 	{
 		$message = 'User does not have the right teams.';
 
-		if (config('bfe-permission.display_team_in_exception', true )) {
+		if (config('bfe-permission.display_team_in_exception', true)) {
 			$message .= ' Necessary teams are ' . implode(', ', $teams);
 		}
 

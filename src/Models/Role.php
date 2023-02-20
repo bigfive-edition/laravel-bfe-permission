@@ -22,11 +22,6 @@ class Role extends Model implements RoleContract
 		parent::__construct($attributes);
 	}
 
-	public function role_models(): HasMany
-	{
-		return $this->hasMany(RoleModel::class, 'role_id', 'id');
-	}
-
 	public static function findBySlug(string $slug): RoleContract
 	{
 		$role = static::findByParam(['slug' => $slug]);
@@ -70,5 +65,10 @@ class Role extends Model implements RoleContract
 			return static::query()->create(['name' => $name, 'slug' => $slug]);
 		}
 		return $role;
+	}
+
+	public function role_models(): HasMany
+	{
+		return $this->hasMany(RoleModel::class, 'role_id', 'id');
 	}
 }

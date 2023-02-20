@@ -4,9 +4,7 @@ namespace BigFiveEdition\Permission\Middlewares;
 
 use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
 use Closure;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class RoleMiddleware
 {

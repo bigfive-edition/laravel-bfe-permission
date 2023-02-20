@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface AbilityContract
 {
-	public function ability_models(): HasMany;
-
 	/**
 	 * Find a ability by its name and guard name.
 	 *
@@ -47,4 +45,6 @@ interface AbilityContract
 	 * @return AbilityContract
 	 */
 	public static function findOrCreate(string $name, string $slug, ?string $resource): self;
+
+	public function ability_models(): HasMany;
 }

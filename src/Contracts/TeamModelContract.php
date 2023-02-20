@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 interface TeamModelContract
 {
 	public function team(): BelongsTo;
+
 	public function model(): MorphTo;
 }

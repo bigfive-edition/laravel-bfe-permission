@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface TeamContract
 {
-	public function team_models(): HasMany;
-
 	/**
 	 * Find a team by its name and guard name.
 	 *
@@ -47,4 +45,6 @@ interface TeamContract
 	 * @return TeamContract
 	 */
 	public static function findOrCreate(string $name, string $slug): self;
+
+	public function team_models(): HasMany;
 }

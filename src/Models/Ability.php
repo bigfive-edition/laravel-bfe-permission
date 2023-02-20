@@ -22,11 +22,6 @@ class Ability extends Model implements AbilityContract
 		parent::__construct($attributes);
 	}
 
-	public function ability_models(): HasMany
-	{
-		return $this->hasMany(AbilityModel::class, 'ability_id', 'id');
-	}
-
 	public static function findBySlug(string $slug): AbilityContract
 	{
 		$ability = static::findByParam(['slug' => $slug]);
@@ -70,5 +65,10 @@ class Ability extends Model implements AbilityContract
 			return static::query()->create(['name' => $name, 'slug' => $slug, 'resource' => $resource]);
 		}
 		return $ability;
+	}
+
+	public function ability_models(): HasMany
+	{
+		return $this->hasMany(AbilityModel::class, 'ability_id', 'id');
 	}
 }
