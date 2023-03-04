@@ -80,6 +80,7 @@ trait HasBfePermissionAbilities
 	public function hasAnyAbilitiesOn($abilities, $resourceType = null, $resourceId = null): bool
 	{
 		$count = $this->ability_models();
+		$count = $count->where('allowed', true);
 		if (isset($resourceType)) {
 			$count = $count->where('resource_type', $resourceType);
 		}
@@ -96,6 +97,7 @@ trait HasBfePermissionAbilities
 	public function hasAllAbilitiesOn($abilities, $resourceType = null, $resourceId = null): bool
 	{
 		$count = $this->ability_models();
+		$count = $count->where('allowed', true);
 		if (isset($resourceType)) {
 			$count = $count->where('resource_type', $resourceType);
 		}
