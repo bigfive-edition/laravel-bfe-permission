@@ -15,12 +15,13 @@ use BigFiveEdition\Permission\Middlewares\TeamMiddleware;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
-class BfePermissionServiceProvider extends ServiceProvider
+class BfePermissionPackageServiceProvider extends ServiceProvider
 {
-	public function boot(BfePermissionRegistrar $permissionLoader)
+	public function boot()
 	{
 		$this->offerPublishing();
 
@@ -32,10 +33,7 @@ class BfePermissionServiceProvider extends ServiceProvider
 
 		$this->registerRoutes();
 		$this->registerRouteMiddlewares();
-
-		$this->app->singleton(BfePermissionRegistrar::class, function ($app) use ($permissionLoader) {
-			return $permissionLoader;
-		});
+		$this->registerAuthGatesAndPolicies();
 	}
 
 	protected function offerPublishing()
@@ -109,6 +107,14 @@ class BfePermissionServiceProvider extends ServiceProvider
 		app('router')->aliasMiddleware('bfe-permission.roles', RoleMiddleware::class);
 		app('router')->aliasMiddleware('bfe-permission.abilities', AbilityMiddleware::class);
 	}
+
+	protected function registerAuthGatesAndPolicies()
+	{
+		Gate::define('bfe-permission-belongs-teams', 'BigFiveEdition\Permission\Policies\PermissionTeamPolicy@belongsToTeam');
+		Gate::define('bfe-permission-has-roles', 'BigFiveEdition\Permission\Policies\PermissionRolePolicy@hasRole');
+		Gate::define('bfe-permission-has-abilities', 'BigFiveEdition\Permission\Policies\PermissionAbilityPolicy@hasAbility');
+	}
+
 
 	public function register()
 	{
