@@ -24,11 +24,14 @@ class TeamMiddleware
 			if (!$user->belongsToAnyTeams($teams)) {
 				throw UnauthorizedException::forTeams($teams);
 			}
-		}
-
-		if (stripos($team, '&')) {
+		} else if (stripos($team, '&')) {
 			$teams = is_array($team) ? $team : explode('&', $team);
 			if (!$user->belongsToAllTeams($teams)) {
+				throw UnauthorizedException::forTeams($teams);
+			}
+		} else {
+			$teams = is_array($team) ? $team : [$team];
+			if (!$user->belongsToAnyTeams($teams)) {
 				throw UnauthorizedException::forTeams($teams);
 			}
 		}

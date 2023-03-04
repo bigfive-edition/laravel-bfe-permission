@@ -24,11 +24,14 @@ class RoleMiddleware
 			if (!$user->hasAnyRoles($roles)) {
 				throw UnauthorizedException::forRoles($roles);
 			}
-		}
-
-		if (stripos($role, '&')) {
+		} else if (stripos($role, '&')) {
 			$roles = is_array($role) ? $role : explode('&', $role);
 			if (!$user->hasAllRoles($roles)) {
+				throw UnauthorizedException::forRoles($roles);
+			}
+		} else {
+			$roles = is_array($role) ? $role : [$role];
+			if (!$user->hasAnyRoles($roles)) {
 				throw UnauthorizedException::forRoles($roles);
 			}
 		}

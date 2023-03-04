@@ -27,11 +27,14 @@ class AbilityMiddleware
 			if (!$user->hasAnyAbilitiesOn($abilities, $type, $id)) {
 				throw UnauthorizedException::forAbilities($abilities);
 			}
-		}
-
-		if (stripos($ability, '&')) {
+		} else if (stripos($ability, '&')) {
 			$abilities = is_array($ability) ? $ability : explode('&', $ability);
 			if (!$user->hasAllAbilitiesOn($abilities, $type, $id)) {
+				throw UnauthorizedException::forAbilities($abilities);
+			}
+		} else {
+			$abilities = is_array($ability) ? $ability : [$ability];
+			if (!$user->hasAnyAbilitiesOn($abilities, $type, $id)) {
 				throw UnauthorizedException::forAbilities($abilities);
 			}
 		}
