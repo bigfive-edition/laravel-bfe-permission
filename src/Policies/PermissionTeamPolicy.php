@@ -27,21 +27,23 @@ class PermissionTeamPolicy
 	 */
 	public function belongsToTeam($user, $team): Response|bool
 	{
+		$allowed = false;
 		try {
 			if (stripos($team, '|')) {
 				$teams = is_array($team) ? $team : explode('|', $team);
-				return $user->belongsToAnyTeams($teams);
+				$allowed = $user->belongsToAnyTeams($teams);
 			} else if (stripos($team, '&')) {
 				$teams = is_array($team) ? $team : explode('&', $team);
-				return $user->belongsToAllTeams($teams);
+				$allowed = $user->belongsToAllTeams($teams);
 			} else {
 				$teams = is_array($team) ? $team : [$team];
-				return $user->belongsToAnyTeams($teams);
+				$allowed = $user->belongsToAnyTeams($teams);
 			}
 		} catch (Exception $e) {
 			Log::error($e->getMessage());
 			Log::error($e->getTraceAsString());
 		}
-		return false;
+//		return $allowed;
+		return $allowed ? Response::allow() : Response::deny('You do not belong to the required teams to perform operation.');
 	}
 }
