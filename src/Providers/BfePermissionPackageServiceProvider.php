@@ -12,6 +12,7 @@ use BigFiveEdition\Permission\Commands\InstallBfePermission;
 use BigFiveEdition\Permission\Middlewares\AbilityMiddleware;
 use BigFiveEdition\Permission\Middlewares\RoleMiddleware;
 use BigFiveEdition\Permission\Middlewares\TeamMiddleware;
+use BigFiveEdition\Permission\Models\Ability;
 use BigFiveEdition\Permission\Policies\PermissionAbilityPolicy;
 use BigFiveEdition\Permission\Policies\PermissionRolePolicy;
 use BigFiveEdition\Permission\Policies\PermissionTeamPolicy;
@@ -116,6 +117,11 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 		Gate::define('bfe-permission-belongs-teams', [PermissionTeamPolicy::class, 'belongsToTeam']);
 		Gate::define('bfe-permission-has-roles', [PermissionRolePolicy::class, 'hasRole']);
 		Gate::define('bfe-permission-has-abilities', [PermissionAbilityPolicy::class, 'hasAbility']);
+
+		$abilities = Ability::all();
+		foreach ($abilities as $ability) {
+			Gate::define($ability->slug, [PermissionAbilityPolicy::class, 'hasAbilityOnResource']);
+		}
 	}
 
 
