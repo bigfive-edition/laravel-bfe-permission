@@ -47,7 +47,7 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "git@github.com:bigfive-edition/laravel-bfe-permission.git"
+			"url": "https://github.com/bigfive-edition/laravel-bfe-permission.git"
 		},
 		{
 			"type": "vcs",
