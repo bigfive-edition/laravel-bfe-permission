@@ -45,8 +45,14 @@ class RoleModelController extends BfePermissionBaseController
 	public function index(BfePermission_RoleModel_GetListRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 
 		$entities = RoleModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('role_id', $request->roleId())
 			->paginate($request->get('per_page'));
 
@@ -76,7 +82,13 @@ class RoleModelController extends BfePermissionBaseController
 	public function show(BfePermission_RoleModel_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = RoleModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('role_id', $request->roleId())
 			->findOrFail($request->id());
 
@@ -105,6 +117,10 @@ class RoleModelController extends BfePermissionBaseController
 	public function store(BfePermission_RoleModel_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -115,6 +131,10 @@ class RoleModelController extends BfePermissionBaseController
 		$attributes['role_id'] = $request->roleId();
 
 		$entity = RoleModel::create($attributes);
+		$entity = Ability::query()
+			->with($with)
+			->withCount($withCounts)
+			->findOrFail($entity->id);
 
 		//Build API Response
 		$data = BfePermission_RoleModel_Resource::make($entity);
@@ -141,6 +161,10 @@ class RoleModelController extends BfePermissionBaseController
 	public function update(BfePermission_RoleModel_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -151,6 +175,8 @@ class RoleModelController extends BfePermissionBaseController
 		$attributes['role_id'] = $request->roleId();
 
 		$entity = RoleModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('role_id', $request->roleId())
 			->findOrFail($request->id());
 		$entity->fill($attributes);
@@ -180,7 +206,13 @@ class RoleModelController extends BfePermissionBaseController
 	public function destroy(BfePermission_RoleModel_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$with = array_merge([
+		], explode(';', $request->get('with', '')));
+		$withCounts = array_merge([
+		], explode(';', $request->get('with_count', '')));
 		$entity = RoleModel::query()
+			->with($with)
+			->withCount($withCounts)
 			->where('role_id', $request->roleId())
 			->findOrFail($request->id());
 		$deleted = $entity->delete();
