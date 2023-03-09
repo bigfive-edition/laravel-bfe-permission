@@ -13,7 +13,7 @@ return [
 		 * `BigFiveEdition\Permissions\Contracts\Permission` contract.
 		 */
 
-		'permission' => BigFiveEdition\Permissions\Models\Permission::class,
+		'permission' => BigFiveEdition\Permission\Models\Permission::class,
 
 		/*
 		 * When using the "HasRoles" trait from this package, we need to know which
@@ -21,10 +21,10 @@ return [
 		 * is often just the "Role" model but you may use whatever you like.
 		 *
 		 * The model you want to use as a Role model needs to implement the
-		 * `BigFiveEdition\Permissions\Contracts\Role` contract.
+		 * `BigFiveEdition\Permission\Contracts\Role` contract.
 		 */
 
-		'role' => BigFiveEdition\Permissions\Models\Role::class,
+		'role' => BigFiveEdition\Permission\Models\Role::class,
 
 	],
 
@@ -44,7 +44,7 @@ return [
 		 * default value but you may easily change it to any table you like.
 		 */
 
-		'permissions' => 'permissions',
+		'permission' => 'permission',
 
 		/*
 		 * When using the "HasPermissions" trait from this package, we need to know which
@@ -148,7 +148,7 @@ return [
 		 * The cache key used to store all permissions.
 		 */
 
-		'key' => 'bigfiveedition.permissions.cache',
+		'key' => 'bigfive-edition.permission.cache',
 
 		/*
 		 * You may optionally indicate a specific cache driver to use for permission and
