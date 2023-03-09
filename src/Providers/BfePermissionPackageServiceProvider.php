@@ -12,6 +12,9 @@ use BigFiveEdition\Permission\Commands\InstallBfePermission;
 use BigFiveEdition\Permission\Middlewares\AbilityMiddleware;
 use BigFiveEdition\Permission\Middlewares\RoleMiddleware;
 use BigFiveEdition\Permission\Middlewares\TeamMiddleware;
+use BigFiveEdition\Permission\Policies\PermissionAbilityPolicy;
+use BigFiveEdition\Permission\Policies\PermissionRolePolicy;
+use BigFiveEdition\Permission\Policies\PermissionTeamPolicy;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -110,9 +113,9 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 
 	protected function registerAuthGatesAndPolicies()
 	{
-		Gate::define('bfe-permission-belongs-teams', 'BigFiveEdition\Permission\Policies\PermissionTeamPolicy@belongsToTeam');
-		Gate::define('bfe-permission-has-roles', 'BigFiveEdition\Permission\Policies\PermissionRolePolicy@hasRole');
-		Gate::define('bfe-permission-has-abilities', 'BigFiveEdition\Permission\Policies\PermissionAbilityPolicy@hasAbility');
+		Gate::define('bfe-permission-belongs-teams', [PermissionTeamPolicy::class, 'belongsToTeam']);
+		Gate::define('bfe-permission-has-roles', [PermissionRolePolicy::class, 'hasRole']);
+		Gate::define('bfe-permission-has-abilities', [PermissionAbilityPolicy::class, 'hasAbility']);
 	}
 
 

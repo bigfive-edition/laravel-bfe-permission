@@ -27,21 +27,23 @@ class PermissionRolePolicy
 	 */
 	public function hasRole($user, $role): Response|bool
 	{
+		$allowed = false;
 		try {
 			if (stripos($role, '|')) {
 				$roles = is_array($role) ? $role : explode('|', $role);
-				return $user->hasAnyRoles($roles);
+				$allowed = $user->hasAnyRoles($roles);
 			} else if (stripos($role, '&')) {
 				$roles = is_array($role) ? $role : explode('&', $role);
-				return $user->hasAllRoles($roles);
+				$allowed = $user->hasAllRoles($roles);
 			} else {
 				$roles = is_array($role) ? $role : [$role];
-				return $user->hasAnyRoles($roles);
+				$allowed = $user->hasAnyRoles($roles);
 			}
 		} catch (Exception $e) {
 			Log::error($e->getMessage());
 			Log::error($e->getTraceAsString());
 		}
-		return false;
+//		return $allowed;
+		return $allowed ? Response::allow() : Response::deny('You do not have the required roles to perform operation.');
 	}
 }

@@ -29,24 +29,26 @@ class PermissionAbilityPolicy
 	 */
 	public function hasAbility($user, $ability, $resource = null): Response|bool
 	{
+		$allowed = false;
 		try {
 			$type = $resource ? get_class($resource) : null;
 			$id = $resource ? Arr::get($resource, 'id') : null;
 
 			if (stripos($ability, '|')) {
 				$abilities = is_array($ability) ? $ability : explode('|', $ability);
-				return $user->hasAnyAbilitiesOn($abilities, $type, $id);
+				$allowed = $user->hasAnyAbilitiesOn($abilities, $type, $id);
 			} else if (stripos($ability, '&')) {
 				$abilities = is_array($ability) ? $ability : explode('&', $ability);
-				return $user->hasAllAbilitiesOn($abilities, $type, $id);
+				$allowed = $user->hasAllAbilitiesOn($abilities, $type, $id);
 			} else {
 				$abilities = is_array($ability) ? $ability : [$ability];
-				return $user->hasAnyAbilitiesOn($abilities, $type, $id);
+				$allowed = $user->hasAnyAbilitiesOn($abilities, $type, $id);
 			}
 		} catch (Exception $e) {
 			Log::error($e->getMessage());
 			Log::error($e->getTraceAsString());
 		}
-		return false;
+//		return $allowed;
+		return $allowed ? Response::allow() : Response::deny('You do not have the required abilities to perform operation.');
 	}
 }
