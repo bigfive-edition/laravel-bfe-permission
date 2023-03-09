@@ -16,10 +16,12 @@ use BigFiveEdition\Permission\Models\Ability;
 use BigFiveEdition\Permission\Policies\PermissionAbilityPolicy;
 use BigFiveEdition\Permission\Policies\PermissionRolePolicy;
 use BigFiveEdition\Permission\Policies\PermissionTeamPolicy;
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
@@ -118,9 +120,14 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 		Gate::define('bfe-permission-has-roles', [PermissionRolePolicy::class, 'hasRole']);
 		Gate::define('bfe-permission-has-abilities', [PermissionAbilityPolicy::class, 'hasAbility']);
 
-		$abilities = Ability::all();
-		foreach ($abilities as $ability) {
-			Gate::define($ability->slug, [PermissionAbilityPolicy::class, 'hasAbilityOnResource']);
+		try {
+			$abilities = Ability::all();
+			foreach ($abilities as $ability) {
+				Gate::define($ability->slug, [PermissionAbilityPolicy::class, 'hasAbilityOnResource']);
+			}
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
+			Log::error($e->getTraceAsString());
 		}
 	}
 
