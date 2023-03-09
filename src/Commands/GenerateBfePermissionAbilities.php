@@ -6,7 +6,11 @@ namespace BigFiveEdition\Permission\Commands;
 
 use BigFiveEdition\Permission\Contracts\AbilityOperationType;
 use BigFiveEdition\Permission\Models\Ability;
-use BigFiveEdition\Permission\Utilities\ModelClass;
+use BigFiveEdition\Permission\Models\AbilityModel;
+use BigFiveEdition\Permission\Models\Role;
+use BigFiveEdition\Permission\Models\RoleModel;
+use BigFiveEdition\Permission\Models\Team;
+use BigFiveEdition\Permission\Models\TeamModel;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -57,8 +61,19 @@ class GenerateBfePermissionAbilities extends Command
 				'name' => "wildcard",
 			];
 
-			$models = ModelClass::all();
-			foreach ($models as $model) {
+			$resources = [
+				Team::class,
+				TeamModel::class,
+				Role::class,
+				RoleModel::class,
+				Ability::class,
+				AbilityModel::class,
+			];
+			$configResources = config('bfe-permission.ability_resources', []);
+			if ($configResources && is_array($configResources)) {
+				$resources = array_merge($resources, $configResources);
+			}
+			foreach ($resources as $model) {
 				$operations = config('bfe-permission.ability_operations', AbilityOperationType::ALL);
 				foreach ($operations as $operation) {
 					try {
