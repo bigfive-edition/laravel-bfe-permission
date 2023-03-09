@@ -14,7 +14,7 @@ class UnauthorizedException extends HttpException
 	{
 		$message = 'User does not have the right teams.';
 
-		if (config('bfe-permission.display_team_in_exception')) {
+		if (config('bfe-permission.display_team_in_exception', true )) {
 			$message .= ' Necessary teams are ' . implode(', ', $teams);
 		}
 
@@ -28,7 +28,7 @@ class UnauthorizedException extends HttpException
 	{
 		$message = 'User does not have the right roles.';
 
-		if (config('bfe-permission.display_role_in_exception')) {
+		if (config('bfe-permission.display_role_in_exception', true)) {
 			$message .= ' Necessary roles are ' . implode(', ', $roles);
 		}
 
@@ -42,7 +42,7 @@ class UnauthorizedException extends HttpException
 	{
 		$message = 'User does not have the right abilities.';
 
-		if (config('bfe-permission.display_ability_in_exception')) {
+		if (config('bfe-permission.display_ability_in_exception', true)) {
 			$message .= ' Necessary abilities are ' . implode(', ', $abilities);
 		}
 
@@ -56,7 +56,7 @@ class UnauthorizedException extends HttpException
 	{
 		$message = 'User does not have any of the necessary access rights.';
 
-		if (config('bfe-permission.display_ability_in_exception') && config('bfe-permission.display_role_in_exception')) {
+		if (config('bfe-permission.display_ability_in_exception', true) && config('bfe-permission.display_role_in_exception', true)) {
 			$message .= ' Necessary roles or abilities are ' . implode(', ', $rolesOrAbilities);
 		}
 
