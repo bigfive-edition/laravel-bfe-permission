@@ -13,58 +13,58 @@ class CreateBfePermissionTables extends Migration
     public function up()
     {
 		//--------- Teams ----------
-        Schema::create('bfe_teams', function (Blueprint $table) {
+        Schema::create('bfe_permission_teams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('slug')->nullable(false)->unique();
             $table->string('name')->nullable();
             $table->timestamps();
         });
-	    Schema::create('bfe_model_belongs_teams', function (Blueprint $table) {
+	    Schema::create('bfe_permission_model_belongs_teams', function (Blueprint $table) {
 		    $table->bigIncrements('id'); // role id
 
 		    $table->unsignedBigInteger('team_id')->index()->nullable();
-		    $table->foreign('team_id')->references('id')->on('bfe_teams')->onDelete('cascade');
+		    $table->foreign('team_id')->references('id')->on('bfe_permission_teams')->onDelete('cascade');
 
 		    $table->string('model_type')->nullable();
 		    $table->string('model_id')->nullable();
 
 		    $table->string('attribute');
 
-		    $table->unique(['team_id', 'model_type', 'model_id'], 'bfe_model_belongs_teams_unique');
+		    $table->unique(['team_id', 'model_type', 'model_id'], 'bfe_permission_model_belongs_teams_unique');
 	    });
 
 	    //--------- Roles ----------
-	    Schema::create('bfe_roles', function (Blueprint $table) {
+	    Schema::create('bfe_permission_roles', function (Blueprint $table) {
 		    $table->bigIncrements('id');
 		    $table->string('slug')->nullable(false)->unique();
             $table->string('name')->nullable();
 		    $table->timestamps();
 	    });
-	    Schema::create('bfe_model_has_roles', function (Blueprint $table) {
+	    Schema::create('bfe_permission_model_has_roles', function (Blueprint $table) {
 		    $table->bigIncrements('id'); // role id
 
 		    $table->unsignedBigInteger('role_id')->index()->nullable();
-		    $table->foreign('role_id')->references('id')->on('bfe_roles')->onDelete('cascade');
+		    $table->foreign('role_id')->references('id')->on('bfe_permission_roles')->onDelete('cascade');
 
 		    $table->string('model_type')->nullable();
 		    $table->string('model_id')->nullable();
 
-		    $table->unique(['role_id', 'model_type', 'model_id'], 'bfe_model_has_roles_unique');
+		    $table->unique(['role_id', 'model_type', 'model_id'], 'bfe_permission_model_has_roles_unique');
 	    });
 
 
 	    //--------- Abilities ----------
-	    Schema::create('bfe_abilities', function (Blueprint $table) {
+	    Schema::create('bfe_permission_abilities', function (Blueprint $table) {
 		    $table->bigIncrements('id');
 		    $table->string('slug')->nullable(false)->unique();
             $table->string('name')->nullable();
 		    $table->timestamps();
 	    });
-	    Schema::create('bfe_model_has_abilities_on_resource', function (Blueprint $table) {
+	    Schema::create('bfe_permission_model_has_abilities_on_resource', function (Blueprint $table) {
 		    $table->bigIncrements('id'); // role id
 
 		    $table->unsignedBigInteger('ability_id')->index()->nullable();
-		    $table->foreign('ability_id')->references('id')->on('bfe_abilities')->onDelete('cascade');
+		    $table->foreign('ability_id')->references('id')->on('bfe_permission_abilities')->onDelete('cascade');
 
 		    $table->string('model_type')->nullable();
 		    $table->string('model_id')->nullable();
@@ -74,7 +74,7 @@ class CreateBfePermissionTables extends Migration
 
 		    $table->boolean('allowed')->default(true);
 
-		    //$table->unique(['ability_id', 'model_type', 'model_id', 'resource_type', 'resource_id', 'allowed'], 'bfe_model_has_abilities_on_resource_unique');
+		    //$table->unique(['ability_id', 'model_type', 'model_id', 'resource_type', 'resource_id', 'allowed'], 'bfe_permission_model_has_abilities_on_resource_unique');
 	    });
     }
 
@@ -85,13 +85,13 @@ class CreateBfePermissionTables extends Migration
      */
     public function down()
     {
-        Schema::drop('bfe_model_belongs_teams');
-        Schema::drop('bfe_teams');
+        Schema::drop('bfe_permission_model_belongs_teams');
+        Schema::drop('bfe_permission_teams');
 
-		Schema::drop('bfe_model_has_roles');
-        Schema::drop('bfe_roles');
+		Schema::drop('bfe_permission_model_has_roles');
+        Schema::drop('bfe_permission_roles');
 
-	    Schema::drop('bfe_model_has_abilities_on_resource');
-	    Schema::drop('bfe_abilities');
+	    Schema::drop('bfe_permission_model_has_abilities_on_resource');
+	    Schema::drop('bfe_permission_abilities');
     }
 }

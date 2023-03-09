@@ -10,7 +10,7 @@ class Team extends Model implements TeamContract
 {
 	public $incrementing = true;
 	public $timestamps = true;
-	protected $table = 'bfe_teams';
+	protected $table = 'bfe_permission_teams';
 	protected $fillable = [
 	];
 	protected $guarded = [
