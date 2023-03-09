@@ -32,7 +32,7 @@ class CreateBfePermissionTables extends Migration
             $table->string('model_type')->nullable();
             $table->string('model_id')->nullable();
 
-            $table->string('attribute')->nullable()->default('member);
+            $table->string('attribute')->nullable()->default('member');
             $table->timestamps();
 
             $table->index('team_id', 'bfe_model_belongs_teams_team_id_idx');
