@@ -28,7 +28,7 @@ class ModelClass
 				})
 				->filter(function ($class) {
 					$valid = false;
-					if (Str::contains($class, '\\Models\\')) {
+//					if (Str::contains($class, '\\Models\\')) {
 						try {
 							$reflection = new ReflectionClass($class);
 							$valid = $reflection->isSubclassOf(Model::class) &&
@@ -37,7 +37,7 @@ class ModelClass
 							Log::error($e->getMessage());
 							Log::error($e->getTraceAsString());
 						}
-					}
+//					}
 					return $valid;
 				});
 
