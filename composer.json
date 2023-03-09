@@ -44,7 +44,16 @@
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
-	"repository": "bigfive-edition/laravel-bfe-permission",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:bigfive-edition/laravel-bfe-permission.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@gitlab.bfedition.com:bigcity/bigcity-instances/bigfiveedition-laravel-permission.git"
+		}
+	],
 	"config": {
 		"sort-packages": true,
 		"preferred-install": "dist",
