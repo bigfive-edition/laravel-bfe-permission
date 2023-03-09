@@ -9,7 +9,6 @@ use BigFiveEdition\Permission\Commands\GenerateBfePermissionAbilities;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionRoles;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionTeams;
 use BigFiveEdition\Permission\Commands\InstallBfePermission;
-use BigFiveEdition\Permission\Commands\RunBfePermissionSeeders;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -35,18 +34,6 @@ class BfePermissionServiceProvider extends ServiceProvider
 		});
 	}
 
-	public function register()
-	{
-		$this->mergeConfigFrom(
-			__DIR__ . '/../../config/bfe-permission.php',
-			'bfe-permission'
-		);
-
-		$this->callAfterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-			$this->registerBladeExtensions($bladeCompiler);
-		});
-	}
-
 	protected function offerPublishing()
 	{
 		if (!function_exists('config_path')) {
@@ -59,8 +46,29 @@ class BfePermissionServiceProvider extends ServiceProvider
 		], 'bfe-permission-config');
 
 		$this->publishes([
-			__DIR__.'/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
+			__DIR__ . '/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
 		], 'bfe-permission-migrations');
+	}
+
+	protected function getMigrationFileName($migrationFileName): string
+	{
+		$timestamp = date('Y_m_d_His');
+
+		$filesystem = $this->app->make(Filesystem::class);
+
+		return Collection::make($this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR)
+			->flatMap(function ($path) use ($filesystem, $migrationFileName) {
+				return $filesystem->glob($path . '*_' . $migrationFileName);
+			})
+			->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
+			->first();
+	}
+
+	protected function registerMacroHelpers()
+	{
+		if (!method_exists(Route::class, 'macro')) { // Lumen
+			return;
+		}
 	}
 
 	protected function registerCommands()
@@ -88,32 +96,23 @@ class BfePermissionServiceProvider extends ServiceProvider
 
 	protected function registerRoutes()
 	{
-		$this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+		$this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+	}
+
+	public function register()
+	{
+		$this->mergeConfigFrom(
+			__DIR__ . '/../../config/bfe-permission.php',
+			'bfe-permission'
+		);
+
+		$this->callAfterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+			$this->registerBladeExtensions($bladeCompiler);
+		});
 	}
 
 	protected function registerBladeExtensions($bladeCompiler)
 	{
 
-	}
-
-	protected function registerMacroHelpers()
-	{
-		if (!method_exists(Route::class, 'macro')) { // Lumen
-			return;
-		}
-	}
-
-	protected function getMigrationFileName($migrationFileName): string
-	{
-		$timestamp = date('Y_m_d_His');
-
-		$filesystem = $this->app->make(Filesystem::class);
-
-		return Collection::make($this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR)
-			->flatMap(function ($path) use ($filesystem, $migrationFileName) {
-				return $filesystem->glob($path . '*_' . $migrationFileName);
-			})
-			->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
-			->first();
 	}
 }

@@ -75,7 +75,7 @@ class TeamController extends BfePermissionBaseController
 	public function show(BfePermission_Team_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$entity =  Team::query()
+		$entity = Team::query()
 			->findOrFail($request->id());
 
 		//Build API Response

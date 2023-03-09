@@ -30,6 +30,15 @@ class Role extends Model implements RoleContract
 		return $role;
 	}
 
+	protected static function findByParam(array $params = [])
+	{
+		$query = static::query();
+		foreach ($params as $key => $value) {
+			$query->where($key, $value);
+		}
+		return $query->first();
+	}
+
 	public static function findByName(string $name): RoleContract
 	{
 		$role = static::findByParam(['name' => $name]);
@@ -55,14 +64,5 @@ class Role extends Model implements RoleContract
 			return static::query()->create(['name' => $name, 'slug' => $slug]);
 		}
 		return $role;
-	}
-
-	protected static function findByParam(array $params = [])
-	{
-		$query = static::query();
-		foreach ($params as $key => $value) {
-			$query->where($key, $value);
-		}
-		return $query->first();
 	}
 }
