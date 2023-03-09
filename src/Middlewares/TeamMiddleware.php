@@ -22,7 +22,10 @@ class TeamMiddleware
 
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (!$user->belongsToAnyTeams($teams)) {
+		if (stripos($team, '|') && !$user->belongsToAnyTeams($teams)) {
+			throw UnauthorizedException::forTeams($teams);
+		}
+		if (stripos($team, '&') && !$user->belongsToAllTeams($teams)) {
 			throw UnauthorizedException::forTeams($teams);
 		}
 

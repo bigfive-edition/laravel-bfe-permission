@@ -22,7 +22,10 @@ class RoleMiddleware
 
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (!$user->hasAnyRoles($roles)) {
+		if (stripos($role, '|') && !$user->hasAnyRoles($roles)) {
+			throw UnauthorizedException::forRoles($roles);
+		}
+		if (stripos($role, '&') && !$user->hasAllRoles($roles)) {
 			throw UnauthorizedException::forRoles($roles);
 		}
 

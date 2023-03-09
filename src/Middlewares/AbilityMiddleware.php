@@ -4,9 +4,7 @@ namespace BigFiveEdition\Permission\Middlewares;
 
 use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
 use Closure;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class AbilityMiddleware
 {
@@ -24,7 +22,10 @@ class AbilityMiddleware
 
 //		$user = $authGuard->user();
 		$user = $request->user();
-		if (!$user->hasAllAbilitiesOn($abilities, $type, $id)) {
+		if (stripos($ability, '|') && !$user->hasAnyAbilitiesOn($abilities, $type, $id)) {
+			throw UnauthorizedException::forAbilities($abilities);
+		}
+		if (stripos($ability, '&') && !$user->hasAllAbilitiesOn($abilities, $type, $id)) {
 			throw UnauthorizedException::forAbilities($abilities);
 		}
 
