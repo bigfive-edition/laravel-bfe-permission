@@ -1,24 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
+namespace BigFiveEdition\Permission\Commands;
+
 use BigFiveEdition\Permission\Contracts\AbilityOperationType;
 use BigFiveEdition\Permission\Models\Ability;
 use BigFiveEdition\Permission\Utilities\ModelClass;
-use Illuminate\Database\Seeder;
+use Exception;
+use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use ReflectionClass;
 
-class BfePermissionAbilitiesTableSeeder extends Seeder
+class GenerateBfePermissionAbilities extends Command
 {
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
+	protected $signature = 'bfe-permission:generate-abilities';
+	protected $description = 'Generate Bfe Permission Abilities';
+
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	public function handle()
 	{
 		$this->defaultAbilities();
 	}
-
 
 	private function defaultAbilities()
 	{
