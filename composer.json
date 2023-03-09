@@ -56,7 +56,7 @@
 		},
 		"laravel": {
 			"providers": [
-				"BigFiveEdition\\Permission\\Providers\\PermissionServiceProvider"
+				"BigFiveEdition\\Permission\\Providers\\BfePermissionServiceProvider"
 			]
 		}
 	},
