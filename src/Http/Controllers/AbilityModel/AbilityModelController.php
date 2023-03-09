@@ -133,7 +133,7 @@ class AbilityModelController extends BfePermissionBaseController
 		$attributes['ability_id'] = $request->abilityId();
 
 		$entity = AbilityModel::create($attributes);
-		$entity = Ability::query()
+		$entity = AbilityModel::query()
 			->with($with)
 			->withCount($withCounts)
 			->findOrFail($entity->id);
