@@ -46,9 +46,9 @@ class TeamModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 
 		$entities = TeamModel::query()
 			->with($with)
@@ -83,9 +83,9 @@ class TeamModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = TeamModel::query()
 			->with($with)
 			->withCount($withCounts)
@@ -118,9 +118,9 @@ class TeamModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -163,9 +163,9 @@ class TeamModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -209,9 +209,9 @@ class TeamModelController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$with = array_merge([
-		], explode(';', $request->get('with', '')));
+		], $request->with());
 		$withCounts = array_merge([
-		], explode(';', $request->get('with_count', '')));
+		], $request->withCount());
 		$entity = TeamModel::query()
 			->with($with)
 			->withCount($withCounts)

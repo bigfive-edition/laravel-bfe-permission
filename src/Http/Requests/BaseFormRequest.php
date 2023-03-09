@@ -33,4 +33,20 @@ abstract class BaseFormRequest extends FormRequest
 		parent::prepareForValidation();
 	}
 
+	public function with(): array
+	{
+		$param = $this->get('with', '');
+		if (stripos($param, ';')) {
+			return explode(';', $param);
+		}
+		return [];
+	}
+	public function withCount(): array
+	{
+		$param = $this->get('with_count', '');
+		if (stripos($param, ';')) {
+			return explode(';', $param);
+		}
+		return [];
+	}
 }
