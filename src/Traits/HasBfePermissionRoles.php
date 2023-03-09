@@ -10,16 +10,6 @@ use Illuminate\Support\Collection;
 
 trait HasBfePermissionRoles
 {
-	public function role_models(): MorphMany
-	{
-		return $this->morphMany(RoleModel::class, 'model');
-	}
-
-	public function roles(): MorphToMany
-	{
-		return $this->morphToMany(Role::class, 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
-	}
-
 	public function addRoles($roles): Collection|array|null
 	{
 		$roleIds = Role::query()
@@ -40,6 +30,11 @@ trait HasBfePermissionRoles
 		return $this->roles;
 	}
 
+	public function role_models(): MorphMany
+	{
+		return $this->morphMany(RoleModel::class, 'model');
+	}
+
 	public function removeRoles($roles): Collection|array|null
 	{
 		$roleIds = Role::query()
@@ -50,6 +45,11 @@ trait HasBfePermissionRoles
 		$this->refresh();
 
 		return $this->roles;
+	}
+
+	public function roles(): MorphToMany
+	{
+		return $this->morphToMany(Role::class, 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
 	}
 
 	public function syncRoles($roles): Collection|array|null

@@ -31,11 +31,42 @@ Assuming that we are using the default config values and haven't changed anythin
 we should now have five new tables in our database:
 
 
-Adding middlewares:
+We can also generate the default 
+
+```php
+php artisan bfe-permission:generate-teams
+php artisan bfe-permission:generate-roles
+php artisan bfe-permission:generate-abilities
+```
+
+## Http Routes
+it comes with default routes for managing team, roles, and abilities
+check the postman collection 
 
 ```
-bfe-permission.teams:waiters,managers
-bfe-permission.roles:admin,system_admin
+{routes_prefix}/bfe-permissions/teams
+{routes_prefix}/bfe-permissions/teams/{team_id}/models
+
+{routes_prefix}/bfe-permissions/roles
+{routes_prefix}/bfe-permissions/roles/{role_id}/models
+
+{routes_prefix}/bfe-permissions/abilities
+{routes_prefix}/bfe-permissions/abilities/{ability_id}/models
+```
+
+## Http Route Middlewares
+Adding routes middlewares as follow.
+Note that the `|` is for OR operations and the `&` is for AND operations
+
+```
+bfe-permission.teams:waiters|managers
+bfe-permission.teams:waiters&managers
+
+bfe-permission.roles:admin|system_admin
+bfe-permission.roles:admin&system_admin
+
+bfe-permission.abilities:read_all_users|create_one_vehicle
+bfe-permission.abilities:read_all_users&create_one_vehicle
 bfe-permission.abilities:read_all_users|create_one_vehicle,{resource_class},{resource_id}
 bfe-permission.abilities:read_all_users&create_one_vehicle,{resource_class},{resource_id}
 ```

@@ -22,11 +22,6 @@ class Team extends Model implements TeamContract
 		parent::__construct($attributes);
 	}
 
-	public function team_models(): HasMany
-	{
-		return $this->hasMany(TeamModel::class, 'team_id', 'id');
-	}
-
 	public static function findBySlug(string $slug): TeamContract
 	{
 		$team = static::findByParam(['slug' => $slug]);
@@ -70,5 +65,10 @@ class Team extends Model implements TeamContract
 			return static::query()->create(['name' => $name, 'slug' => $slug]);
 		}
 		return $team;
+	}
+
+	public function team_models(): HasMany
+	{
+		return $this->hasMany(TeamModel::class, 'team_id', 'id');
 	}
 }

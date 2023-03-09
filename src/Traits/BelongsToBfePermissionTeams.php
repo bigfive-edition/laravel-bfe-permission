@@ -10,16 +10,6 @@ use Illuminate\Support\Collection;
 
 trait BelongsToBfePermissionTeams
 {
-	public function team_models(): MorphMany
-	{
-		return $this->morphMany(TeamModel::class, 'model');
-	}
-
-	public function teams(): MorphToMany
-	{
-		return $this->morphToMany(Team::class, 'model', 'bfe_permission_model_belongs_teams', 'model_id', 'team_id');
-	}
-
 	public function addToTeams($teams): Collection|array|null
 	{
 		$teamIds = Team::query()
@@ -43,6 +33,11 @@ trait BelongsToBfePermissionTeams
 		return $this->teams;
 	}
 
+	public function team_models(): MorphMany
+	{
+		return $this->morphMany(TeamModel::class, 'model');
+	}
+
 	public function removeFromTeams($teams): Collection|array|null
 	{
 		$teamIds = Team::query()
@@ -53,6 +48,11 @@ trait BelongsToBfePermissionTeams
 		$this->refresh();
 
 		return $this->teams;
+	}
+
+	public function teams(): MorphToMany
+	{
+		return $this->morphToMany(Team::class, 'model', 'bfe_permission_model_belongs_teams', 'model_id', 'team_id');
 	}
 
 	public function syncTeams($teams): Collection|array|null

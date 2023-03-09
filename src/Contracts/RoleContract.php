@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface RoleContract
 {
-	public function role_models(): HasMany;
-
 	/**
 	 * Find a role by its name and guard name.
 	 *
@@ -47,4 +45,6 @@ interface RoleContract
 	 * @return RoleContract
 	 */
 	public static function findOrCreate(string $name, string $slug): self;
+
+	public function role_models(): HasMany;
 }

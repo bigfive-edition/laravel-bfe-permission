@@ -10,16 +10,6 @@ use Illuminate\Support\Collection;
 
 trait HasBfePermissionAbilities
 {
-	public function ability_models(): MorphMany
-	{
-		return $this->morphMany(AbilityModel::class, 'model');
-	}
-
-	public function abilities(): MorphToMany
-	{
-		return $this->morphToMany(Ability::class, 'model', 'bfe_permission_model_has_abilities_on_resource', 'model_id', 'ability_id');
-	}
-
 	public function addAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null
 	{
 		$abilityIds = Ability::query()
@@ -43,6 +33,11 @@ trait HasBfePermissionAbilities
 		return $this->abilities;
 	}
 
+	public function ability_models(): MorphMany
+	{
+		return $this->morphMany(AbilityModel::class, 'model');
+	}
+
 	public function removeAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null
 	{
 		$abilityIds = Ability::query()
@@ -58,6 +53,11 @@ trait HasBfePermissionAbilities
 		$this->refresh();
 
 		return $this->abilities;
+	}
+
+	public function abilities(): MorphToMany
+	{
+		return $this->morphToMany(Ability::class, 'model', 'bfe_permission_model_has_abilities_on_resource', 'model_id', 'ability_id');
 	}
 
 	public function syncAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null

@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 interface RoleModelContract
 {
 	public function role(): BelongsTo;
+
 	public function model(): MorphTo;
 }

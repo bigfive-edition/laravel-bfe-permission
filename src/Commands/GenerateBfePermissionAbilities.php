@@ -52,6 +52,11 @@ class GenerateBfePermissionAbilities extends Command
 		try {
 
 			$abilitiesData = [];
+			$abilitiesData[] = [
+				'slug' => "*",
+				'name' => "wildcard",
+			];
+
 			$models = ModelClass::all();
 			foreach ($models as $model) {
 				$operations = config('bfe-permission.ability_operations', AbilityOperationType::ALL);

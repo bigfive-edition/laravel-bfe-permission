@@ -28,11 +28,6 @@ abstract class BaseFormRequest extends FormRequest
 		return array_merge($pMessages, $messages);
 	}
 
-	protected function prepareForValidation()
-	{
-		parent::prepareForValidation();
-	}
-
 	public function with(): array
 	{
 		$param = $this->get('with', '');
@@ -41,6 +36,7 @@ abstract class BaseFormRequest extends FormRequest
 		}
 		return [];
 	}
+
 	public function withCount(): array
 	{
 		$param = $this->get('with_count', '');
@@ -48,5 +44,10 @@ abstract class BaseFormRequest extends FormRequest
 			return explode(';', $param);
 		}
 		return [];
+	}
+
+	protected function prepareForValidation()
+	{
+		parent::prepareForValidation();
 	}
 }
