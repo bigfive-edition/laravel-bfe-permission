@@ -20,7 +20,7 @@ composer require bigfive-edition/laravel-bfe-permission
 Now that we've installed the package, we'll need to publish the database migration and config file:
 
 ```php
-php artisan vendor:publish --provider="BigFiveEdition\Permission\Providers\BfePermissionServiceProvider"
+php artisan bfe-permission:install
 ```
 We can now run the migrations to create the new tables in our database:
 

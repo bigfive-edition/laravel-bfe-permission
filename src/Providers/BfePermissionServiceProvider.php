@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Providers;
 
+use BigFiveEdition\Permission\Commands\InstallBfePermission;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -61,6 +62,7 @@ class BfePermissionServiceProvider extends ServiceProvider
 	protected function registerCommands()
 	{
 		$this->commands([
+			InstallBfePermission::class,
 		]);
 	}
 
