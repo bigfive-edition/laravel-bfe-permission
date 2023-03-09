@@ -2,9 +2,10 @@
 
 namespace BigFiveEdition\Permission\Models;
 
-use BigFiveEdition\Permission\Contracts\Role as RoleContract;
+use BigFiveEdition\Permission\Contracts\RoleContract;
 use BigFiveEdition\Permission\Exceptions\RoleDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model implements RoleContract
 {
@@ -19,6 +20,11 @@ class Role extends Model implements RoleContract
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
+	}
+
+	public function role_models(): HasMany
+	{
+		return $this->hasMany(RoleModel::class, 'role_id', 'id');
 	}
 
 	public static function findBySlug(string $slug): RoleContract

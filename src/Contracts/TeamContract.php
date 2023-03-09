@@ -3,14 +3,17 @@
 namespace BigFiveEdition\Permission\Contracts;
 
 use BigFiveEdition\Permission\Exceptions\TeamDoesNotExist;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-interface Team
+interface TeamContract
 {
+	public function team_models(): HasMany;
+
 	/**
 	 * Find a team by its name and guard name.
 	 *
 	 * @param string $slug
-	 * @return Team
+	 * @return TeamContract
 	 *
 	 * @throws TeamDoesNotExist
 	 */
@@ -20,7 +23,7 @@ interface Team
 	 * Find a team by its name and guard name.
 	 *
 	 * @param string $name
-	 * @return Team
+	 * @return TeamContract
 	 *
 	 * @throws TeamDoesNotExist
 	 */
@@ -30,7 +33,7 @@ interface Team
 	 * Find a team by its id and guard name.
 	 *
 	 * @param int $id
-	 * @return Team
+	 * @return TeamContract
 	 *
 	 * @throws TeamDoesNotExist
 	 */
@@ -41,7 +44,7 @@ interface Team
 	 *
 	 * @param string $name
 	 * @param string $slug
-	 * @return Team
+	 * @return TeamContract
 	 */
 	public static function findOrCreate(string $name, string $slug): self;
 }
