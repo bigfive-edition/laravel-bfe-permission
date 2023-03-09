@@ -26,14 +26,15 @@ trait HasBfePermissionRoles
 			->whereIn('slug', $roles)
 			->pluck('id')->all();
 
-		$this->role_models()->saveMany(collect($roleIds)->map(function ($roleId) {
+		$items = collect($roleIds)->map(function ($roleId) {
 			return RoleModel::firstOrCreate(
 				[
 					'role_id' => $roleId,
 					'model_id' => $this->id,
 					'model_type' => $this->getMorphClass(),
 				]);
-		}));
+		});
+		$this->role_models()->saveMany($items);
 		$this->refresh();
 
 		return $this->roles;
@@ -65,15 +66,21 @@ trait HasBfePermissionRoles
 
 	public function hasAnyRoles($roles): bool
 	{
-		return $this->roles()
-				->whereIn('slug', $roles)
-				->count() > 0;
+		$count = $this->roles()
+			->whereHas('role', function ($query) use ($roles) {
+				$query->whereIn('slug', $roles);
+			})
+			->count();
+
+		return $count > 0;
 	}
 
 	public function hasAllRoles($roles): bool
 	{
 		$count = $this->roles()
-			->whereIn('slug', $roles)
+			->whereHas('role', function ($query) use ($roles) {
+				$query->whereIn('slug', $roles);
+			})
 			->count();
 
 		return $count >= count($roles);

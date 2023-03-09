@@ -26,7 +26,7 @@ trait BelongsToBfePermissionTeams
 			->whereIn('slug', $teams)
 			->pluck('id')->all();
 
-		$this->team_models()->saveMany(collect($teamIds)->map(function ($teamId) {
+		$items = collect($teamIds)->map(function ($teamId) {
 			return TeamModel::firstOrCreate(
 				[
 					'team_id' => $teamId,
@@ -36,7 +36,8 @@ trait BelongsToBfePermissionTeams
 				[
 					'attribute' => 'member',
 				]);
-		}));
+		});
+		$this->team_models()->saveMany($items);
 		$this->refresh();
 
 		return $this->teams;
@@ -68,15 +69,21 @@ trait BelongsToBfePermissionTeams
 
 	public function belongsToAnyTeams($teams): bool
 	{
-		return $this->teams()
-				->whereIn('slug', $teams)
-				->count() > 0;
+		$count = $this->teams()
+			->whereHas('team', function ($query) use ($teams) {
+				$query->whereIn('slug', $teams);
+			})
+			->count();
+
+		return $count > 0;
 	}
 
 	public function belongsToAllTeams($teams): bool
 	{
 		$count = $this->teams()
-			->whereIn('slug', $teams)
+			->whereHas('team', function ($query) use ($teams) {
+				$query->whereIn('slug', $teams);
+			})
 			->count();
 
 		return $count >= count($teams);
