@@ -20,15 +20,10 @@ class AbilityMiddleware
 
 		$abilities = is_array($ability) ? $ability : explode('|', $ability);
 
-		try {
-//			$user = $authGuard->user();
-			$user = $request->user();
-			if (!$user->hasAnyAbilitiesOn($abilities)) {
-				throw UnauthorizedException::forAbilities($abilities);
-			}
-		} catch (Exception $e) {
-			Log::error($e->getMessage());
-			Log::error($e->getTraceAsString());
+//		$user = $authGuard->user();
+		$user = $request->user();
+		if (!$user->hasAnyAbilitiesOn($abilities)) {
+			throw UnauthorizedException::forAbilities($abilities);
 		}
 
 		return $next($request);

@@ -20,15 +20,10 @@ class RoleMiddleware
 
 		$roles = is_array($role) ? $role : explode('|', $role);
 
-		try {
-//			$user = $authGuard->user();
-			$user = $request->user();
-			if (!$user->hasAnyRoles($roles)) {
-				throw UnauthorizedException::forRoles($roles);
-			}
-		} catch (Exception $e) {
-			Log::error($e->getMessage());
-			Log::error($e->getTraceAsString());
+//		$user = $authGuard->user();
+		$user = $request->user();
+		if (!$user->hasAnyRoles($roles)) {
+			throw UnauthorizedException::forRoles($roles);
 		}
 
 		return $next($request);
