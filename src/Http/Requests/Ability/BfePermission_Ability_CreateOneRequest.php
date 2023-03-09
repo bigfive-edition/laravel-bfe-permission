@@ -15,6 +15,9 @@ class BfePermission_Ability_CreateOneRequest extends BaseFormRequest
 	{
 		$pRules = parent::rules();
 		$rules = [
+			'slug' => 'required|unique:bfe_permission_abilities|min:3',
+			'name' => 'required|string',
+			'resource' => 'required|string',
 		];
 		return array_merge($pRules, $rules);
 	}
@@ -23,6 +26,17 @@ class BfePermission_Ability_CreateOneRequest extends BaseFormRequest
 	{
 		$pMessages = parent::messages();
 		$messages = [
+			'slug.required' => ['code' => 4241, 'field' => 'slug', 'description' => trans('backoffice::validation.required')],
+			'slug.unique' => ['code' => 4242, 'field' => 'slug', 'description' => trans('backoffice::validation.unique')],
+			'slug.min' => ['code' => 4243, 'field' => 'slug', 'description' => trans('backoffice::validation.min')],
+
+			'name.required' => ['code' => 4241, 'field' => 'name', 'description' => trans('backoffice::validation.required')],
+			'name.string' => ['code' => 4242, 'field' => 'name', 'description' => trans('backoffice::validation.string')],
+			'name.min' => ['code' => 4243, 'field' => 'name', 'description' => trans('backoffice::validation.min')],
+
+			'resource.required' => ['code' => 4241, 'field' => 'resource', 'description' => trans('backoffice::validation.required')],
+			'resource.string' => ['code' => 4242, 'field' => 'resource', 'description' => trans('backoffice::validation.string')],
+			'resource.min' => ['code' => 4243, 'field' => 'resource', 'description' => trans('backoffice::validation.min')],
 		];
 		return array_merge($pMessages, $messages);
 	}

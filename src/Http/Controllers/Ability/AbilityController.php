@@ -10,6 +10,7 @@ use BigFiveEdition\Permission\Http\Requests\Ability\BfePermission_Ability_GetOne
 use BigFiveEdition\Permission\Http\Requests\Ability\BfePermission_Ability_UpdateOneRequest;
 use BigFiveEdition\Permission\Http\Resources\Ability\BfePermission_Ability_Resource;
 use BigFiveEdition\Permission\Http\Resources\Ability\BfePermission_Ability_ResourceCollection;
+use BigFiveEdition\Permission\Models\Ability;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -44,9 +45,11 @@ class AbilityController extends BfePermissionBaseController
 	public function index(BfePermission_Ability_GetListRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entities = Ability::query()
+			->paginate($request->get('per_page'));
 
 		//Build API Response
-		$data = BfePermission_Ability_ResourceCollection::make(['value 1', 'value 2']);
+		$data = BfePermission_Ability_ResourceCollection::make($entities);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -71,9 +74,11 @@ class AbilityController extends BfePermissionBaseController
 	public function show(BfePermission_Ability_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity = Ability::query()
+			->find($request->id());
 
 		//Build API Response
-		$data = BfePermission_Ability_Resource::make([$request->id() => 'value 1']);
+		$data = BfePermission_Ability_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -97,9 +102,19 @@ class AbilityController extends BfePermissionBaseController
 	public function store(BfePermission_Ability_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+			'resource',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Ability::create($attributes);
 
 		//Build API Response
-		$data = BfePermission_Ability_Resource::make($request->all());
+		$data = BfePermission_Ability_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -123,9 +138,21 @@ class AbilityController extends BfePermissionBaseController
 	public function update(BfePermission_Ability_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$attributes = $request->only([
+			'slug',
+			'name',
+			'resource',
+		]);
+		$attributes = array_filter($attributes, function ($value) {
+			return !is_null($value);
+		});
+
+		$entity = Ability::findOrFail($request->id());
+		$entity->fill($attributes);
+		$entity->save();
 
 		//Build API Response
-		$data = BfePermission_Ability_Resource::make([$request->id() => $request->all()]);
+		$data = BfePermission_Ability_Resource::make($entity);
 		$message = 'message';
 		$notification = [];
 		return $this->successApiResponse($data, $message, $notification);
@@ -148,11 +175,12 @@ class AbilityController extends BfePermissionBaseController
 	public function destroy(BfePermission_Ability_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
+		$entity = Ability::findOrFail($request->id());
+		$deleted = $entity->delete();
 
 		//Build API Response
 		$data = [
-			'deleted' => $request->id() != null,
-			'data' => $request->id()
+			'deleted' => $deleted,
 		];
 		$message = 'message';
 		$notification = [];
