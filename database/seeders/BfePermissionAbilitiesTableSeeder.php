@@ -2,6 +2,11 @@
 
 use BigFiveEdition\Permission\Contracts\AbilityOperationType;
 use BigFiveEdition\Permission\Models\Ability;
+use BigFiveEdition\Permission\Models\AbilityModel;
+use BigFiveEdition\Permission\Models\Role;
+use BigFiveEdition\Permission\Models\RoleModel;
+use BigFiveEdition\Permission\Models\Team;
+use BigFiveEdition\Permission\Models\TeamModel;
 use BigFiveEdition\Permission\Utilities\ModelClass;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
@@ -44,8 +49,19 @@ class BfePermissionAbilitiesTableSeeder extends Seeder
 		try {
 
 			$abilitiesData = [];
-			$models = ModelClass::all();
-			foreach ($models as $model) {
+			$resources = [
+				Team::class,
+				TeamModel::class,
+				Role::class,
+				RoleModel::class,
+				Ability::class,
+				AbilityModel::class,
+			];
+			$configResources = config('bfe-permission.ability_resources', []);
+			if ($configResources && is_array($configResources)) {
+				$resources = array_merge($resources, $configResources);
+			}
+			foreach ($resources as $model) {
 				$operations = config('bfe-permission.ability_operations', AbilityOperationType::ALL);
 				foreach ($operations as $operation) {
 					try {
@@ -54,7 +70,7 @@ class BfePermissionAbilitiesTableSeeder extends Seeder
 						$slug = "{$operation}_{$modelSlug}";
 						$abilitiesData[] = [
 							'slug' => $slug,
-							'name' => ucwords($operation) . ' ' . ucwords($modelSlug),
+							'name' => ucwords($operation) . ' ' . $modelSlug,
 							'resource' => $model,
 						];
 					} catch (Exception $e) {
