@@ -43,5 +43,5 @@ interface Ability
 	 * @param string $slug
 	 * @return Ability
 	 */
-	public static function findOrCreate(string $name, string $slug): self;
+	public static function findOrCreate(string $name, string $slug, ?string $resource): self;
 }
