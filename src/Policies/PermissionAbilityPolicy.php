@@ -17,11 +17,12 @@ class PermissionAbilityPolicy
 		if (stripos($ability, '|')) {
 			$abilities = is_array($ability) ? $ability : explode('|', $ability);
 			return $model->hasAnyAbilitiesOn($abilities, $type, $id);
-		}
-
-		if (stripos($ability, '&')) {
+		} else if (stripos($ability, '&')) {
 			$abilities = is_array($ability) ? $ability : explode('&', $ability);
 			return $model->hasAllAbilitiesOn($abilities, $type, $id);
+		} else {
+			$abilities = is_array($ability) ? $ability : [$ability];
+			return $model->hasAnyAbilitiesOn($abilities, $type, $id);
 		}
 
 		return false;

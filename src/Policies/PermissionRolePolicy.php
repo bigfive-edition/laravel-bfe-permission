@@ -2,7 +2,6 @@
 
 namespace BigFiveEdition\Permission\Policies;
 
-use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PermissionRolePolicy
@@ -14,11 +13,12 @@ class PermissionRolePolicy
 		if (stripos($role, '|')) {
 			$roles = is_array($role) ? $role : explode('|', $role);
 			return $model->hasAnyRoles($roles);
-		}
-
-		if (stripos($role, '&')) {
+		} else if (stripos($role, '&')) {
 			$roles = is_array($role) ? $role : explode('&', $role);
 			return $model->hasAllRoles($roles);
+		} else {
+			$roles = is_array($role) ? $role : [$role];
+			return $model->hasAnyRoles($roles);
 		}
 		return false;
 	}
