@@ -25,6 +25,8 @@ class BfePermissionServiceProvider extends ServiceProvider
 
 		$this->registerModelBindings();
 
+		$this->registerRoutes();
+
 		$this->app->singleton(BfePermissionRegistrar::class, function ($app) use ($permissionLoader) {
 			return $permissionLoader;
 		});
@@ -78,9 +80,9 @@ class BfePermissionServiceProvider extends ServiceProvider
 		}
 	}
 
-	public static function bladeMethodWrapper($method, $role, $guard = null)
+	protected function registerRoutes()
 	{
-
+		$this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
 	}
 
 	protected function registerBladeExtensions($bladeCompiler)
