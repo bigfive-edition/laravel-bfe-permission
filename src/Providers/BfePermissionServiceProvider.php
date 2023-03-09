@@ -2,7 +2,11 @@
 
 namespace BigFiveEdition\Permission\Providers;
 
+use BigFiveEdition\Permission\Commands\CreateBfePermissionAbility;
+use BigFiveEdition\Permission\Commands\CreateBfePermissionRole;
+use BigFiveEdition\Permission\Commands\CreateBfePermissionTeam;
 use BigFiveEdition\Permission\Commands\InstallBfePermission;
+use BigFiveEdition\Permission\Commands\RunBfePermissionSeeders;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
@@ -20,11 +24,6 @@ class BfePermissionServiceProvider extends ServiceProvider
 		$this->registerCommands();
 
 		$this->registerModelBindings();
-
-		if ($this->app->config['bfe-permission.register_permission_check_method']) {
-//			$permissionLoader->clearClassPermissions();
-//			$permissionLoader->registerPermissions();
-		}
 
 		$this->app->singleton(BfePermissionRegistrar::class, function ($app) use ($permissionLoader) {
 			return $permissionLoader;
@@ -54,15 +53,19 @@ class BfePermissionServiceProvider extends ServiceProvider
 			__DIR__ . '/../../config/bfe-permission.php' => config_path('bfe-permission.php'),
 		], 'bfe-permission-config');
 
-//		$this->publishes([
-//			__DIR__.'/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
-//		], 'bfe-permission-migrations');
+		$this->publishes([
+			__DIR__.'/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
+		], 'bfe-permission-migrations');
 	}
 
 	protected function registerCommands()
 	{
 		$this->commands([
 			InstallBfePermission::class,
+			RunBfePermissionSeeders::class,
+			CreateBfePermissionTeam::class,
+			CreateBfePermissionRole::class,
+			CreateBfePermissionAbility::class,
 		]);
 	}
 

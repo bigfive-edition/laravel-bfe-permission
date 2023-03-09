@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BigFiveEdition\Permission\Commands;
 
-use App\_PointOfSale\Services\BizaoService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
@@ -22,9 +21,6 @@ class InstallBfePermission extends Command
 
 	public function handle()
 	{
-		$this->call("vendor:publish", [
-			'--provider' => 'Spatie\Permission\PermissionServiceProvider',
-		]);
 		$this->call("vendor:publish", [
 			'--provider' => 'BigFiveEdition\Permission\Providers\BfePermissionServiceProvider',
 		]);
