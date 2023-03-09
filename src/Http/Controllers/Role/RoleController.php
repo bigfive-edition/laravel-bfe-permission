@@ -77,7 +77,7 @@ class RoleController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$entity =  Role::query()
-			->find($request->id());
+			->findOrFail($request->id());
 
 		//Build API Response
 		$data = BfePermission_Role_Resource::make($entity);
@@ -147,7 +147,8 @@ class RoleController extends BfePermissionBaseController
 			return !is_null($value);
 		});
 
-		$entity = Role::findOrFail($request->id());
+		$entity = Role::query()
+			->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();
 
@@ -175,7 +176,8 @@ class RoleController extends BfePermissionBaseController
 	public function destroy(BfePermission_Role_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$entity = Role::findOrFail($request->id());
+		$entity = Role::query()
+		->findOrFail($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

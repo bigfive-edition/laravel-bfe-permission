@@ -75,7 +75,7 @@ class AbilityController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$entity = Ability::query()
-			->find($request->id());
+			->findOrFail($request->id());
 
 		//Build API Response
 		$data = BfePermission_Ability_Resource::make($entity);
@@ -147,7 +147,8 @@ class AbilityController extends BfePermissionBaseController
 			return !is_null($value);
 		});
 
-		$entity = Ability::findOrFail($request->id());
+		$entity = Ability::query()
+			->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();
 
@@ -175,7 +176,8 @@ class AbilityController extends BfePermissionBaseController
 	public function destroy(BfePermission_Ability_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$entity = Ability::findOrFail($request->id());
+		$entity = Ability::query()
+			->findOrFail($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

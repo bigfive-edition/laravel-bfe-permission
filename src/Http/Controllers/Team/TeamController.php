@@ -76,7 +76,7 @@ class TeamController extends BfePermissionBaseController
 	{
 		//$requestUser = $request->user();
 		$entity =  Team::query()
-			->find($request->id());
+			->findOrFail($request->id());
 
 		//Build API Response
 		$data = BfePermission_Team_Resource::make($entity);
@@ -146,7 +146,8 @@ class TeamController extends BfePermissionBaseController
 			return !is_null($value);
 		});
 
-		$entity = Team::findOrFail($request->id());
+		$entity = Team::query()
+			->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();
 
@@ -174,7 +175,8 @@ class TeamController extends BfePermissionBaseController
 	public function destroy(BfePermission_Team_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$entity = Team::findOrFail($request->id());
+		$entity = Team::query()
+			->findOrFail($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response
