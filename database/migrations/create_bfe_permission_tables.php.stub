@@ -33,6 +33,7 @@ class CreateBfePermissionTables extends Migration
             $table->string('model_id')->nullable();
 
             $table->string('attribute');
+            $table->timestamps();
 
             $table->index('team_id', 'bfe_model_belongs_teams_team_id_idx');
             $table->index('model_type', 'bfe_model_belongs_teams_model_type_idx');
@@ -59,6 +60,7 @@ class CreateBfePermissionTables extends Migration
 
             $table->string('model_type')->nullable();
             $table->string('model_id')->nullable();
+            $table->timestamps();
 
             $table->index('role_id', 'bfe_model_has_roles_role_id_idx');
             $table->index('model_type', 'bfe_model_has_roles_model_type_idx');
@@ -91,6 +93,7 @@ class CreateBfePermissionTables extends Migration
             $table->string('resource_id')->nullable();
 
             $table->boolean('allowed')->default(true);
+            $table->timestamps();
 
             $table->index('ability_id', 'bfe_model_has_abilities_on_resource_ability_id_idx');
             $table->index('model_type', 'bfe_model_has_abilities_on_resource_model_type_idx');
