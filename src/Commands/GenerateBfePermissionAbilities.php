@@ -82,7 +82,7 @@ class GenerateBfePermissionAbilities extends Command
 						$slug = "{$operation}_{$modelSlug}";
 						$abilitiesData[] = [
 							'slug' => $slug,
-							'name' => ucwords($operation) . ' ' . $modelSlug,
+							'name' => ucwords($operation) . ' ' . $reflect->getShortName(),
 							'resource' => $model,
 						];
 					} catch (Exception $e) {
