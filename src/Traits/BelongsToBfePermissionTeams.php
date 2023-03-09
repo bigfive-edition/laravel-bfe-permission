@@ -69,7 +69,7 @@ trait BelongsToBfePermissionTeams
 
 	public function belongsToAnyTeams($teams): bool
 	{
-		$count = $this->teams()
+		$count = $this->team_models()
 			->whereHas('team', function ($query) use ($teams) {
 				$query->whereIn('slug', $teams);
 			})
@@ -80,7 +80,7 @@ trait BelongsToBfePermissionTeams
 
 	public function belongsToAllTeams($teams): bool
 	{
-		$count = $this->teams()
+		$count = $this->team_models()
 			->whereHas('team', function ($query) use ($teams) {
 				$query->whereIn('slug', $teams);
 			})

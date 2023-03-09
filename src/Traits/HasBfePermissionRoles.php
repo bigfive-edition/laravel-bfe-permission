@@ -66,7 +66,7 @@ trait HasBfePermissionRoles
 
 	public function hasAnyRoles($roles): bool
 	{
-		$count = $this->roles()
+		$count = $this->role_models()
 			->whereHas('role', function ($query) use ($roles) {
 				$query->whereIn('slug', $roles);
 			})
@@ -77,7 +77,7 @@ trait HasBfePermissionRoles
 
 	public function hasAllRoles($roles): bool
 	{
-		$count = $this->roles()
+		$count = $this->role_models()
 			->whereHas('role', function ($query) use ($roles) {
 				$query->whereIn('slug', $roles);
 			})
