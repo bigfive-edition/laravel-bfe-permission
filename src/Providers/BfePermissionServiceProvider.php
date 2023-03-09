@@ -73,11 +73,11 @@ class BfePermissionServiceProvider extends ServiceProvider
 
 	protected function registerModelBindings()
 	{
-		$config = $this->app->config['bfe-permission.models'];
-
-		if (!$config) {
-			return;
-		}
+//		$config = $this->app->config['bfe-permission.models'];
+//
+//		if (!$config) {
+//			return;
+//		}
 	}
 
 	protected function registerRoutes()
