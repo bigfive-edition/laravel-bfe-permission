@@ -63,8 +63,8 @@ class PermissionAbilityPolicy
 	{
 		$allowed = false;
 		try {
-			$type = $resource ? get_class($resource) : null;
-			$id = $resource ? Arr::get($resource, 'id') : null;
+			$type = $resource != null && is_object($resource) ? get_class($resource) : null;
+			$id = $resource != null && is_object($resource) ? Arr::get($resource, 'id') : null;
 
 			$ability = $this->abilities ?? '';
 
