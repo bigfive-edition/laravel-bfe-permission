@@ -3,8 +3,8 @@
 return [
 
 	'default_teams' => [],
-	'default_roles' => ['sysadmin', 'admin', 'pro_user', 'regular_user'],
-	'ability_operations' => ['read_all', 'read_one', 'create_one', 'update_one', 'delete_one'],
+	'default_roles' => ['sysadmin', 'application_admin', 'community_manager', 'client'],
+	'ability_operations' => ['read_all', 'read_all_owned', 'read', 'read_owned', 'create', 'update', 'update_owned', 'delete', 'delete_owned'],
 	'ability_resources' => [
 		\BigFiveEdition\Permission\Models\Team::class,
 		\BigFiveEdition\Permission\Models\TeamModel::class,
