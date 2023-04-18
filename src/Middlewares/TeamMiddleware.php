@@ -3,8 +3,11 @@
 namespace BigFiveEdition\Permission\Middlewares;
 
 use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
+use BigFiveEdition\Permission\Traits\BelongsToBfePermissionTeams;
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TeamMiddleware
 {
@@ -16,24 +19,46 @@ class TeamMiddleware
 			throw UnauthorizedException::notLoggedIn();
 		}
 
-//		$user = $authGuard->user();
+		//$user = $authGuard->user();
 		$user = $request->user();
 
+		$isAuthorized = false;
+		$isAndOperation = false;
+		$teams = [];
+
+		//get teams
 		if (stripos($team, '|')) {
 			$teams = is_array($team) ? $team : explode('|', $team);
-			if (!$user->belongsToAnyTeams($teams)) {
-				throw UnauthorizedException::forTeams($teams);
-			}
 		} else if (stripos($team, '&')) {
+			$isAndOperation = true;
 			$teams = is_array($team) ? $team : explode('&', $team);
-			if (!$user->belongsToAllTeams($teams)) {
-				throw UnauthorizedException::forTeams($teams);
-			}
 		} else {
 			$teams = is_array($team) ? $team : [$team];
-			if (!$user->belongsToAnyTeams($teams)) {
-				throw UnauthorizedException::forTeams($teams);
+		}
+
+		$models = [$user];
+		foreach ($models as $model) {
+			try {
+				if (in_array(BelongsToBfePermissionTeams::class, class_uses_recursive(get_class($model)), true)) {
+					if($isAndOperation) {
+						$isAuthorized = $model->belongsToAllTeams($teams);
+					}else {
+						$isAuthorized = $model->belongsToAnyTeams($teams);
+					}
+				}
+			} catch (Exception $e) {
+				Log::error($e->getMessage());
+				Log::error($e->getTraceAsString());
 			}
+
+			//if is authorized stop checking
+			if ($isAuthorized) {
+				break;
+			}
+		}
+
+		if (!$isAuthorized) {
+			throw UnauthorizedException::forTeams($teams);
 		}
 
 		return $next($request);

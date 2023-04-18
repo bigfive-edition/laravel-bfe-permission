@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Policies;
 
+use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -27,23 +28,42 @@ class PermissionRolePolicy
 	 */
 	public function hasRole($user, $role): Response|bool
 	{
-		$allowed = false;
-		try {
-			if (stripos($role, '|')) {
-				$roles = is_array($role) ? $role : explode('|', $role);
-				$allowed = $user->hasAnyRoles($roles);
-			} else if (stripos($role, '&')) {
-				$roles = is_array($role) ? $role : explode('&', $role);
-				$allowed = $user->hasAllRoles($roles);
-			} else {
-				$roles = is_array($role) ? $role : [$role];
-				$allowed = $user->hasAnyRoles($roles);
-			}
-		} catch (Exception $e) {
-			Log::error($e->getMessage());
-			Log::error($e->getTraceAsString());
+		$isAuthorized = false;
+		$isAndOperation = false;
+		$roles = [];
+
+		//get roles
+		if (stripos($role, '|')) {
+			$roles = is_array($role) ? $role : explode('|', $role);
+		} else if (stripos($role, '&')) {
+			$isAndOperation = true;
+			$roles = is_array($role) ? $role : explode('&', $role);
+		} else {
+			$roles = is_array($role) ? $role : [$role];
 		}
-//		return $allowed;
-		return $allowed ? Response::allow() : Response::deny('You do not have the required roles to perform operation.');
+
+		$models = [$user];
+		foreach ($models as $model) {
+			try {
+				if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($model)), true)) {
+					if($isAndOperation) {
+						$isAuthorized = $model->hasAllRoles($roles);
+					}else {
+						$isAuthorized = $model->hasAnyRoles($roles);
+					}
+				}
+			} catch (Exception $e) {
+				Log::error($e->getMessage());
+				Log::error($e->getTraceAsString());
+			}
+
+			//if is authorized stop checking
+			if ($isAuthorized) {
+				break;
+			}
+		}
+
+//		return $isAuthorized;
+		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required roles to perform operation.');
 	}
 }

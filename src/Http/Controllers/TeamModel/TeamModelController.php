@@ -13,6 +13,7 @@ use BigFiveEdition\Permission\Http\Resources\TeamModel\BfePermission_TeamModel_R
 use BigFiveEdition\Permission\Models\TeamModel;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OpenApi\PathItem()
@@ -44,6 +45,10 @@ class TeamModelController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_TeamModel_GetListRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_all_teammodel|read_all_owned_teammodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -81,6 +86,10 @@ class TeamModelController extends BfePermissionBaseController
 	 */
 	public function show(BfePermission_TeamModel_GetOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_teammodel|read_owned_teammodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -116,6 +125,10 @@ class TeamModelController extends BfePermissionBaseController
 	 */
 	public function store(BfePermission_TeamModel_CreateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"create_teammodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -161,6 +174,10 @@ class TeamModelController extends BfePermissionBaseController
 	 */
 	public function update(BfePermission_TeamModel_UpdateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"update_teammodel|update_owned_teammodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -207,6 +224,10 @@ class TeamModelController extends BfePermissionBaseController
 	 */
 	public function destroy(BfePermission_TeamModel_DeleteOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"delete_teammodel|delete_owned_teammodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());

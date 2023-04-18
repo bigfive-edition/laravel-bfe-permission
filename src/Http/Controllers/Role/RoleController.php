@@ -13,6 +13,7 @@ use BigFiveEdition\Permission\Http\Resources\Role\BfePermission_Role_ResourceCol
 use BigFiveEdition\Permission\Models\Role;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OpenApi\PathItem()
@@ -44,6 +45,10 @@ class RoleController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_Role_GetListRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_all_role|read_all_owned_role")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -80,6 +85,10 @@ class RoleController extends BfePermissionBaseController
 	 */
 	public function show(BfePermission_Role_GetOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_role|read_owned_role")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -114,6 +123,10 @@ class RoleController extends BfePermissionBaseController
 	 */
 	public function store(BfePermission_Role_CreateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"create_role")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -157,6 +170,10 @@ class RoleController extends BfePermissionBaseController
 	 */
 	public function update(BfePermission_Role_UpdateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"update_role|update_owned_role")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -200,6 +217,10 @@ class RoleController extends BfePermissionBaseController
 	 */
 	public function destroy(BfePermission_Role_DeleteOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"delete_role|delete_owned_role")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());

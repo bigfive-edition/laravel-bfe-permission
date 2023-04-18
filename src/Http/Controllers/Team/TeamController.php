@@ -13,6 +13,7 @@ use BigFiveEdition\Permission\Http\Resources\Team\BfePermission_Team_ResourceCol
 use BigFiveEdition\Permission\Models\Team;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OpenApi\PathItem()
@@ -44,6 +45,10 @@ class TeamController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_Team_GetListRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_all_team|read_all_owned_team")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -80,6 +85,10 @@ class TeamController extends BfePermissionBaseController
 	 */
 	public function show(BfePermission_Team_GetOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_team|read_owned_team")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -114,6 +123,10 @@ class TeamController extends BfePermissionBaseController
 	 */
 	public function store(BfePermission_Team_CreateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"create_team")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -157,6 +170,10 @@ class TeamController extends BfePermissionBaseController
 	 */
 	public function update(BfePermission_Team_UpdateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"update_team|update_owned_team")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -200,6 +217,10 @@ class TeamController extends BfePermissionBaseController
 	 */
 	public function destroy(BfePermission_Team_DeleteOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"delete_team|delete_owned_team")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());

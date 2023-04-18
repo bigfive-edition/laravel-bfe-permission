@@ -13,6 +13,7 @@ use BigFiveEdition\Permission\Http\Resources\Ability\BfePermission_Ability_Resou
 use BigFiveEdition\Permission\Models\Ability;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OpenApi\PathItem()
@@ -44,6 +45,10 @@ class AbilityController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_Ability_GetListRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_all_ability|read_all_owned_ability")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -79,6 +84,10 @@ class AbilityController extends BfePermissionBaseController
 	 */
 	public function show(BfePermission_Ability_GetOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_ability|read_owned_ability")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -113,6 +122,10 @@ class AbilityController extends BfePermissionBaseController
 	 */
 	public function store(BfePermission_Ability_CreateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"create_ability")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -157,6 +170,10 @@ class AbilityController extends BfePermissionBaseController
 	 */
 	public function update(BfePermission_Ability_UpdateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"update_ability|update_owned_ability")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -201,6 +218,10 @@ class AbilityController extends BfePermissionBaseController
 	 */
 	public function destroy(BfePermission_Ability_DeleteOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"delete_ability|delete_owned_ability")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());

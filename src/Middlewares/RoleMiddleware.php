@@ -3,8 +3,11 @@
 namespace BigFiveEdition\Permission\Middlewares;
 
 use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
+use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RoleMiddleware
 {
@@ -15,25 +18,46 @@ class RoleMiddleware
 		if ($authGuard->guest()) {
 			throw UnauthorizedException::notLoggedIn();
 		}
-
-//		$user = $authGuard->user();
+		//$user = $authGuard->user();
 		$user = $request->user();
 
+		$isAuthorized = false;
+		$isAndOperation = false;
+		$roles = [];
+
+		//get roles
 		if (stripos($role, '|')) {
 			$roles = is_array($role) ? $role : explode('|', $role);
-			if (!$user->hasAnyRoles($roles)) {
-				throw UnauthorizedException::forRoles($roles);
-			}
 		} else if (stripos($role, '&')) {
+			$isAndOperation = true;
 			$roles = is_array($role) ? $role : explode('&', $role);
-			if (!$user->hasAllRoles($roles)) {
-				throw UnauthorizedException::forRoles($roles);
-			}
 		} else {
 			$roles = is_array($role) ? $role : [$role];
-			if (!$user->hasAnyRoles($roles)) {
-				throw UnauthorizedException::forRoles($roles);
+		}
+
+		$models = [$user];
+		foreach ($models as $model) {
+			try {
+				if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($model)), true)) {
+					if ($isAndOperation) {
+						$isAuthorized = $model->hasAllRoles($roles);
+					} else {
+						$isAuthorized = $model->hasAnyRoles($roles);
+					}
+				}
+			} catch (Exception $e) {
+				Log::error($e->getMessage());
+				Log::error($e->getTraceAsString());
 			}
+
+			//if is authorized stop checking
+			if ($isAuthorized) {
+				break;
+			}
+		}
+
+		if (!$isAuthorized) {
+			throw UnauthorizedException::forRoles($roles);
 		}
 
 		return $next($request);

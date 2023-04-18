@@ -13,6 +13,7 @@ use BigFiveEdition\Permission\Http\Resources\AbilityModel\BfePermission_AbilityM
 use BigFiveEdition\Permission\Models\AbilityModel;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OpenApi\PathItem()
@@ -44,6 +45,10 @@ class AbilityModelController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_AbilityModel_GetListRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_all_abilitymodel|read_all_owned_abilitymodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -80,6 +85,10 @@ class AbilityModelController extends BfePermissionBaseController
 	 */
 	public function show(BfePermission_AbilityModel_GetOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"read_abilitymodel|read_owned_abilitymodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -115,6 +124,10 @@ class AbilityModelController extends BfePermissionBaseController
 	 */
 	public function store(BfePermission_AbilityModel_CreateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"create_abilitymodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -162,6 +175,10 @@ class AbilityModelController extends BfePermissionBaseController
 	 */
 	public function update(BfePermission_AbilityModel_UpdateOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"update_abilitymodel|update_owned_abilitymodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
@@ -210,6 +227,10 @@ class AbilityModelController extends BfePermissionBaseController
 	 */
 	public function destroy(BfePermission_AbilityModel_DeleteOneRequest $request)
 	{
+		if (!Gate::allows('bfe-permission-has-abilities',"delete_abilitymodel|delete_owned_abilitymodel")) {
+			abort(403);
+		}
+
 		//$requestUser = $request->user();
 		$with = array_merge([
 		], $request->with());
