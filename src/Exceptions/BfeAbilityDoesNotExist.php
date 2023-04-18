@@ -4,7 +4,7 @@ namespace BigFiveEdition\Permission\Exceptions;
 
 use InvalidArgumentException;
 
-class AbilityDoesNotExist extends InvalidArgumentException
+class BfeAbilityDoesNotExist extends InvalidArgumentException
 {
 	public static function create(string $name, string $slug = '')
 	{

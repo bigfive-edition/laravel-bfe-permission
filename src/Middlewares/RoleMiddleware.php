@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Middlewares;
 
-use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Closure;
 use Exception;
@@ -16,7 +16,7 @@ class RoleMiddleware
 		$authGuard = Auth::guard($guard);
 
 		if ($authGuard->guest()) {
-			throw UnauthorizedException::notLoggedIn();
+			throw BfeUnauthorizedException::notLoggedIn();
 		}
 		//$user = $authGuard->user();
 		$user = $request->user();
@@ -57,7 +57,7 @@ class RoleMiddleware
 		}
 
 		if (!$isAuthorized) {
-			throw UnauthorizedException::forRoles($roles);
+			throw BfeUnauthorizedException::forRoles($roles);
 		}
 
 		return $next($request);

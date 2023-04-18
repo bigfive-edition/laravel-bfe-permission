@@ -4,7 +4,7 @@ namespace BigFiveEdition\Permission\Exceptions;
 
 use InvalidArgumentException;
 
-class TeamAlreadyExists extends InvalidArgumentException
+class BfeTeamAlreadyExists extends InvalidArgumentException
 {
 	public static function create(string $name, string $slug = '')
 	{

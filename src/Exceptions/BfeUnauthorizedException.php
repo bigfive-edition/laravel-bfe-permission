@@ -2,9 +2,10 @@
 
 namespace BigFiveEdition\Permission\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class UnauthorizedException extends HttpException
+class BfeUnauthorizedException extends AuthorizationException
 {
 	private $requiredTeams = [];
 	private $requiredRoles = [];
@@ -18,7 +19,7 @@ class UnauthorizedException extends HttpException
 			$message .= ' Necessary teams are ' . implode(', ', $teams);
 		}
 
-		$exception = new static(403, $message, null, []);
+		$exception = new static($message, 403, null);
 		$exception->requiredTeams = $teams;
 
 		return $exception;
@@ -32,7 +33,7 @@ class UnauthorizedException extends HttpException
 			$message .= ' Necessary roles are ' . implode(', ', $roles);
 		}
 
-		$exception = new static(403, $message, null, []);
+		$exception = new static($message, 403, null);
 		$exception->requiredRoles = $roles;
 
 		return $exception;
@@ -46,7 +47,7 @@ class UnauthorizedException extends HttpException
 			$message .= ' Necessary abilities are ' . implode(', ', $abilities);
 		}
 
-		$exception = new static(403, $message, null, []);
+		$exception = new static($message, 403, null);
 		$exception->requiredAbilities = $abilities;
 
 		return $exception;
@@ -60,7 +61,7 @@ class UnauthorizedException extends HttpException
 			$message .= ' Necessary roles or abilities are ' . implode(', ', $rolesOrAbilities);
 		}
 
-		$exception = new static(403, $message, null, []);
+		$exception = new static($message, 403, null);
 		$exception->requiredAbilities = $rolesOrAbilities;
 
 		return $exception;
@@ -68,7 +69,7 @@ class UnauthorizedException extends HttpException
 
 	public static function notLoggedIn(): self
 	{
-		return new static(403, 'User is not logged in.', null, []);
+		return new static('User is not logged in.', 403, null);
 	}
 
 	public function getRequiredTeams(): array

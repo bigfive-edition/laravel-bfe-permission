@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Policies;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Traits\BelongsToBfePermissionTeams;
 use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,6 +26,7 @@ class PermissionTeamPolicy
 	 * @param $user
 	 * @param $role
 	 * @return Response|bool
+	 * @throws BfeUnauthorizedException
 	 */
 	public function belongsToTeam($user, $team): Response|bool
 	{
@@ -64,6 +66,7 @@ class PermissionTeamPolicy
 		}
 
 //		return $isAuthorized;
-		return $isAuthorized ? Response::allow() : Response::deny('You do not belong to the required teams to perform operation.');
+		return $isAuthorized ? Response::allow() : throw new BfeUnauthorizedException('You do not belong to the required teams to perform operation.');
+//		return $isAuthorized ? Response::allow() : Response::deny('You do not belong to the required teams to perform operation.');
 	}
 }

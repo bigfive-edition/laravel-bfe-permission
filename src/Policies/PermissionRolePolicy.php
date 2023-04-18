@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Policies;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,6 +26,7 @@ class PermissionRolePolicy
 	 * @param $user
 	 * @param $role
 	 * @return Response|bool
+	 * @throws BfeUnauthorizedException
 	 */
 	public function hasRole($user, $role): Response|bool
 	{
@@ -64,6 +66,7 @@ class PermissionRolePolicy
 		}
 
 //		return $isAuthorized;
-		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required roles to perform operation.');
+		return $isAuthorized ? Response::allow() : throw new BfeUnauthorizedException('You do not have the required roles to perform operation.');
+//		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required roles to perform operation.');
 	}
 }

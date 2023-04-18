@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Middlewares;
 
-use BigFiveEdition\Permission\Exceptions\UnauthorizedException;
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Traits\BelongsToBfePermissionTeams;
 use Closure;
 use Exception;
@@ -16,7 +16,7 @@ class TeamMiddleware
 		$authGuard = Auth::guard($guard);
 
 		if ($authGuard->guest()) {
-			throw UnauthorizedException::notLoggedIn();
+			throw BfeUnauthorizedException::notLoggedIn();
 		}
 
 		//$user = $authGuard->user();
@@ -58,7 +58,7 @@ class TeamMiddleware
 		}
 
 		if (!$isAuthorized) {
-			throw UnauthorizedException::forTeams($teams);
+			throw BfeUnauthorizedException::forTeams($teams);
 		}
 
 		return $next($request);

@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Policies;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
 use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -27,6 +28,7 @@ class PermissionAbilityPolicy
 	 * @param  $ability
 	 * @param  $resource
 	 * @return Response|bool
+	 * @throws BfeUnauthorizedException
 	 */
 	public function hasAbility($user, $ability, $resource = null): Response|bool
 	{
@@ -74,7 +76,8 @@ class PermissionAbilityPolicy
 		}
 
 //		return $isAuthorized;
-		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required abilities to perform operation.');
+		return $isAuthorized ? Response::allow() : throw new BfeUnauthorizedException('You do not have the required abilities to perform operation.');
+//		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required abilities to perform operation.');
 	}
 
 	/**
@@ -83,6 +86,7 @@ class PermissionAbilityPolicy
 	 * @param  $user
 	 * @param  $resource
 	 * @return Response|bool
+	 * @throws BfeUnauthorizedException
 	 */
 	public function hasAbilityOnResource($user, $resource = null): Response|bool
 	{
@@ -125,6 +129,7 @@ class PermissionAbilityPolicy
 		}
 
 //		return $isAuthorized;
-		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required abilities to perform operation.');
+		return $isAuthorized ? Response::allow() : throw new BfeUnauthorizedException('You do not have the required abilities to perform operation.');
+//		return $isAuthorized ? Response::allow() : Response::deny('You do not have the required abilities to perform operation.');
 	}
 }
