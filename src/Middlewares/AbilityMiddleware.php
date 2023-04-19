@@ -3,7 +3,9 @@
 namespace BigFiveEdition\Permission\Middlewares;
 
 use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
+use BigFiveEdition\Permission\Traits\BelongsToBfePermissionTeams;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
+use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Closure;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +40,16 @@ class AbilityMiddleware
 		}
 
 		$models = [$user];
+
+		//get related/parents models
+		if (in_array(BelongsToBfePermissionTeams::class, class_uses_recursive(get_class($user)), true)) {
+			$models = array_merge($models, $user->teams->all());
+		}
+		if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($user)), true)) {
+			$models = array_merge($models, $user->roles->all());
+		}
+
+		//loop through models with abilities
 		foreach ($models as $model) {
 			try {
 				if (in_array(HasBfePermissionAbilities::class, class_uses_recursive(get_class($model)), true)) {

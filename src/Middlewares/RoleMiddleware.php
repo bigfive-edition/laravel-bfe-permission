@@ -36,6 +36,8 @@ class RoleMiddleware
 		}
 
 		$models = [$user];
+
+		//loop through models with abilities
 		foreach ($models as $model) {
 			try {
 				if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($model)), true)) {

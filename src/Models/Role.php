@@ -3,12 +3,15 @@
 namespace BigFiveEdition\Permission\Models;
 
 use BigFiveEdition\Permission\Contracts\RoleContract;
-use BigFiveEdition\Permission\Exceptions\RoleDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeRoleDoesNotExist;
+use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model implements RoleContract
 {
+	use HasBfePermissionAbilities;
+
 	public $incrementing = true;
 	public $timestamps = true;
 	protected $table = 'bfe_permission_roles';
@@ -26,7 +29,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['slug' => $slug]);
 		if (!$role) {
-			throw RoleDoesNotExist::withSlug($slug);
+			throw BfeRoleDoesNotExist::withSlug($slug);
 		}
 		return $role;
 	}
@@ -44,7 +47,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['name' => $name]);
 		if (!$role) {
-			throw RoleDoesNotExist::create($name);
+			throw BfeRoleDoesNotExist::create($name);
 		}
 		return $role;
 	}
@@ -53,7 +56,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['id' => $id]);
 		if (!$role) {
-			throw RoleDoesNotExist::withId($id);
+			throw BfeRoleDoesNotExist::withId($id);
 		}
 		return $role;
 	}

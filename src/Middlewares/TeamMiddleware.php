@@ -37,6 +37,8 @@ class TeamMiddleware
 		}
 
 		$models = [$user];
+
+		//loop through models with abilities
 		foreach ($models as $model) {
 			try {
 				if (in_array(BelongsToBfePermissionTeams::class, class_uses_recursive(get_class($model)), true)) {

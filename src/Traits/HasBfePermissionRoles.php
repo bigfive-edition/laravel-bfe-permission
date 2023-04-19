@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 trait HasBfePermissionRoles
 {
-	public function addRoles($roles): Collection|array|null
+	public function addRoles(array $roles): Collection|array|null
 	{
 		$roleIds = Role::query()
 			->whereIn('slug', $roles)
@@ -35,7 +35,7 @@ trait HasBfePermissionRoles
 		return $this->morphMany(RoleModel::class, 'model');
 	}
 
-	public function removeRoles($roles): Collection|array|null
+	public function removeRoles(array $roles): Collection|array|null
 	{
 		$roleIds = Role::query()
 			->whereIn('slug', $roles)
@@ -52,7 +52,7 @@ trait HasBfePermissionRoles
 		return $this->morphToMany(Role::class, 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
 	}
 
-	public function syncRoles($roles): Collection|array|null
+	public function syncRoles(array $roles): Collection|array|null
 	{
 		$roleIds = Role::query()
 			->whereIn('slug', $roles)
@@ -64,7 +64,7 @@ trait HasBfePermissionRoles
 		return $this->roles;
 	}
 
-	public function hasAnyRoles($roles): bool
+	public function hasAnyRoles(array $roles): bool
 	{
 		$count = $this->role_models()
 			->whereHas('role', function ($query) use ($roles) {
@@ -75,7 +75,7 @@ trait HasBfePermissionRoles
 		return $count > 0;
 	}
 
-	public function hasAllRoles($roles): bool
+	public function hasAllRoles(array $roles): bool
 	{
 		$count = $this->role_models()
 			->whereHas('role', function ($query) use ($roles) {

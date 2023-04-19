@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 trait HasBfePermissionAbilities
 {
-	public function addAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null
+	public function addAbilitiesOn(array $abilities, $resourceType = null, $resourceId = null): Collection|array|null
 	{
 		$abilityIds = Ability::query()
 			->whereIn('slug', $abilities)
@@ -38,7 +38,7 @@ trait HasBfePermissionAbilities
 		return $this->morphMany(AbilityModel::class, 'model');
 	}
 
-	public function removeAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null
+	public function removeAbilitiesOn(array $abilities, $resourceType = null, $resourceId = null): Collection|array|null
 	{
 		$abilityIds = Ability::query()
 			->whereIn('slug', $abilities)
@@ -60,7 +60,7 @@ trait HasBfePermissionAbilities
 		return $this->morphToMany(Ability::class, 'model', 'bfe_permission_model_has_abilities_on_resource', 'model_id', 'ability_id');
 	}
 
-	public function syncAbilitiesOn($abilities, $resourceType = null, $resourceId = null): Collection|array|null
+	public function syncAbilitiesOn(array $abilities, $resourceType = null, $resourceId = null): Collection|array|null
 	{
 		$abilityIds = Ability::query()
 			->whereIn('slug', $abilities)
@@ -77,7 +77,7 @@ trait HasBfePermissionAbilities
 		return $this->abilities;
 	}
 
-	public function hasAnyAbilitiesOn($abilities, $resourceType = null, $resourceId = null): bool
+	public function hasAnyAbilitiesOn(array $abilities, $resourceType = null, $resourceId = null): bool
 	{
 		$count = $this->ability_models();
 		$count = $count->where('allowed', true);
@@ -94,7 +94,7 @@ trait HasBfePermissionAbilities
 		return $count > 0;
 	}
 
-	public function hasAllAbilitiesOn($abilities, $resourceType = null, $resourceId = null): bool
+	public function hasAllAbilitiesOn(array $abilities, $resourceType = null, $resourceId = null): bool
 	{
 		$count = $this->ability_models();
 		$count = $count->where('allowed', true);

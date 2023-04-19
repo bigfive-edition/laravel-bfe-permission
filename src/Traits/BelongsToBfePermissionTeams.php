@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 trait BelongsToBfePermissionTeams
 {
-	public function addToTeams($teams): Collection|array|null
+	public function addToTeams(array $teams): Collection|array|null
 	{
 		$teamIds = Team::query()
 			->whereIn('slug', $teams)
@@ -38,7 +38,7 @@ trait BelongsToBfePermissionTeams
 		return $this->morphMany(TeamModel::class, 'model');
 	}
 
-	public function removeFromTeams($teams): Collection|array|null
+	public function removeFromTeams(array $teams): Collection|array|null
 	{
 		$teamIds = Team::query()
 			->whereIn('slug', $teams)
@@ -55,7 +55,7 @@ trait BelongsToBfePermissionTeams
 		return $this->morphToMany(Team::class, 'model', 'bfe_permission_model_belongs_teams', 'model_id', 'team_id');
 	}
 
-	public function syncTeams($teams): Collection|array|null
+	public function syncTeams(array $teams): Collection|array|null
 	{
 		$teamIds = Team::query()
 			->whereIn('slug', $teams)
@@ -67,7 +67,7 @@ trait BelongsToBfePermissionTeams
 		return $this->teams;
 	}
 
-	public function belongsToAnyTeams($teams): bool
+	public function belongsToAnyTeams(array $teams): bool
 	{
 		$count = $this->team_models()
 			->whereHas('team', function ($query) use ($teams) {
@@ -78,7 +78,7 @@ trait BelongsToBfePermissionTeams
 		return $count > 0;
 	}
 
-	public function belongsToAllTeams($teams): bool
+	public function belongsToAllTeams(array $teams): bool
 	{
 		$count = $this->team_models()
 			->whereHas('team', function ($query) use ($teams) {

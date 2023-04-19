@@ -3,7 +3,7 @@
 namespace BigFiveEdition\Permission\Models;
 
 use BigFiveEdition\Permission\Contracts\AbilityContract;
-use BigFiveEdition\Permission\Exceptions\AbilityDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeAbilityDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -26,7 +26,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['slug' => $slug]);
 		if (!$ability) {
-			throw AbilityDoesNotExist::withSlug($slug);
+			throw BfeAbilityDoesNotExist::withSlug($slug);
 		}
 		return $ability;
 	}
@@ -44,7 +44,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['name' => $name]);
 		if (!$ability) {
-			throw AbilityDoesNotExist::create($name);
+			throw BfeAbilityDoesNotExist::create($name);
 		}
 		return $ability;
 	}
@@ -53,7 +53,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['id' => $id]);
 		if (!$ability) {
-			throw AbilityDoesNotExist::withId($id);
+			throw BfeAbilityDoesNotExist::withId($id);
 		}
 		return $ability;
 	}

@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Contracts;
 
-use BigFiveEdition\Permission\Exceptions\RoleDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeRoleDoesNotExist;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface RoleContract
@@ -13,7 +13,7 @@ interface RoleContract
 	 * @param string $slug
 	 * @return RoleContract
 	 *
-	 * @throws RoleDoesNotExist
+	 * @throws BfeRoleDoesNotExist
 	 */
 	public static function findBySlug(string $slug): self;
 
@@ -23,7 +23,7 @@ interface RoleContract
 	 * @param string $name
 	 * @return RoleContract
 	 *
-	 * @throws RoleDoesNotExist
+	 * @throws BfeRoleDoesNotExist
 	 */
 	public static function findByName(string $name): self;
 
@@ -33,7 +33,7 @@ interface RoleContract
 	 * @param int $id
 	 * @return RoleContract
 	 *
-	 * @throws RoleDoesNotExist
+	 * @throws BfeRoleDoesNotExist
 	 */
 	public static function findById(int $id): self;
 

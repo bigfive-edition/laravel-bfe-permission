@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Contracts;
 
-use BigFiveEdition\Permission\Exceptions\AbilityDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeAbilityDoesNotExist;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface AbilityContract
@@ -13,7 +13,7 @@ interface AbilityContract
 	 * @param string $slug
 	 * @return AbilityContract
 	 *
-	 * @throws AbilityDoesNotExist
+	 * @throws BfeAbilityDoesNotExist
 	 */
 	public static function findBySlug(string $slug): self;
 
@@ -23,7 +23,7 @@ interface AbilityContract
 	 * @param string $name
 	 * @return AbilityContract
 	 *
-	 * @throws AbilityDoesNotExist
+	 * @throws BfeAbilityDoesNotExist
 	 */
 	public static function findByName(string $name): self;
 
@@ -33,7 +33,7 @@ interface AbilityContract
 	 * @param int $id
 	 * @return AbilityContract
 	 *
-	 * @throws AbilityDoesNotExist
+	 * @throws BfeAbilityDoesNotExist
 	 */
 	public static function findById(int $id): self;
 

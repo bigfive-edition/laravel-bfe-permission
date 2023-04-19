@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Contracts;
 
-use BigFiveEdition\Permission\Exceptions\TeamDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeTeamDoesNotExist;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface TeamContract
@@ -13,7 +13,7 @@ interface TeamContract
 	 * @param string $slug
 	 * @return TeamContract
 	 *
-	 * @throws TeamDoesNotExist
+	 * @throws BfeTeamDoesNotExist
 	 */
 	public static function findBySlug(string $slug): self;
 
@@ -23,7 +23,7 @@ interface TeamContract
 	 * @param string $name
 	 * @return TeamContract
 	 *
-	 * @throws TeamDoesNotExist
+	 * @throws BfeTeamDoesNotExist
 	 */
 	public static function findByName(string $name): self;
 
@@ -33,7 +33,7 @@ interface TeamContract
 	 * @param int $id
 	 * @return TeamContract
 	 *
-	 * @throws TeamDoesNotExist
+	 * @throws BfeTeamDoesNotExist
 	 */
 	public static function findById(int $id): self;
 

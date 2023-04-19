@@ -3,12 +3,16 @@
 namespace BigFiveEdition\Permission\Models;
 
 use BigFiveEdition\Permission\Contracts\TeamContract;
-use BigFiveEdition\Permission\Exceptions\TeamDoesNotExist;
+use BigFiveEdition\Permission\Exceptions\BfeTeamDoesNotExist;
+use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
+use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model implements TeamContract
 {
+	use HasBfePermissionAbilities;
+
 	public $incrementing = true;
 	public $timestamps = true;
 	protected $table = 'bfe_permission_teams';
@@ -26,7 +30,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['slug' => $slug]);
 		if (!$team) {
-			throw TeamDoesNotExist::withSlug($slug);
+			throw BfeTeamDoesNotExist::withSlug($slug);
 		}
 		return $team;
 	}
@@ -44,7 +48,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['name' => $name]);
 		if (!$team) {
-			throw TeamDoesNotExist::create($name);
+			throw BfeTeamDoesNotExist::create($name);
 		}
 		return $team;
 	}
@@ -53,7 +57,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['id' => $id]);
 		if (!$team) {
-			throw TeamDoesNotExist::withId($id);
+			throw BfeTeamDoesNotExist::withId($id);
 		}
 		return $team;
 	}
