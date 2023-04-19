@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Http\Controllers\TeamModel;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Http\Controllers\BfePermissionBaseController;
 use BigFiveEdition\Permission\Http\Requests\TeamModel\BfePermission_TeamModel_CreateOneRequest;
 use BigFiveEdition\Permission\Http\Requests\TeamModel\BfePermission_TeamModel_DeleteOneRequest;
@@ -46,7 +47,7 @@ class TeamModelController extends BfePermissionBaseController
 	public function index(BfePermission_TeamModel_GetListRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_teammodel|read_all_owned_teammodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_all_teammodel|read_all_owned_teammodel");
 		}
 
 		//$requestUser = $request->user();
@@ -87,7 +88,7 @@ class TeamModelController extends BfePermissionBaseController
 	public function show(BfePermission_TeamModel_GetOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_teammodel|read_owned_teammodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_teammodel|read_owned_teammodel");
 		}
 
 		//$requestUser = $request->user();
@@ -126,7 +127,7 @@ class TeamModelController extends BfePermissionBaseController
 	public function store(BfePermission_TeamModel_CreateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"create_teammodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("create_teammodel");
 		}
 
 		//$requestUser = $request->user();
@@ -175,7 +176,7 @@ class TeamModelController extends BfePermissionBaseController
 	public function update(BfePermission_TeamModel_UpdateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"update_teammodel|update_owned_teammodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("update_teammodel|update_owned_teammodel");
 		}
 
 		//$requestUser = $request->user();
@@ -225,7 +226,7 @@ class TeamModelController extends BfePermissionBaseController
 	public function destroy(BfePermission_TeamModel_DeleteOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"delete_teammodel|delete_owned_teammodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("delete_teammodel|delete_owned_teammodel");
 		}
 
 		//$requestUser = $request->user();

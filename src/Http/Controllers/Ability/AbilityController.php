@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Http\Controllers\Ability;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Http\Controllers\BfePermissionBaseController;
 use BigFiveEdition\Permission\Http\Requests\Ability\BfePermission_Ability_CreateOneRequest;
 use BigFiveEdition\Permission\Http\Requests\Ability\BfePermission_Ability_DeleteOneRequest;
@@ -46,7 +47,7 @@ class AbilityController extends BfePermissionBaseController
 	public function index(BfePermission_Ability_GetListRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_ability|read_all_owned_ability")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_all_ability|read_all_owned_ability");
 		}
 
 		//$requestUser = $request->user();
@@ -85,7 +86,7 @@ class AbilityController extends BfePermissionBaseController
 	public function show(BfePermission_Ability_GetOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_ability|read_owned_ability")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_ability|read_owned_ability");
 		}
 
 		//$requestUser = $request->user();
@@ -123,7 +124,7 @@ class AbilityController extends BfePermissionBaseController
 	public function store(BfePermission_Ability_CreateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"create_ability")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("create_ability");
 		}
 
 		//$requestUser = $request->user();
@@ -171,7 +172,7 @@ class AbilityController extends BfePermissionBaseController
 	public function update(BfePermission_Ability_UpdateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"update_ability|update_owned_ability")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("update_ability|update_owned_ability");
 		}
 
 		//$requestUser = $request->user();
@@ -219,7 +220,7 @@ class AbilityController extends BfePermissionBaseController
 	public function destroy(BfePermission_Ability_DeleteOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"delete_ability|delete_owned_ability")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("delete_ability|delete_owned_ability");
 		}
 
 		//$requestUser = $request->user();

@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Http\Controllers\Role;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Http\Controllers\BfePermissionBaseController;
 use BigFiveEdition\Permission\Http\Requests\Role\BfePermission_Role_CreateOneRequest;
 use BigFiveEdition\Permission\Http\Requests\Role\BfePermission_Role_DeleteOneRequest;
@@ -46,7 +47,7 @@ class RoleController extends BfePermissionBaseController
 	public function index(BfePermission_Role_GetListRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_role|read_all_owned_role")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_all_role|read_all_owned_role");
 		}
 
 		//$requestUser = $request->user();
@@ -86,7 +87,7 @@ class RoleController extends BfePermissionBaseController
 	public function show(BfePermission_Role_GetOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_role|read_owned_role")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_role|read_owned_role");
 		}
 
 		//$requestUser = $request->user();
@@ -124,7 +125,7 @@ class RoleController extends BfePermissionBaseController
 	public function store(BfePermission_Role_CreateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"create_role")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("create_role");
 		}
 
 		//$requestUser = $request->user();
@@ -171,7 +172,7 @@ class RoleController extends BfePermissionBaseController
 	public function update(BfePermission_Role_UpdateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"update_role|update_owned_role")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("update_role|update_owned_role");
 		}
 
 		//$requestUser = $request->user();
@@ -218,7 +219,7 @@ class RoleController extends BfePermissionBaseController
 	public function destroy(BfePermission_Role_DeleteOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"delete_role|delete_owned_role")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("delete_role|delete_owned_role");
 		}
 
 		//$requestUser = $request->user();

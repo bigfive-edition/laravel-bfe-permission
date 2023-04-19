@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Http\Controllers\Team;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Http\Controllers\BfePermissionBaseController;
 use BigFiveEdition\Permission\Http\Requests\Team\BfePermission_Team_CreateOneRequest;
 use BigFiveEdition\Permission\Http\Requests\Team\BfePermission_Team_DeleteOneRequest;
@@ -46,7 +47,7 @@ class TeamController extends BfePermissionBaseController
 	public function index(BfePermission_Team_GetListRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_team|read_all_owned_team")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_all_team|read_all_owned_team");
 		}
 
 		//$requestUser = $request->user();
@@ -86,7 +87,7 @@ class TeamController extends BfePermissionBaseController
 	public function show(BfePermission_Team_GetOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_team|read_owned_team")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_team|read_owned_team");
 		}
 
 		//$requestUser = $request->user();
@@ -124,7 +125,7 @@ class TeamController extends BfePermissionBaseController
 	public function store(BfePermission_Team_CreateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"create_team")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("create_team");
 		}
 
 		//$requestUser = $request->user();
@@ -171,7 +172,7 @@ class TeamController extends BfePermissionBaseController
 	public function update(BfePermission_Team_UpdateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"update_team|update_owned_team")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("update_team|update_owned_team");
 		}
 
 		//$requestUser = $request->user();
@@ -218,7 +219,7 @@ class TeamController extends BfePermissionBaseController
 	public function destroy(BfePermission_Team_DeleteOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"delete_team|delete_owned_team")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("delete_team|delete_owned_team");
 		}
 
 		//$requestUser = $request->user();

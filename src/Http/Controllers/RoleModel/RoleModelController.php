@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Http\Controllers\RoleModel;
 
+use BigFiveEdition\Permission\Exceptions\BfeUnauthorizedException;
 use BigFiveEdition\Permission\Http\Controllers\BfePermissionBaseController;
 use BigFiveEdition\Permission\Http\Requests\RoleModel\BfePermission_RoleModel_CreateOneRequest;
 use BigFiveEdition\Permission\Http\Requests\RoleModel\BfePermission_RoleModel_DeleteOneRequest;
@@ -46,7 +47,7 @@ class RoleModelController extends BfePermissionBaseController
 	public function index(BfePermission_RoleModel_GetListRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_rolemodel|read_all_owned_rolemodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_all_rolemodel|read_all_owned_rolemodel");
 		}
 
 		//$requestUser = $request->user();
@@ -87,7 +88,7 @@ class RoleModelController extends BfePermissionBaseController
 	public function show(BfePermission_RoleModel_GetOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"read_rolemodel|read_owned_rolemodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("read_rolemodel|read_owned_rolemodel");
 		}
 
 		//$requestUser = $request->user();
@@ -126,7 +127,7 @@ class RoleModelController extends BfePermissionBaseController
 	public function store(BfePermission_RoleModel_CreateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"create_rolemodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("create_rolemodel");
 		}
 
 		//$requestUser = $request->user();
@@ -174,7 +175,7 @@ class RoleModelController extends BfePermissionBaseController
 	public function update(BfePermission_RoleModel_UpdateOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"update_rolemodel|update_owned_rolemodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("update_rolemodel|update_owned_rolemodel");
 		}
 
 		//$requestUser = $request->user();
@@ -223,7 +224,7 @@ class RoleModelController extends BfePermissionBaseController
 	public function destroy(BfePermission_RoleModel_DeleteOneRequest $request)
 	{
 		if (!Gate::allows('bfe-permission-has-abilities',"delete_rolemodel|delete_owned_rolemodel")) {
-			abort(403);
+			throw BfeUnauthorizedException::forAbilities("delete_rolemodel|delete_owned_rolemodel");
 		}
 
 		//$requestUser = $request->user();
