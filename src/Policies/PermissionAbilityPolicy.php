@@ -34,17 +34,20 @@ class PermissionAbilityPolicy
 	 */
 	public function hasAbility($user, $ability, $resource = null): Response|bool
 	{
-		Log::debug('---- 0 ---- ability check', [
-			'user' => get_class($user),
-			'ability' => $ability,
-			'resource' => $resource
-		]);
-
 		$isAuthorized = false;
 		$isAndOperation = false;
 		$type = $resource != null && is_object($resource) ? get_class($resource) : null;
 		$id = $resource != null && is_object($resource) ? Arr::get($resource, 'id') : null;
 		$abilities = [];
+
+		Log::debug('---- 0 ---- ability check', [
+			'user' => get_class($user),
+			'ability' => $ability,
+			'resource' => $resource,
+			'type' => $type,
+			'id' => $id
+		]);
+
 
 		//get abilities
 		if (stripos($ability, '|')) {
@@ -78,7 +81,7 @@ class PermissionAbilityPolicy
 						'given' => $model->abilities()->pluck('slug')->all(),
 					]);
 					//check if has wildcard ability
-					if ($model->hasAllAbilitiesOn(["*"], $type, $id)) {
+					if ($model->hasAllAbilitiesOn(["*"], $type, $id) || $model->hasAllAbilitiesOn(["*"])) {
 						$isAuthorized = true;
 						break;
 					}
@@ -115,18 +118,20 @@ class PermissionAbilityPolicy
 	 */
 	public function hasAbilityOnResource($user, $resource = null): Response|bool
 	{
-		Log::debug('---- 1 ---- ability check', [
-			'user' => get_class($user),
-			'abilities' => $this->abilities,
-			'resource' => $resource
-		]);
-
 		$isAuthorized = false;
 		$isAndOperation = false;
 		$ability = $this->abilities ?? '';
 		$type = $resource != null && is_object($resource) ? get_class($resource) : null;
 		$id = $resource != null && is_object($resource) ? Arr::get($resource, 'id') : null;
 		$abilities = [];
+
+		Log::debug('---- 1 ---- ability check', [
+			'user' => get_class($user),
+			'ability' => $ability,
+			'resource' => $resource,
+			'type' => $type,
+			'id' => $id
+		]);
 
 		//get abilities
 		if (stripos($ability, '|')) {
@@ -160,7 +165,7 @@ class PermissionAbilityPolicy
 						'given' => $model->abilities()->pluck('slug')->all(),
 					]);
 					//check if has wildcard ability
-					if ($model->hasAllAbilitiesOn(["*"], $type, $id)) {
+					if ($model->hasAllAbilitiesOn(["*"], $type, $id) || $model->hasAllAbilitiesOn(["*"])) {
 						$isAuthorized = true;
 						break;
 					}

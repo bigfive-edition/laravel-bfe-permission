@@ -61,7 +61,7 @@ class AbilityMiddleware
 						'given' => $model->abilities()->pluck('slug')->all(),
 					]);
 					//check if has wildcard ability
-					if ($model->hasAllAbilitiesOn(["*"], $type, $id)) {
+					if ($model->hasAllAbilitiesOn(["*"], $type, $id) || $model->hasAllAbilitiesOn(["*"])) {
 						$isAuthorized = true;
 						break;
 					}
