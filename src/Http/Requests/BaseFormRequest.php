@@ -32,7 +32,7 @@ abstract class BaseFormRequest extends FormRequest
 	{
 		$param = $this->get('with', '');
 		if (!empty($param) || stripos($param, ';')) {
-			return explode(';', $param);
+			return array_map('trim', explode(';', $param));
 		}
 		return [];
 	}
@@ -41,7 +41,7 @@ abstract class BaseFormRequest extends FormRequest
 	{
 		$param = $this->get('with_count', '');
 		if (!empty($param) || stripos($param, ';')) {
-			return explode(';', $param);
+			return array_map('trim', explode(';', $param));
 		}
 		return [];
 	}

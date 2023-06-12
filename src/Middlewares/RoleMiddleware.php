@@ -27,10 +27,10 @@ class RoleMiddleware
 
 		//get roles
 		if (stripos($role, '|')) {
-			$roles = is_array($role) ? $role : explode('|', $role);
+			$roles = is_array($role) ? $role : array_map('trim', explode('|', $role));
 		} else if (stripos($role, '&')) {
 			$isAndOperation = true;
-			$roles = is_array($role) ? $role : explode('&', $role);
+			$roles = is_array($role) ? $role : array_map('trim', explode('&', $role));
 		} else {
 			$roles = is_array($role) ? $role : [$role];
 		}

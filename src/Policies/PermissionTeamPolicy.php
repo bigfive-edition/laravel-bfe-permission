@@ -36,10 +36,10 @@ class PermissionTeamPolicy
 
 		//get teams
 		if (stripos($team, '|')) {
-			$teams = is_array($team) ? $team : explode('|', $team);
+			$teams = is_array($team) ? $team : array_map('trim', explode('|', $team));
 		} else if (stripos($team, '&')) {
 			$isAndOperation = true;
-			$teams = is_array($team) ? $team : explode('&', $team);
+			$teams = is_array($team) ? $team : array_map('trim', explode('&', $team));
 		} else {
 			$teams = is_array($team) ? $team : [$team];
 		}

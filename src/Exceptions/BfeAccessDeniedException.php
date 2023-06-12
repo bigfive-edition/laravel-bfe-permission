@@ -13,9 +13,9 @@ class BfeAccessDeniedException extends AccessDeniedHttpException
 	public static function forTeams($teams): self
 	{
 		if (stripos($teams, '|')) {
-			$teams = is_array($teams) ? $teams : explode('|', $teams);
+			$teams = is_array($teams) ? $teams : array_map('trim', explode('|', $teams));
 		} else if (stripos($teams, '&')) {
-			$teams = is_array($teams) ? $teams : explode('&', $teams);
+			$teams = is_array($teams) ? $teams : array_map('trim', explode('&', $teams));
 		} else {
 			$teams = is_array($teams) ? $teams : [$teams];
 		}
@@ -34,9 +34,9 @@ class BfeAccessDeniedException extends AccessDeniedHttpException
 	public static function forRoles($roles): self
 	{
 		if (stripos($roles, '|')) {
-			$roles = is_array($roles) ? $roles : explode('|', $roles);
+			$roles = is_array($roles) ? $roles : array_map('trim', explode('|', $roles));
 		} else if (stripos($roles, '&')) {
-			$roles = is_array($roles) ? $roles : explode('&', $roles);
+			$roles = is_array($roles) ? $roles : array_map('trim', explode('&', $roles));
 		} else {
 			$roles = is_array($roles) ? $roles : [$roles];
 		}
@@ -55,9 +55,9 @@ class BfeAccessDeniedException extends AccessDeniedHttpException
 	public static function forAbilities($abilities): self
 	{
 		if (stripos($abilities, '|')) {
-			$abilities = is_array($abilities) ? $abilities : explode('|', $abilities);
+			$abilities = is_array($abilities) ? $abilities : array_map('trim', explode('|', $abilities));
 		} else if (stripos($abilities, '&')) {
-			$abilities = is_array($abilities) ? $abilities : explode('&', $abilities);
+			$abilities = is_array($abilities) ? $abilities : array_map('trim', explode('&', $abilities));
 		} else {
 			$abilities = is_array($abilities) ? $abilities : [$abilities];
 		}
@@ -76,9 +76,9 @@ class BfeAccessDeniedException extends AccessDeniedHttpException
 	public static function forRolesOrAbilities(array $rolesOrAbilities): self
 	{
 		if (stripos($rolesOrAbilities, '|')) {
-			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : explode('|', $rolesOrAbilities);
+			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : array_map('trim', explode('|', $rolesOrAbilities));
 		} else if (stripos($rolesOrAbilities, '&')) {
-			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : explode('&', $rolesOrAbilities);
+			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : array_map('trim', explode('&', $rolesOrAbilities));
 		} else {
 			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : [$rolesOrAbilities];
 		}

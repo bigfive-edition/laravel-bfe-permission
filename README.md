@@ -96,8 +96,8 @@ Gate::forUser($user)->allows('bfe-permission-has-roles', 'admin & waiter')
 Gate::allows('bfe-permission-has-abilities', 'create_user')
 Gate::forUser($user)->allows('bfe-permission-has-abilities', 'create_user | delete_user')
 Gate::forUser($user)->allows('bfe-permission-has-abilities', 'create_user & delete_user')
-Gate::forUser($user)->allows('bfe-permission-has-abilities', 'create_user | delete_user', $resourceObject)
-Gate::forUser($user)->allows('bfe-permission-has-abilities', 'create_user & delete_user', $resourceObject)
+Gate::forUser($user)->allows('bfe-permission-has-abilities', ['create_user | delete_user', $resourceObject])
+Gate::forUser($user)->allows('bfe-permission-has-abilities', ['create_user & delete_user', $resourceObject])
 ```
 
 

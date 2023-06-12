@@ -31,10 +31,10 @@ class AbilityMiddleware
 
 		//get abilities
 		if (stripos($ability, '|')) {
-			$abilities = is_array($ability) ? $ability : explode('|', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('|', $ability));
 		} else if (stripos($ability, '&')) {
 			$isAndOperation = true;
-			$abilities = is_array($ability) ? $ability : explode('&', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('&', $ability));
 		} else {
 			$abilities = is_array($ability) ? $ability : [$ability];
 		}

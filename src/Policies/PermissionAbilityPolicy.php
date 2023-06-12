@@ -34,6 +34,12 @@ class PermissionAbilityPolicy
 	 */
 	public function hasAbility($user, $ability, $resource = null): Response|bool
 	{
+		Log::debug('---- 0 ---- ability check', [
+			'user' => get_class($user),
+			'ability' => $ability,
+			'resource' => $resource
+		]);
+
 		$isAuthorized = false;
 		$isAndOperation = false;
 		$type = $resource != null && is_object($resource) ? get_class($resource) : null;
@@ -42,10 +48,10 @@ class PermissionAbilityPolicy
 
 		//get abilities
 		if (stripos($ability, '|')) {
-			$abilities = is_array($ability) ? $ability : explode('|', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('|', $ability));
 		} else if (stripos($ability, '&')) {
 			$isAndOperation = true;
-			$abilities = is_array($ability) ? $ability : explode('&', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('&', $ability));
 		} else {
 			$abilities = is_array($ability) ? $ability : [$ability];
 		}
@@ -109,6 +115,12 @@ class PermissionAbilityPolicy
 	 */
 	public function hasAbilityOnResource($user, $resource = null): Response|bool
 	{
+		Log::debug('---- 1 ---- ability check', [
+			'user' => get_class($user),
+			'abilities' => $this->abilities,
+			'resource' => $resource
+		]);
+
 		$isAuthorized = false;
 		$isAndOperation = false;
 		$ability = $this->abilities ?? '';
@@ -118,10 +130,10 @@ class PermissionAbilityPolicy
 
 		//get abilities
 		if (stripos($ability, '|')) {
-			$abilities = is_array($ability) ? $ability : explode('|', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('|', $ability));
 		} else if (stripos($ability, '&')) {
 			$isAndOperation = true;
-			$abilities = is_array($ability) ? $ability : explode('&', $ability);
+			$abilities = is_array($ability) ? $ability : array_map('trim', explode('&', $ability));
 		} else {
 			$abilities = is_array($ability) ? $ability : [$ability];
 		}
