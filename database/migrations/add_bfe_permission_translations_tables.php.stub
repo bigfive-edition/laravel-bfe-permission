@@ -18,7 +18,7 @@ class AddBfePermissionTranslationsTables extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
 	        $table->string('locale');
-	        $table->bigIncrements('team_id');
+	        $table->unsignedBigInteger('team_id');
 
 	        $table->index('name');
             $table->index('locale');
@@ -33,7 +33,7 @@ class AddBfePermissionTranslationsTables extends Migration
 		    $table->bigIncrements('id');
 		    $table->string('name')->nullable();
 		    $table->string('locale');
-		    $table->bigIncrements('role_id');
+		    $table->unsignedBigInteger('role_id');
 
 		    $table->index('name');
 		    $table->index('locale');
@@ -49,7 +49,7 @@ class AddBfePermissionTranslationsTables extends Migration
 		    $table->bigIncrements('id');
 		    $table->string('name')->nullable();
 		    $table->string('locale');
-		    $table->bigIncrements('ability_id');
+		    $table->unsignedBigInteger('ability_id');
 
 		    $table->index('name');
 		    $table->index('locale');
