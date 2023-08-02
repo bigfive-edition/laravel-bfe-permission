@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Models;
 
+use Astrotomic\Translatable\Translatable;
 use BigFiveEdition\Permission\Contracts\TeamContract;
 use BigFiveEdition\Permission\Exceptions\BfeTeamDoesNotExist;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Team extends Model implements TeamContract
 {
 	use HasBfePermissionAbilities;
-
+	use Translatable;
 	public $incrementing = true;
 	public $timestamps = true;
 	protected $table = 'bfe_permission_teams';
@@ -20,6 +21,7 @@ class Team extends Model implements TeamContract
 	];
 	protected $guarded = [
 	];
+	public $translatedAttributes = ['name'];
 
 	public function __construct(array $attributes = [])
 	{

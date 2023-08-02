@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Models;
 
+use Astrotomic\Translatable\Translatable;
 use BigFiveEdition\Permission\Contracts\RoleContract;
 use BigFiveEdition\Permission\Exceptions\BfeRoleDoesNotExist;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Role extends Model implements RoleContract
 {
 	use HasBfePermissionAbilities;
+	use Translatable;
 
 	public $incrementing = true;
 	public $timestamps = true;
@@ -19,6 +21,7 @@ class Role extends Model implements RoleContract
 	];
 	protected $guarded = [
 	];
+	public $translatedAttributes = ['name'];
 
 	public function __construct(array $attributes = [])
 	{

@@ -2,6 +2,7 @@
 
 namespace BigFiveEdition\Permission\Models;
 
+use Astrotomic\Translatable\Translatable;
 use BigFiveEdition\Permission\Contracts\AbilityContract;
 use BigFiveEdition\Permission\Exceptions\BfeAbilityDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ability extends Model implements AbilityContract
 {
+	use Translatable;
+
 	public $incrementing = true;
 	public $timestamps = true;
 	protected $table = 'bfe_permission_abilities';
@@ -16,6 +19,7 @@ class Ability extends Model implements AbilityContract
 	];
 	protected $guarded = [
 	];
+	public $translatedAttributes = ['name'];
 
 	public function __construct(array $attributes = [])
 	{
