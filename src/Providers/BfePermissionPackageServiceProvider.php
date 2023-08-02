@@ -56,6 +56,9 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__ . '/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
 		], 'bfe-permission-migrations');
+		$this->publishes([
+			__DIR__ . '/../../database/migrations/add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('add_bfe_permission_translations_tables.php'),
+		], 'bfe-permission-migrations');
 	}
 
 	protected function getMigrationFileName($migrationFileName): string
