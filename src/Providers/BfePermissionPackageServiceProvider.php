@@ -71,7 +71,7 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 			->flatMap(function ($path) use ($filesystem, $migrationFileName) {
 				return $filesystem->glob($path . '*_' . $migrationFileName);
 			})
-			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$migrationFileName}")
+			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$timestamp}_{$migrationFileName}")
 			->first();
 	}
 
