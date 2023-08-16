@@ -66,9 +66,20 @@ class Role extends Model implements RoleContract
 
 	public static function findOrCreate(string $name, string $slug): RoleContract
 	{
-		$role = static::findByParam(['name' => $name, 'slug' => $slug]);
+		$role = static::findBySlug($slug);
 		if (!$role) {
-			return static::query()->create(['name' => $name, 'slug' => $slug]);
+			return static::query()->create([
+				'name' => $name,
+				'slug' => $slug,
+				'translations' => [
+					'en' => [
+						'name' => $name,
+					],
+					'fr' => [
+						'name' => $name,
+					],
+				],
+			]);
 		}
 		return $role;
 	}

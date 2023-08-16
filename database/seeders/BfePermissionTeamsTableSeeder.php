@@ -1,5 +1,6 @@
 <?php
 
+use BigFiveEdition\Permission\Models\Team;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -23,7 +24,7 @@ class BfePermissionTeamsTableSeeder extends Seeder
 			foreach ($teams as $team) {
 				try {
 					$key = $team;
-					$team = \BigFiveEdition\Permission\Models\Team::findOrCreate($key, $key);
+					$team = Team::findOrCreate($key, $key);
 				} catch (Exception $e) {
 					Log::error($e->getMessage());
 					Log::error($e->getTraceAsString());

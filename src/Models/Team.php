@@ -66,9 +66,20 @@ class Team extends Model implements TeamContract
 
 	public static function findOrCreate(string $name, string $slug): TeamContract
 	{
-		$team = static::findByParam(['name' => $name, 'slug' => $slug]);
+		$team = static::findBySlug($slug);
 		if (!$team) {
-			return static::query()->create(['name' => $name, 'slug' => $slug]);
+			return static::query()->create([
+				'name' => $name,
+				'slug' => $slug,
+				'translations' => [
+					'en' => [
+						'name' => $name,
+					],
+					'fr' => [
+						'name' => $name,
+					],
+				],
+			]);
 		}
 		return $team;
 	}
