@@ -38,7 +38,7 @@ class BaseJsonResource extends JsonResource
 		unset($response['updated_at']);
 		unset($response['deleted_at']);
 
-		$response['translations'] = TranslationResource::collection($this->translations);
+		$response['translations'] = TranslationResource::collection($this->whenLoaded('translations'));
 
 		return $response;
 	}
