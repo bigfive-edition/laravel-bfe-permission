@@ -11,40 +11,40 @@ interface TeamContract
 	 * Find a team by its name and guard name.
 	 *
 	 * @param string $slug
-	 * @return TeamContract
+	 * @return ?TeamContract
 	 *
 	 * @throws BfeTeamDoesNotExist
 	 */
-	public static function findBySlug(string $slug): self;
+	public static function findBySlug(string $slug): ?self;
 
 	/**
 	 * Find a team by its name and guard name.
 	 *
 	 * @param string $name
-	 * @return TeamContract
+	 * @return ?TeamContract
 	 *
 	 * @throws BfeTeamDoesNotExist
 	 */
-	public static function findByName(string $name): self;
+	public static function findByName(string $name): ?self;
 
 	/**
 	 * Find a team by its id and guard name.
 	 *
 	 * @param int $id
-	 * @return TeamContract
+	 * @return ?TeamContract
 	 *
 	 * @throws BfeTeamDoesNotExist
 	 */
-	public static function findById(int $id): self;
+	public static function findById(int $id): ?self;
 
 	/**
 	 * Find or create a team by its name and guard name.
 	 *
 	 * @param string $name
 	 * @param string $slug
-	 * @return TeamContract
+	 * @return ?TeamContract
 	 */
-	public static function findOrCreate(string $name, string $slug): self;
+	public static function findOrCreate(string $name, string $slug): ?self;
 
 	public function team_models(): HasMany;
 }

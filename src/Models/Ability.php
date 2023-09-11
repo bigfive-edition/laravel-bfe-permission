@@ -26,7 +26,7 @@ class Ability extends Model implements AbilityContract
 		parent::__construct($attributes);
 	}
 
-	public static function findBySlug(string $slug): AbilityContract
+	public static function findBySlug(string $slug): ?AbilityContract
 	{
 		$ability = static::findByParam(['slug' => $slug]);
 		if (!$ability) {
@@ -44,7 +44,7 @@ class Ability extends Model implements AbilityContract
 		return $query->first();
 	}
 
-	public static function findByName(string $name): AbilityContract
+	public static function findByName(string $name): ?AbilityContract
 	{
 		$ability = static::findByParam(['name' => $name]);
 		if (!$ability) {
@@ -53,7 +53,7 @@ class Ability extends Model implements AbilityContract
 		return $ability;
 	}
 
-	public static function findById(int $id): AbilityContract
+	public static function findById(int $id): ?AbilityContract
 	{
 		$ability = static::findByParam(['id' => $id]);
 		if (!$ability) {
@@ -62,7 +62,7 @@ class Ability extends Model implements AbilityContract
 		return $ability;
 	}
 
-	public static function findOrCreate(string $name, string $slug, ?string $resource): AbilityContract
+	public static function findOrCreate(string $name, string $slug, ?string $resource): ?AbilityContract
 	{
 		$ability = static::findBySlug($slug);
 		if (!$ability) {

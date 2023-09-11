@@ -11,40 +11,40 @@ interface RoleContract
 	 * Find a role by its name and guard name.
 	 *
 	 * @param string $slug
-	 * @return RoleContract
+	 * @return ?RoleContract
 	 *
 	 * @throws BfeRoleDoesNotExist
 	 */
-	public static function findBySlug(string $slug): self;
+	public static function findBySlug(string $slug): ?self;
 
 	/**
 	 * Find a role by its name and guard name.
 	 *
 	 * @param string $name
-	 * @return RoleContract
+	 * @return ?RoleContract
 	 *
 	 * @throws BfeRoleDoesNotExist
 	 */
-	public static function findByName(string $name): self;
+	public static function findByName(string $name): ?self;
 
 	/**
 	 * Find a role by its id and guard name.
 	 *
 	 * @param int $id
-	 * @return RoleContract
+	 * @return ?RoleContract
 	 *
 	 * @throws BfeRoleDoesNotExist
 	 */
-	public static function findById(int $id): self;
+	public static function findById(int $id): ?self;
 
 	/**
 	 * Find or create a role by its name and guard name.
 	 *
 	 * @param string $name
 	 * @param string $slug
-	 * @return RoleContract
+	 * @return ?RoleContract
 	 */
-	public static function findOrCreate(string $name, string $slug): self;
+	public static function findOrCreate(string $name, string $slug): ?self;
 
 	public function role_models(): HasMany;
 }

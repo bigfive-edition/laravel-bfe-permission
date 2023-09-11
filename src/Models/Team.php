@@ -28,7 +28,7 @@ class Team extends Model implements TeamContract
 		parent::__construct($attributes);
 	}
 
-	public static function findBySlug(string $slug): TeamContract
+	public static function findBySlug(string $slug): ?TeamContract
 	{
 		$team = static::findByParam(['slug' => $slug]);
 		if (!$team) {
@@ -46,7 +46,7 @@ class Team extends Model implements TeamContract
 		return $query->first();
 	}
 
-	public static function findByName(string $name): TeamContract
+	public static function findByName(string $name): ?TeamContract
 	{
 		$team = static::findByParam(['name' => $name]);
 		if (!$team) {
@@ -55,7 +55,7 @@ class Team extends Model implements TeamContract
 		return $team;
 	}
 
-	public static function findById(int $id): TeamContract
+	public static function findById(int $id): ?TeamContract
 	{
 		$team = static::findByParam(['id' => $id]);
 		if (!$team) {
@@ -64,7 +64,7 @@ class Team extends Model implements TeamContract
 		return $team;
 	}
 
-	public static function findOrCreate(string $name, string $slug): TeamContract
+	public static function findOrCreate(string $name, string $slug): ?TeamContract
 	{
 		$team = static::findBySlug($slug);
 		if (!$team) {

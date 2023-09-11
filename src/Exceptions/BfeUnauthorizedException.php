@@ -11,7 +11,7 @@ class BfeUnauthorizedException extends AuthorizationException
 	private $requiredRoles = [];
 	private $requiredAbilities = [];
 
-	public static function forTeams($teams): self
+	public static function forTeams($teams): ?self
 	{
 		if (stripos($teams, '|')) {
 			$teams = is_array($teams) ? $teams : array_map('trim', explode('|', $teams));
@@ -32,7 +32,7 @@ class BfeUnauthorizedException extends AuthorizationException
 		return $exception;
 	}
 
-	public static function forRoles($roles): self
+	public static function forRoles($roles): ?self
 	{
 		if (stripos($roles, '|')) {
 			$roles = is_array($roles) ? $roles : array_map('trim', explode('|', $roles));
@@ -53,7 +53,7 @@ class BfeUnauthorizedException extends AuthorizationException
 		return $exception;
 	}
 
-	public static function forAbilities($abilities): self
+	public static function forAbilities($abilities): ?self
 	{
 		if (stripos($abilities, '|')) {
 			$abilities = is_array($abilities) ? $abilities : array_map('trim', explode('|', $abilities));
@@ -74,7 +74,7 @@ class BfeUnauthorizedException extends AuthorizationException
 		return $exception;
 	}
 
-	public static function forRolesOrAbilities(array $rolesOrAbilities): self
+	public static function forRolesOrAbilities(array $rolesOrAbilities): ?self
 	{
 		if (stripos($rolesOrAbilities, '|')) {
 			$rolesOrAbilities = is_array($rolesOrAbilities) ? $rolesOrAbilities : array_map('trim', explode('|', $rolesOrAbilities));
@@ -95,7 +95,7 @@ class BfeUnauthorizedException extends AuthorizationException
 		return $exception;
 	}
 
-	public static function notLoggedIn(): self
+	public static function notLoggedIn(): ?self
 	{
 		return new static('User is not logged in.', 403, null);
 	}

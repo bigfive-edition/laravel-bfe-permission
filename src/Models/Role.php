@@ -28,7 +28,7 @@ class Role extends Model implements RoleContract
 		parent::__construct($attributes);
 	}
 
-	public static function findBySlug(string $slug): RoleContract
+	public static function findBySlug(string $slug): ?RoleContract
 	{
 		$role = static::findByParam(['slug' => $slug]);
 		if (!$role) {
@@ -46,7 +46,7 @@ class Role extends Model implements RoleContract
 		return $query->first();
 	}
 
-	public static function findByName(string $name): RoleContract
+	public static function findByName(string $name): ?RoleContract
 	{
 		$role = static::findByParam(['name' => $name]);
 		if (!$role) {
@@ -55,7 +55,7 @@ class Role extends Model implements RoleContract
 		return $role;
 	}
 
-	public static function findById(int $id): RoleContract
+	public static function findById(int $id): ?RoleContract
 	{
 		$role = static::findByParam(['id' => $id]);
 		if (!$role) {
@@ -64,7 +64,7 @@ class Role extends Model implements RoleContract
 		return $role;
 	}
 
-	public static function findOrCreate(string $name, string $slug): RoleContract
+	public static function findOrCreate(string $name, string $slug): ?RoleContract
 	{
 		$role = static::findBySlug($slug);
 		if (!$role) {
