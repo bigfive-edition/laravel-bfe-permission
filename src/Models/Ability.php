@@ -30,7 +30,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['slug' => $slug]);
 		if (!$ability) {
-			throw BfeAbilityDoesNotExist::withSlug($slug);
+//			throw BfeAbilityDoesNotExist::withSlug($slug);
 		}
 		return $ability;
 	}
@@ -48,7 +48,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['name' => $name]);
 		if (!$ability) {
-			throw BfeAbilityDoesNotExist::create($name);
+//			throw BfeAbilityDoesNotExist::create($name);
 		}
 		return $ability;
 	}
@@ -57,7 +57,7 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findByParam(['id' => $id]);
 		if (!$ability) {
-			throw BfeAbilityDoesNotExist::withId($id);
+//			throw BfeAbilityDoesNotExist::withId($id);
 		}
 		return $ability;
 	}

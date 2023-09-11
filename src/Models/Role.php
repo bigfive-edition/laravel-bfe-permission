@@ -32,7 +32,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['slug' => $slug]);
 		if (!$role) {
-			throw BfeRoleDoesNotExist::withSlug($slug);
+//			throw BfeRoleDoesNotExist::withSlug($slug);
 		}
 		return $role;
 	}
@@ -50,7 +50,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['name' => $name]);
 		if (!$role) {
-			throw BfeRoleDoesNotExist::create($name);
+//			throw BfeRoleDoesNotExist::create($name);
 		}
 		return $role;
 	}
@@ -59,7 +59,7 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findByParam(['id' => $id]);
 		if (!$role) {
-			throw BfeRoleDoesNotExist::withId($id);
+//			throw BfeRoleDoesNotExist::withId($id);
 		}
 		return $role;
 	}

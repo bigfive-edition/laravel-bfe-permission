@@ -32,7 +32,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['slug' => $slug]);
 		if (!$team) {
-			throw BfeTeamDoesNotExist::withSlug($slug);
+//			throw BfeTeamDoesNotExist::withSlug($slug);
 		}
 		return $team;
 	}
@@ -50,7 +50,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['name' => $name]);
 		if (!$team) {
-			throw BfeTeamDoesNotExist::create($name);
+//			throw BfeTeamDoesNotExist::create($name);
 		}
 		return $team;
 	}
@@ -59,7 +59,7 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findByParam(['id' => $id]);
 		if (!$team) {
-			throw BfeTeamDoesNotExist::withId($id);
+//			throw BfeTeamDoesNotExist::withId($id);
 		}
 		return $team;
 	}
