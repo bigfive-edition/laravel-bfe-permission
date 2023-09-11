@@ -13,6 +13,9 @@ class RoleModel extends Model implements RoleModelContract
 	public $timestamps = true;
 	protected $table = 'bfe_permission_model_has_roles';
 	protected $fillable = [
+		'role_id',
+		'model_type',
+		'model_id',
 	];
 	protected $guarded = [
 	];

@@ -18,6 +18,8 @@ class Team extends Model implements TeamContract
 	public $timestamps = true;
 	protected $table = 'bfe_permission_teams';
 	protected $fillable = [
+		'slug',
+		'name',
 	];
 	protected $guarded = [
 	];

@@ -10,7 +10,9 @@ class TeamTranslation extends Model
 	public $timestamps = false;
 	protected $table = 'bfe_permission_teams_translations';
 	protected $fillable = [
-		'name'
+		'team_id',
+		'locale',
+		'name',
 	];
 	protected $guarded = [
 	];

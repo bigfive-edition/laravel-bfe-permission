@@ -13,7 +13,9 @@ class AbilityTranslation extends Model
 	public $timestamps = false;
 	protected $table = 'bfe_permission_abilities_translations';
 	protected $fillable = [
-		'name'
+		'ability_id',
+		'locale',
+		'name',
 	];
 	protected $guarded = [
 	];

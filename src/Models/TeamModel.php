@@ -13,6 +13,10 @@ class TeamModel extends Model implements TeamModelContract
 	public $timestamps = true;
 	protected $table = 'bfe_permission_model_belongs_teams';
 	protected $fillable = [
+		'team_id',
+		'model_type',
+		'model_id',
+		'attribute',
 	];
 	protected $guarded = [
 	];

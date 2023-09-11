@@ -13,6 +13,12 @@ class AbilityModel extends Model implements AbilityModelContract
 	public $timestamps = true;
 	protected $table = 'bfe_permission_model_has_abilities_on_resource';
 	protected $fillable = [
+		'ability_id',
+		'model_type',
+		'model_id',
+		'resource_type',
+		'resource_id',
+		'allowed',
 	];
 	protected $guarded = [
 	];

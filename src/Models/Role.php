@@ -18,6 +18,8 @@ class Role extends Model implements RoleContract
 	public $timestamps = true;
 	protected $table = 'bfe_permission_roles';
 	protected $fillable = [
+		'slug',
+		'name',
 	];
 	protected $guarded = [
 	];

@@ -10,7 +10,9 @@ class RoleTranslation extends Model
 	public $timestamps = false;
 	protected $table = 'bfe_permission_roles_translations';
 	protected $fillable = [
-		'name'
+		'role_id',
+		'locale',
+		'name',
 	];
 	protected $guarded = [
 	];
