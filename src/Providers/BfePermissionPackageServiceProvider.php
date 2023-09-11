@@ -64,6 +64,8 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 	protected function getMigrationFileName($migrationFileName): string
 	{
 		$timestamp = date('Y_m_d_His');
+//		$filename = "{$timestamp}_{$migrationFileName}";
+		$filename = "{$migrationFileName}";
 
 		$filesystem = $this->app->make(Filesystem::class);
 
@@ -71,7 +73,7 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 			->flatMap(function ($path) use ($filesystem, $migrationFileName) {
 				return $filesystem->glob($path . '*_' . $migrationFileName);
 			})
-			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$timestamp}_{$migrationFileName}")
+			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$timestamp}_{$filename}")
 			->first();
 	}
 
