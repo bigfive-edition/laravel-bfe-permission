@@ -54,10 +54,10 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 		], 'bfe-permission-config');
 
 		$this->publishes([
-			__DIR__ . '/../../database/migrations/0_create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('0_create_bfe_permission_tables.php'),
+			__DIR__ . '/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('2023_01_26_195737_create_bfe_permission_tables.php'),
 		], 'bfe-permission-migrations');
 		$this->publishes([
-			__DIR__ . '/../../database/migrations/1_add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('1_add_bfe_permission_translations_tables.php'),
+			__DIR__ . '/../../database/migrations/add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('2023_08_02_195737_add_bfe_permission_translations_tables.php'),
 		], 'bfe-permission-migrations');
 	}
 
