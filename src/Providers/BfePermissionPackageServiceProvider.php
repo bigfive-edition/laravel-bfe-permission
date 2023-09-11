@@ -54,16 +54,16 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 		], 'bfe-permission-config');
 
 		$this->publishes([
-			__DIR__ . '/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('create_bfe_permission_tables.php'),
+			__DIR__ . '/../../database/migrations/0_create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('0_create_bfe_permission_tables.php'),
 		], 'bfe-permission-migrations');
 		$this->publishes([
-			__DIR__ . '/../../database/migrations/add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('add_bfe_permission_translations_tables.php'),
+			__DIR__ . '/../../database/migrations/1_add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('1_add_bfe_permission_translations_tables.php'),
 		], 'bfe-permission-migrations');
 	}
 
 	protected function getMigrationFileName($migrationFileName): string
 	{
-		$timestamp = date('Y_m_d_His');
+//		$timestamp = date('Y_m_d_His');
 //		$filename = "{$timestamp}_{$migrationFileName}";
 		$filename = "{$migrationFileName}";
 
@@ -73,7 +73,7 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 			->flatMap(function ($path) use ($filesystem, $migrationFileName) {
 				return $filesystem->glob($path . '*_' . $migrationFileName);
 			})
-			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$timestamp}_{$filename}")
+			->push($this->app->databasePath() . "/migrations/bfe-permissions/{$filename}")
 			->first();
 	}
 
