@@ -4,9 +4,7 @@ namespace BigFiveEdition\Permission\Models;
 
 use Astrotomic\Translatable\Translatable;
 use BigFiveEdition\Permission\Contracts\TeamContract;
-use BigFiveEdition\Permission\Exceptions\BfeTeamDoesNotExist;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
-use BigFiveEdition\Permission\Traits\HasBfePermissionRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -70,9 +68,12 @@ class Team extends Model implements TeamContract
 	{
 		$team = static::findBySlug($slug);
 		if (!$team) {
-			return static::query()->create([
-				'name' => $name,
-				'slug' => $slug,
+			$created = static::query()->create(
+				[
+					'name' => $name,
+					'slug' => $slug,
+				]);
+			$created?->fill([
 				'translations' => [
 					'en' => [
 						'name' => $name,
@@ -82,6 +83,7 @@ class Team extends Model implements TeamContract
 					],
 				],
 			]);
+			$created?->save();
 		}
 		return $team;
 	}

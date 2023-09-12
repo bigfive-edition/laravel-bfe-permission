@@ -4,7 +4,6 @@ namespace BigFiveEdition\Permission\Models;
 
 use Astrotomic\Translatable\Translatable;
 use BigFiveEdition\Permission\Contracts\AbilityContract;
-use BigFiveEdition\Permission\Exceptions\BfeAbilityDoesNotExist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -69,7 +68,24 @@ class Ability extends Model implements AbilityContract
 	{
 		$ability = static::findBySlug($slug);
 		if (!$ability) {
-			return static::query()->create(['name' => $name, 'slug' => $slug, 'resource' => $resource]);
+			$created = static::query()->create(
+				[
+					'name' => $name,
+					'slug' => $slug,
+					'resource' => $resource,
+				]);
+			$created?->fill([
+				'translations' => [
+					'en' => [
+						'name' => $name,
+					],
+					'fr' => [
+						'name' => $name,
+					],
+				]
+			]);
+			$created?->save();
+			return $created;
 		}
 		return $ability;
 	}

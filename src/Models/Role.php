@@ -70,9 +70,12 @@ class Role extends Model implements RoleContract
 	{
 		$role = static::findBySlug($slug);
 		if (!$role) {
-			return static::query()->create([
-				'name' => $name,
-				'slug' => $slug,
+			$created = static::query()->create(
+				[
+					'name' => $name,
+					'slug' => $slug,
+				]);
+			$created?->fill([
 				'translations' => [
 					'en' => [
 						'name' => $name,
@@ -82,6 +85,8 @@ class Role extends Model implements RoleContract
 					],
 				],
 			]);
+			$created?->save();
+			return $created;
 		}
 		return $role;
 	}
