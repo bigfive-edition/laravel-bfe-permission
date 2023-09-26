@@ -27,14 +27,24 @@ class BfePermission_TeamModel_GetOneRequest extends BaseFormRequest
 		return array_merge($pMessages, $messages);
 	}
 
-	public function teamId(): string
+	public function teamId(): ?string
 	{
-		return $this->route('team_id');
+		return $this->route('team_id') ?? $this->input('team_id');
+	}
+
+	public function modelType(): ?string
+	{
+		return $this->route('model_type') ?? $this->input('model_type');
+	}
+
+	public function modelId(): ?string
+	{
+		return $this->route('model_id') ?? $this->input('model_id');
 	}
 
 	public function id(): string
 	{
-		return $this->route('model');
+		return $this->route('team_model_id');
 	}
 
 	protected function prepareForValidation()

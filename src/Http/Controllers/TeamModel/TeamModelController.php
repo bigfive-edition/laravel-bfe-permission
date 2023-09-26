@@ -58,9 +58,15 @@ class TeamModelController extends BfePermissionBaseController
 
 		$entities = TeamModel::query()
 			->with($with)
-			->withCount($withCounts)
-			->where('team_id', $request->teamId())
-			->paginate($request->get('per_page'));
+			->withCount($withCounts);
+		if ($request->modelType() && $request->modelId()) {
+			$entities = $entities->where('model_type', $request->modelType());
+			$entities = $entities->where('model_id', $request->modelId());
+		}
+		if ($request->teamId()) {
+			$entities = $entities->where('team_id', $request->teamId());
+		}
+		$entities = $entities->paginate($request->get('per_page'));
 
 		//Build API Response
 		$data = BfePermission_TeamModel_ResourceCollection::make($entities);
@@ -98,9 +104,15 @@ class TeamModelController extends BfePermissionBaseController
 		], $request->withCount());
 		$entity = TeamModel::query()
 			->with($with)
-			->withCount($withCounts)
-			->where('team_id', $request->teamId())
-			->findOrFail($request->id());
+			->withCount($withCounts);
+		if ($request->modelType() && $request->modelId()) {
+			$entity = $entity->where('model_type', $request->modelType());
+			$entity = $entity->where('model_id', $request->modelId());
+		}
+		if ($request->teamId()) {
+			$entity = $entity->where('team_id', $request->teamId());
+		}
+		$entity = $entity->findOrFail($request->id());
 
 		//Build API Response
 		$data = BfePermission_TeamModel_Resource::make($entity);
@@ -196,9 +208,15 @@ class TeamModelController extends BfePermissionBaseController
 
 		$entity = TeamModel::query()
 			->with($with)
-			->withCount($withCounts)
-			->where('team_id', $request->teamId())
-			->findOrFail($request->id());
+			->withCount($withCounts);
+		if ($request->modelType() && $request->modelId()) {
+			$entity = $entity->where('model_type', $request->modelType());
+			$entity = $entity->where('model_id', $request->modelId());
+		}
+		if ($request->teamId()) {
+			$entity = $entity->where('team_id', $request->teamId());
+		}
+		$entity = $entity->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();
 
@@ -236,9 +254,15 @@ class TeamModelController extends BfePermissionBaseController
 		], $request->withCount());
 		$entity = TeamModel::query()
 			->with($with)
-			->withCount($withCounts)
-			->where('team_id', $request->teamId())
-			->findOrFail($request->id());
+			->withCount($withCounts);
+		if ($request->modelType() && $request->modelId()) {
+			$entity = $entity->where('model_type', $request->modelType());
+			$entity = $entity->where('model_id', $request->modelId());
+		}
+		if ($request->teamId()) {
+			$entity = $entity->where('team_id', $request->teamId());
+		}
+		$entity = $entity->findOrFail($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response
