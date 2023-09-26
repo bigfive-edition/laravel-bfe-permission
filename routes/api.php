@@ -11,7 +11,7 @@ Route::group([
 
 	Route::apiResource('teams', 'BigFiveEdition\Permission\Http\Controllers\Team\TeamController');
 	Route::group([
-		'prefix' => 'teams/{team_id}',
+		'prefix' => 'teams/{team_id}/models',
 		'middleware' => [],
 		'namespace' => 'BigFiveEdition\Permission\Http\Controllers\TeamModel',
 	], function () {
@@ -36,7 +36,7 @@ Route::group([
 
 	Route::apiResource('roles', 'BigFiveEdition\Permission\Http\Controllers\Role\RoleController');
 	Route::group([
-		'prefix' => 'roles/{role_id}',
+		'prefix' => 'roles/{role_id}/models',
 		'middleware' => [],
 		'namespace' => 'BigFiveEdition\Permission\Http\Controllers\RoleModel',
 	], function () {
@@ -61,7 +61,7 @@ Route::group([
 
 	Route::apiResource('abilities', 'BigFiveEdition\Permission\Http\Controllers\Ability\AbilityController');
 	Route::group([
-		'prefix' => 'abilities/{ability_id}',
+		'prefix' => 'abilities/{ability_id}/models',
 		'middleware' => [],
 		'namespace' => 'BigFiveEdition\Permission\Http\Controllers\AbilityModel',
 	], function () {
