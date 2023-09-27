@@ -136,6 +136,7 @@ class AbilityController extends BfePermissionBaseController
 			'slug',
 			'name',
 			'resource',
+			'translations',
 		]);
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
@@ -184,6 +185,7 @@ class AbilityController extends BfePermissionBaseController
 			'slug',
 			'name',
 			'resource',
+			'translations',
 		]);
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);

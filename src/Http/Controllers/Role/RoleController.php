@@ -136,6 +136,7 @@ class RoleController extends BfePermissionBaseController
 		$attributes = $request->only([
 			'slug',
 			'name',
+			'translations',
 		]);
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
@@ -183,6 +184,7 @@ class RoleController extends BfePermissionBaseController
 		$attributes = $request->only([
 			'slug',
 			'name',
+			'translations',
 		]);
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
