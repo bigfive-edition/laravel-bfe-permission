@@ -18,6 +18,8 @@ class BfePermission_Ability_UpdateOneRequest extends BaseFormRequest
 			'slug' => 'nullable|unique:bfe_permission_abilities|min:3',
 			'name' => 'nullable|string',
 			'resource' => 'nullable|string',
+			'translations' => 'nullable|array',
+			'translations.*.name' => 'nullable|string',
 		];
 		return array_merge($pRules, $rules);
 	}
@@ -37,6 +39,10 @@ class BfePermission_Ability_UpdateOneRequest extends BaseFormRequest
 			'resource.required' => ['code' => 4241, 'field' => 'resource', 'description' => trans('backoffice::validation.required')],
 			'resource.string' => ['code' => 4242, 'field' => 'resource', 'description' => trans('backoffice::validation.string')],
 			'resource.min' => ['code' => 4243, 'field' => 'resource', 'description' => trans('backoffice::validation.min')],
+
+			'translations.required' => "'code' => 4241, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.required'),
+			'translations.array' => "'code' => 4244, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.array'),
+			'translations.*.*.required' => "'code' => 4241, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.required'),
 		];
 		return array_merge($pMessages, $messages);
 	}

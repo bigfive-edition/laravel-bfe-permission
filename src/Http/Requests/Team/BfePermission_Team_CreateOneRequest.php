@@ -16,7 +16,9 @@ class BfePermission_Team_CreateOneRequest extends BaseFormRequest
 		$pRules = parent::rules();
 		$rules = [
 			'slug' => 'required|unique:bfe_permission_teams|min:3',
-			'name' => 'required|string',
+			'name' => 'nullable|string',
+			'translations' => 'nullable|array',
+			'translations.*.name' => 'nullable|string',
 		];
 		return array_merge($pRules, $rules);
 	}
@@ -32,6 +34,10 @@ class BfePermission_Team_CreateOneRequest extends BaseFormRequest
 			'name.required' => ['code' => 4241, 'field' => 'name', 'description' => trans('backoffice::validation.required')],
 			'name.string' => ['code' => 4242, 'field' => 'name', 'description' => trans('backoffice::validation.string')],
 			'name.min' => ['code' => 4243, 'field' => 'name', 'description' => trans('backoffice::validation.min')],
+
+			'translations.required' => "'code' => 4241, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.required'),
+			'translations.array' => "'code' => 4244, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.array'),
+			'translations.*.*.required' => "'code' => 4241, 'field' => 'translations', 'description' =>" . trans('backoffice::validation.required'),
 		];
 		return array_merge($pMessages, $messages);
 	}
