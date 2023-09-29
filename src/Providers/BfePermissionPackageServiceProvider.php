@@ -10,6 +10,7 @@ use BigFiveEdition\Permission\Commands\GenerateBfePermissionRoles;
 use BigFiveEdition\Permission\Commands\GenerateBfePermissionTeams;
 use BigFiveEdition\Permission\Commands\InstallBfePermission;
 use BigFiveEdition\Permission\Middlewares\AbilityMiddleware;
+use BigFiveEdition\Permission\Middlewares\LocaleMiddleware;
 use BigFiveEdition\Permission\Middlewares\RoleMiddleware;
 use BigFiveEdition\Permission\Middlewares\TeamMiddleware;
 use BigFiveEdition\Permission\Models\Ability;
@@ -114,6 +115,7 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 
 	protected function registerRouteMiddlewares()
 	{
+		app('router')->aliasMiddleware('bfe-permission.locale', LocaleMiddleware::class);
 		app('router')->aliasMiddleware('bfe-permission.teams', TeamMiddleware::class);
 		app('router')->aliasMiddleware('bfe-permission.roles', RoleMiddleware::class);
 		app('router')->aliasMiddleware('bfe-permission.abilities', AbilityMiddleware::class);

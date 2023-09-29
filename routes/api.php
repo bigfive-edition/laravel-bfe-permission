@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 $prefix = config('bfe-permission.routes_prefix', '');
 Route::group([
 	'prefix' => "{$prefix}/bfe-permissions/",
-	'middleware' => []
+	'middleware' => ['bfe-permission.locale']
 ], function () {
 	Route::apiResource('test', 'BigFiveEdition\Permission\Http\Controllers\Test\TestController');
 
@@ -88,6 +88,7 @@ Route::group([
 /* Public________________________________________________________________ */
 Route::group([
 	'prefix' => "{$prefix}/bfe-permissions/",
+	'middleware' => ['bfe-permission.locale']
 ], function () {
 });
 
