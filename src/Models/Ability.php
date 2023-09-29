@@ -75,14 +75,12 @@ class Ability extends Model implements AbilityContract
 					'resource' => $resource,
 				]);
 			$created?->fill([
-				'translations' => [
-					'en' => [
-						'name' => $name,
-					],
-					'fr' => [
-						'name' => $name,
-					],
-				]
+				'en' => [
+					'name' => $name,
+				],
+				'fr' => [
+					'name' => $name,
+				],
 			]);
 			$created?->save();
 			return $created;

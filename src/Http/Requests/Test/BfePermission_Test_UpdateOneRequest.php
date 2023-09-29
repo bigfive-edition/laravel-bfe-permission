@@ -34,6 +34,6 @@ class BfePermission_Test_UpdateOneRequest extends BaseFormRequest
 
 	protected function prepareForValidation()
 	{
-//		parent::prepareForValidation();
+		parent::prepareForValidation();
 	}
 }

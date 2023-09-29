@@ -34,6 +34,6 @@ class BfePermission_Ability_DeleteOneRequest extends BaseFormRequest
 
 	protected function prepareForValidation()
 	{
-//		parent::prepareForValidation();
+		parent::prepareForValidation();
 	}
 }

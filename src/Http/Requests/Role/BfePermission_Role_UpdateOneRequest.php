@@ -49,6 +49,6 @@ class BfePermission_Role_UpdateOneRequest extends BaseFormRequest
 
 	protected function prepareForValidation()
 	{
-//		parent::prepareForValidation();
+		parent::prepareForValidation();
 	}
 }

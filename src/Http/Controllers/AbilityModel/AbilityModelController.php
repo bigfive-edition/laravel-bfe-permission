@@ -212,13 +212,13 @@ class AbilityModelController extends BfePermissionBaseController
 		$entity = AbilityModel::query()
 			->with($with)
 			->withCount($withCounts);
-		if ($request->modelType() && $request->modelId()) {
+		/*if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->where('model_type', $request->modelType());
 			$entity = $entity->where('model_id', $request->modelId());
 		}
 		if ($request->abilityId()) {
 			$entity = $entity->where('ability_id', $request->abilityId());
-		}
+		}*/
 		$entity = $entity->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();

@@ -74,13 +74,11 @@ class Team extends Model implements TeamContract
 					'slug' => $slug,
 				]);
 			$created?->fill([
-				'translations' => [
-					'en' => [
-						'name' => $name,
-					],
-					'fr' => [
-						'name' => $name,
-					],
+				'en' => [
+					'name' => $name,
+				],
+				'fr' => [
+					'name' => $name,
 				],
 			]);
 			$created?->save();

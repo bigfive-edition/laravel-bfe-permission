@@ -138,6 +138,7 @@ class TeamController extends BfePermissionBaseController
 			'name',
 			'translations',
 		]);
+		$attributes = array_merge($attributes, $request->get('translations'));
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
 		});
@@ -186,6 +187,7 @@ class TeamController extends BfePermissionBaseController
 			'name',
 			'translations',
 		]);
+		$attributes = array_merge($attributes, $request->get('translations'));
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
 		});

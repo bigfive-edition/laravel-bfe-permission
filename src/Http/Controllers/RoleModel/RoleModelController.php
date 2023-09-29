@@ -207,13 +207,13 @@ class RoleModelController extends BfePermissionBaseController
 		$entity = RoleModel::query()
 			->with($with)
 			->withCount($withCounts);
-		if ($request->modelType() && $request->modelId()) {
+		/*if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->where('model_type', $request->modelType());
 			$entity = $entity->where('model_id', $request->modelId());
 		}
 		if ($request->roleId()) {
 			$entity = $entity->where('role_id', $request->roleId());
-		}
+		}*/
 		$entity = $entity->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();

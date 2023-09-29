@@ -49,6 +49,6 @@ class BfePermission_TeamModel_GetOneRequest extends BaseFormRequest
 
 	protected function prepareForValidation()
 	{
-//		parent::prepareForValidation();
+		parent::prepareForValidation();
 	}
 }

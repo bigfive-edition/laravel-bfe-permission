@@ -44,6 +44,6 @@ class BfePermission_RoleModel_CreateOneRequest extends BaseFormRequest
 
 	protected function prepareForValidation()
 	{
-//		parent::prepareForValidation();
+		parent::prepareForValidation();
 	}
 }

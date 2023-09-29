@@ -209,13 +209,13 @@ class TeamModelController extends BfePermissionBaseController
 		$entity = TeamModel::query()
 			->with($with)
 			->withCount($withCounts);
-		if ($request->modelType() && $request->modelId()) {
+		/*if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->where('model_type', $request->modelType());
 			$entity = $entity->where('model_id', $request->modelId());
 		}
 		if ($request->teamId()) {
 			$entity = $entity->where('team_id', $request->teamId());
-		}
+		}*/
 		$entity = $entity->findOrFail($request->id());
 		$entity->fill($attributes);
 		$entity->save();

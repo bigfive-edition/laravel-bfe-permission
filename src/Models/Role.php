@@ -76,13 +76,11 @@ class Role extends Model implements RoleContract
 					'slug' => $slug,
 				]);
 			$created?->fill([
-				'translations' => [
-					'en' => [
-						'name' => $name,
-					],
-					'fr' => [
-						'name' => $name,
-					],
+				'en' => [
+					'name' => $name,
+				],
+				'fr' => [
+					'name' => $name,
 				],
 			]);
 			$created?->save();

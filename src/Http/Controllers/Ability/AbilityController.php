@@ -138,6 +138,7 @@ class AbilityController extends BfePermissionBaseController
 			'resource',
 			'translations',
 		]);
+		$attributes = array_merge($attributes, $request->get('translations'));
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
 		});
@@ -187,6 +188,7 @@ class AbilityController extends BfePermissionBaseController
 			'resource',
 			'translations',
 		]);
+		$attributes = array_merge($attributes, $request->get('translations'));
 		$attributes = array_filter($attributes, function ($value) {
 			return !is_null($value);
 		});

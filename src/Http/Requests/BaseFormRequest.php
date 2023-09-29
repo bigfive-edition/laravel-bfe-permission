@@ -49,5 +49,9 @@ abstract class BaseFormRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		parent::prepareForValidation();
+//		$translations = $this->get('translations');
+//		if (isset($translations)) {
+//			$this->merge($translations);
+//		}
 	}
 }
