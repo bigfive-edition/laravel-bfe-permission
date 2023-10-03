@@ -12,6 +12,7 @@ use BigFiveEdition\Permission\Http\Requests\RoleModel\BfePermission_RoleModel_Up
 use BigFiveEdition\Permission\Http\Resources\RoleModel\BfePermission_RoleModel_Resource;
 use BigFiveEdition\Permission\Http\Resources\RoleModel\BfePermission_RoleModel_ResourceCollection;
 use BigFiveEdition\Permission\Models\RoleModel;
+use BigFiveEdition\Permission\Repositories\RoleModelRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -49,22 +50,26 @@ class RoleModelController extends BfePermissionBaseController
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_rolemodel|read_all_owned_rolemodel")) {
 			throw BfeUnauthorizedException::forAbilities("read_all_rolemodel|read_all_owned_rolemodel");
 		}
+		$request->merge([
+			'orderBy' => $request->input('orderBy', 'created_at'),
+			'sortBy' => $request->input('sortBy', 'desc'),
+			'per_page' => $request->input('per_page', 15),
+		]);
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
-		$entities = RoleModel::query()
+		$repository = app(RoleModelRepository::class);
+		$entities = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entities = $entities->where('model_type', $request->modelType());
-			$entities = $entities->where('model_id', $request->modelId());
+			$entities = $entities->findWhere('model_type', $request->modelType());
+			$entities = $entities->findWhere('model_id', $request->modelId());
 		}
 		if ($request->roleId()) {
-			$entities = $entities->where('role_id', $request->roleId());
+			$entities = $entities->findWhere('role_id', $request->roleId());
 		}
 		$entities = $entities->paginate($request->get('per_page'));
 
@@ -98,21 +103,21 @@ class RoleModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = RoleModel::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(RoleModelRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
+			$entity = $entity->findWhere('model_type', $request->modelType());
+			$entity = $entity->findWhere('model_id', $request->modelId());
 		}
 		if ($request->roleId()) {
-			$entity = $entity->where('role_id', $request->roleId());
+			$entity = $entity->findWhere('role_id', $request->roleId());
 		}
-		$entity = $entity->findOrFail($request->id());
+		$entity = $entity->find($request->id());
 
 		//Build API Response
 		$data = BfePermission_RoleModel_Resource::make($entity);
@@ -143,10 +148,8 @@ class RoleModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -156,11 +159,12 @@ class RoleModelController extends BfePermissionBaseController
 		});
 		$attributes['role_id'] = $request->roleId();
 
-		$entity = RoleModel::create($attributes);
-		$entity = RoleModel::query()
+		$repository = app(RoleModelRepository::class);
+		$entity = $repository->create($attributes);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts)
-			->findOrFail($entity->id);
+			->find($entity->id);
 
 		//Build API Response
 		$data = BfePermission_RoleModel_Resource::make($entity);
@@ -191,10 +195,8 @@ class RoleModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -204,19 +206,8 @@ class RoleModelController extends BfePermissionBaseController
 		});
 		$attributes['role_id'] = $request->roleId();
 
-		$entity = RoleModel::query()
-			->with($with)
-			->withCount($withCounts);
-		/*if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
-		}
-		if ($request->roleId()) {
-			$entity = $entity->where('role_id', $request->roleId());
-		}*/
-		$entity = $entity->findOrFail($request->id());
-		$entity->fill($attributes);
-		$entity->save();
+		$repository = app(RoleModelRepository::class);
+		$entity = $repository->update($attributes, $request->id());
 
 		//Build API Response
 		$data = BfePermission_RoleModel_Resource::make($entity);
@@ -246,21 +237,21 @@ class RoleModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = RoleModel::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(RoleModelRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
+			$entity = $entity->findWhere('model_type', $request->modelType());
+			$entity = $entity->findWhere('model_id', $request->modelId());
 		}
 		if ($request->roleId()) {
-			$entity = $entity->where('role_id', $request->roleId());
+			$entity = $entity->findWhere('role_id', $request->roleId());
 		}
-		$entity = $entity->findOrFail($request->id());
+		$entity = $entity->find($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

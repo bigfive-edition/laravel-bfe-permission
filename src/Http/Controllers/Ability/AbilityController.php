@@ -12,6 +12,7 @@ use BigFiveEdition\Permission\Http\Requests\Ability\BfePermission_Ability_Update
 use BigFiveEdition\Permission\Http\Resources\Ability\BfePermission_Ability_Resource;
 use BigFiveEdition\Permission\Http\Resources\Ability\BfePermission_Ability_ResourceCollection;
 use BigFiveEdition\Permission\Models\Ability;
+use BigFiveEdition\Permission\Repositories\AbilityRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -49,13 +50,18 @@ class AbilityController extends BfePermissionBaseController
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_ability|read_all_owned_ability")) {
 			throw BfeUnauthorizedException::forAbilities("read_all_ability|read_all_owned_ability");
 		}
+		$request->merge([
+			'orderBy' => $request->input('orderBy', 'created_at'),
+			'sortBy' => $request->input('sortBy', 'desc'),
+			'per_page' => $request->input('per_page', 15),
+		]);
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entities = Ability::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityRepository::class);
+		$entities = $repository
 			->with($with)
 			->withCount($withCounts)
 			->paginate($request->get('per_page'));
@@ -90,14 +96,14 @@ class AbilityController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = Ability::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts)
-			->findOrFail($request->id());
+			->find($request->id());
 
 		//Build API Response
 		$data = BfePermission_Ability_Resource::make($entity);
@@ -128,10 +134,8 @@ class AbilityController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'slug',
 			'name',
@@ -143,11 +147,12 @@ class AbilityController extends BfePermissionBaseController
 			return !is_null($value);
 		});
 
-		$entity = Ability::create($attributes);
-		$entity = Ability::query()
+		$repository = app(AbilityRepository::class);
+		$entity = $repository->create($attributes);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts)
-			->findOrFail($entity->id);
+			->find($entity->id);
 
 		//Build API Response
 		$data = BfePermission_Ability_Resource::make($entity);
@@ -178,10 +183,8 @@ class AbilityController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'slug',
 			'name',
@@ -193,12 +196,8 @@ class AbilityController extends BfePermissionBaseController
 			return !is_null($value);
 		});
 
-		$entity = Ability::query()
-			->with($with)
-			->withCount($withCounts)
-			->findOrFail($request->id());
-		$entity->fill($attributes);
-		$entity->save();
+		$repository = app(AbilityRepository::class);
+		$entity = $repository->update($attributes, $request->id());
 
 		//Build API Response
 		$data = BfePermission_Ability_Resource::make($entity);
@@ -228,14 +227,14 @@ class AbilityController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = Ability::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts)
-			->findOrFail($request->id());
+			->find($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

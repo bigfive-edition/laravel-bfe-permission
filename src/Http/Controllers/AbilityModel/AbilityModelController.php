@@ -12,6 +12,7 @@ use BigFiveEdition\Permission\Http\Requests\AbilityModel\BfePermission_AbilityMo
 use BigFiveEdition\Permission\Http\Resources\AbilityModel\BfePermission_AbilityModel_Resource;
 use BigFiveEdition\Permission\Http\Resources\AbilityModel\BfePermission_AbilityModel_ResourceCollection;
 use BigFiveEdition\Permission\Models\AbilityModel;
+use BigFiveEdition\Permission\Repositories\AbilityModelRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -49,21 +50,26 @@ class AbilityModelController extends BfePermissionBaseController
 		if (!Gate::allows('bfe-permission-has-abilities',"read_all_abilitymodel|read_all_owned_abilitymodel")) {
 			throw BfeUnauthorizedException::forAbilities("read_all_abilitymodel|read_all_owned_abilitymodel");
 		}
+		$request->merge([
+			'orderBy' => $request->input('orderBy', 'created_at'),
+			'sortBy' => $request->input('sortBy', 'desc'),
+			'per_page' => $request->input('per_page', 15),
+		]);
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entities = AbilityModel::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityModelRepository::class);
+		$entities = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entities = $entities->where('model_type', $request->modelType());
-			$entities = $entities->where('model_id', $request->modelId());
+			$entities = $entities->findWhere('model_type', $request->modelType());
+			$entities = $entities->findWhere('model_id', $request->modelId());
 		}
 		if ($request->abilityId()) {
-			$entities = $entities->where('ability_id', $request->abilityId());
+			$entities = $entities->findWhere('ability_id', $request->abilityId());
 		}
 		$entities = $entities->paginate($request->get('per_page'));
 
@@ -97,21 +103,21 @@ class AbilityModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = AbilityModel::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityModelRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
+			$entity = $entity->findWhere('model_type', $request->modelType());
+			$entity = $entity->findWhere('model_id', $request->modelId());
 		}
 		if ($request->abilityId()) {
-			$entity = $entity->where('ability_id', $request->abilityId());
+			$entity = $entity->findWhere('ability_id', $request->abilityId());
 		}
-		$entity = $entity->findOrFail($request->id());
+		$entity = $entity->find($request->id());
 
 		//Build API Response
 		$data = BfePermission_AbilityModel_Resource::make($entity);
@@ -142,10 +148,8 @@ class AbilityModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -158,11 +162,12 @@ class AbilityModelController extends BfePermissionBaseController
 		});
 		$attributes['ability_id'] = $request->abilityId();
 
-		$entity = AbilityModel::create($attributes);
-		$entity = AbilityModel::query()
+		$repository = app(AbilityModelRepository::class);
+		$entity = $repository->create($attributes);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts)
-			->findOrFail($entity->id);
+			->find($entity->id);
 
 		//Build API Response
 		$data = BfePermission_AbilityModel_Resource::make($entity);
@@ -193,10 +198,8 @@ class AbilityModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 		$attributes = $request->only([
 			'model_type',
 			'model_id',
@@ -209,19 +212,8 @@ class AbilityModelController extends BfePermissionBaseController
 		});
 		$attributes['ability_id'] = $request->abilityId();
 
-		$entity = AbilityModel::query()
-			->with($with)
-			->withCount($withCounts);
-		/*if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
-		}
-		if ($request->abilityId()) {
-			$entity = $entity->where('ability_id', $request->abilityId());
-		}*/
-		$entity = $entity->findOrFail($request->id());
-		$entity->fill($attributes);
-		$entity->save();
+		$repository = app(AbilityModelRepository::class);
+		$entity = $repository->update($attributes, $request->id());
 
 		//Build API Response
 		$data = BfePermission_AbilityModel_Resource::make($entity);
@@ -251,21 +243,21 @@ class AbilityModelController extends BfePermissionBaseController
 		}
 
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
-		$entity = AbilityModel::query()
+		$with = [];
+		$withCounts = [];
+
+		$repository = app(AbilityModelRepository::class);
+		$entity = $repository
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->where('model_type', $request->modelType());
-			$entity = $entity->where('model_id', $request->modelId());
+			$entity = $entity->findWhere('model_type', $request->modelType());
+			$entity = $entity->findWhere('model_id', $request->modelId());
 		}
 		if ($request->abilityId()) {
-			$entity = $entity->where('ability_id', $request->abilityId());
+			$entity = $entity->findWhere('ability_id', $request->abilityId());
 		}
-		$entity = $entity->findOrFail($request->id());
+		$entity = $entity->find($request->id());
 		$deleted = $entity->delete();
 
 		//Build API Response

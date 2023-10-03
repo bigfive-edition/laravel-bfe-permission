@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Prettus\Repository\Providers\RepositoryServiceProvider;
 
 class BfePermissionPackageServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,10 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 			// function not available and 'publish' not relevant in Lumen
 			return;
 		}
+
+		$this->publishes([
+			__DIR__ . '/../../config/repository.php' => config_path('repository.php'),
+		], 'repository-config');
 
 		$this->publishes([
 			__DIR__ . '/../../config/bfe-permission.php' => config_path('bfe-permission.php'),
@@ -141,10 +146,17 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 
 	public function register()
 	{
+		$this->app->register(RepositoryServiceProvider::class);
+
 		$this->mergeConfigFrom(
 			__DIR__ . '/../../config/bfe-permission.php',
 			'bfe-permission'
 		);
+		$this->mergeConfigFrom(
+			__DIR__ . '/../../config/repository.php',
+			'repository'
+		);
+
 
 		$this->callAfterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
 			$this->registerBladeExtensions($bladeCompiler);

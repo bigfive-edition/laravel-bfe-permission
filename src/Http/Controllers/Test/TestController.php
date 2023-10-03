@@ -43,11 +43,14 @@ class TestController extends BfePermissionBaseController
 	 */
 	public function index(BfePermission_Test_GetListRequest $request)
 	{
+		$request->merge([
+			'orderBy' => $request->input('orderBy', 'created_at'),
+			'sortBy' => $request->input('sortBy', 'desc'),
+			'per_page' => $request->input('per_page', 15),
+		]);
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
 		//Build API Response
 		$data = BfePermission_Test_ResourceCollection::make(['value 1', 'value 2']);
@@ -75,10 +78,8 @@ class TestController extends BfePermissionBaseController
 	public function show(BfePermission_Test_GetOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => 'value 1']);
@@ -105,10 +106,8 @@ class TestController extends BfePermissionBaseController
 	public function store(BfePermission_Test_CreateOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make($request->all());
@@ -135,10 +134,8 @@ class TestController extends BfePermissionBaseController
 	public function update(BfePermission_Test_UpdateOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
 		//Build API Response
 		$data = BfePermission_Test_Resource::make([$request->id() => $request->all()]);
@@ -164,10 +161,8 @@ class TestController extends BfePermissionBaseController
 	public function destroy(BfePermission_Test_DeleteOneRequest $request)
 	{
 		//$requestUser = $request->user();
-		$with = array_merge([
-		], $request->with());
-		$withCounts = array_merge([
-		], $request->withCount());
+		$with = [];
+		$withCounts = [];
 
 		//Build API Response
 		$data = [
