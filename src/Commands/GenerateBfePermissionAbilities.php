@@ -60,6 +60,10 @@ class GenerateBfePermissionAbilities extends Command
 				'slug' => "*",
 				'name' => "wildcard",
 			];
+			$abilitiesData[] = [
+				'slug' => "anonymous",
+				'name' => "anonymous",
+			];
 
 			$resources = [
 				Team::class,

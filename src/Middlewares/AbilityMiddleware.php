@@ -39,17 +39,21 @@ class AbilityMiddleware
 			$abilities = is_array($ability) ? $ability : [$ability];
 		}
 
-		$models = [$user];
+		if (in_array('anonymous', $abilities) || !$user && in_array('anonymous', $abilities)) {
+			$isAuthorized = true;
+		}
 
 		//get related/parents models
 		$models = [];
-		if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($user)), true)) {
-			$models = array_merge($models, $user->roles->all());
+		if ($user && $user->id) {
+			if (in_array(HasBfePermissionRoles::class, class_uses_recursive(get_class($user)), true)) {
+				$models = array_merge($models, $user->roles->all());
+			}
+			if (in_array(BelongsToBfePermissionTeams::class, class_uses_recursive(get_class($user)), true)) {
+				$models = array_merge($models, $user->teams->all());
+			}
+			$models[] = $user;
 		}
-		if (in_array(BelongsToBfePermissionTeams::class, class_uses_recursive(get_class($user)), true)) {
-			$models = array_merge($models, $user->teams->all());
-		}
-		$models[] = $user;
 
 		//loop through models with abilities
 		foreach ($models as $model) {
