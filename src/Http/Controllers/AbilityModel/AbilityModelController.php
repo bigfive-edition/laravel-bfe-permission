@@ -67,14 +67,14 @@ class AbilityModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->abilityId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['ability_id', $request->abilityId()]);
+					->where('ability_id', $request->abilityId());
 			});
 		}
 		$entities = $entities->paginate($request->get('per_page'));
@@ -119,14 +119,14 @@ class AbilityModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->abilityId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['ability_id', $request->abilityId()]);
+					->where('ability_id', $request->abilityId());
 			});
 		}
 		$entity = $entity->find($request->id());
@@ -265,14 +265,14 @@ class AbilityModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->abilityId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['ability_id', $request->abilityId()]);
+					->where('ability_id', $request->abilityId());
 			});
 		}
 		$entity = $entity->find($request->id());

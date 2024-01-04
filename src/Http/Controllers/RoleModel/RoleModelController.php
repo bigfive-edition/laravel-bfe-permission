@@ -67,14 +67,14 @@ class RoleModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->roleId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['role_id', $request->roleId()]);
+					->where('role_id', $request->roleId());
 			});
 		}
 		$entities = $entities->paginate($request->get('per_page'));
@@ -119,14 +119,14 @@ class RoleModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->roleId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['role_id', $request->roleId()]);
+					->where('role_id', $request->roleId());
 			});
 		}
 		$entity = $entity->find($request->id());
@@ -259,14 +259,14 @@ class RoleModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->roleId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['role_id', $request->roleId()]);
+					->where('role_id', $request->roleId());
 			});
 		}
 		$entity = $entity->find($request->id());

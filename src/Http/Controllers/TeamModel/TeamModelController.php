@@ -67,14 +67,14 @@ class TeamModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->teamId()) {
 			$entities = $entities->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['team_id', $request->teamId()]);
+					->where('team_id', $request->teamId());
 			});
 		}
 		$entities = $entities->paginate($request->get('per_page'));
@@ -119,14 +119,14 @@ class TeamModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->teamId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['team_id', $request->teamId()]);
+					->where('team_id', $request->teamId());
 			});
 		}
 		$entity = $entity->find($request->id());
@@ -261,14 +261,14 @@ class TeamModelController extends BfePermissionBaseController
 		if ($request->modelType() && $request->modelId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['model_type', $request->modelType()])
-					->where(['model_id', $request->modelId()]);
+					->where('model_type', $request->modelType())
+					->where('model_id', $request->modelId());
 			});
 		}
 		if ($request->teamId()) {
 			$entity = $entity->scopeQuery(function ($query) use ($request) {
 				return $query
-					->where(['team_id', $request->teamId()]);
+					->where('team_id', $request->teamId());
 			});
 		}
 		$entity = $entity->find($request->id());
