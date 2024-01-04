@@ -65,11 +65,17 @@ class TeamModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entities = $entities->findWhere(['model_type', $request->modelType()]);
-			$entities = $entities->findWhere(['model_id', $request->modelId()]);
+			$entities = $entities->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->teamId()) {
-			$entities = $entities->findWhere(['team_id', $request->teamId()]);
+			$entities = $entities->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['team_id', $request->teamId()]);
+			});
 		}
 		$entities = $entities->paginate($request->get('per_page'));
 
@@ -111,11 +117,17 @@ class TeamModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere(['model_type', $request->modelType()]);
-			$entity = $entity->findWhere(['model_id', $request->modelId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->teamId()) {
-			$entity = $entity->findWhere(['team_id', $request->teamId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['team_id', $request->teamId()]);
+			});
 		}
 		$entity = $entity->find($request->id());
 
@@ -247,11 +259,17 @@ class TeamModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere(['model_type', $request->modelType()]);
-			$entity = $entity->findWhere(['model_id', $request->modelId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->teamId()) {
-			$entity = $entity->findWhere(['team_id', $request->teamId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['team_id', $request->teamId()]);
+			});
 		}
 		$entity = $entity->find($request->id());
 		$deleted = $entity->delete();

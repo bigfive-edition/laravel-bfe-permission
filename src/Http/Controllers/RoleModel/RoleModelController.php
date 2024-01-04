@@ -65,11 +65,17 @@ class RoleModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entities = $entities->findWhere(['model_type', $request->modelType()]);
-			$entities = $entities->findWhere(['model_id', $request->modelId()]);
+			$entities = $entities->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->roleId()) {
-			$entities = $entities->findWhere(['role_id', $request->roleId()]);
+			$entities = $entities->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['role_id', $request->roleId()]);
+			});
 		}
 		$entities = $entities->paginate($request->get('per_page'));
 
@@ -111,11 +117,17 @@ class RoleModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere(['model_type', $request->modelType()]);
-			$entity = $entity->findWhere(['model_id', $request->modelId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->roleId()) {
-			$entity = $entity->findWhere(['role_id', $request->roleId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['role_id', $request->roleId()]);
+			});
 		}
 		$entity = $entity->find($request->id());
 
@@ -245,11 +257,17 @@ class RoleModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere(['model_type', $request->modelType()]);
-			$entity = $entity->findWhere(['model_id', $request->modelId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['model_type', $request->modelType()])
+					->where(['model_id', $request->modelId()]);
+			});
 		}
 		if ($request->roleId()) {
-			$entity = $entity->findWhere(['role_id', $request->roleId()]);
+			$entity = $entity->scopeQuery(function ($query) use ($request) {
+				return $query
+					->where(['role_id', $request->roleId()]);
+			});
 		}
 		$entity = $entity->find($request->id());
 		$deleted = $entity->delete();
