@@ -65,11 +65,11 @@ class AbilityModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entities = $entities->findWhere('model_type', $request->modelType());
-			$entities = $entities->findWhere('model_id', $request->modelId());
+			$entities = $entities->findWhere(['model_type', $request->modelType()]);
+			$entities = $entities->findWhere(['model_id', $request->modelId()]);
 		}
 		if ($request->abilityId()) {
-			$entities = $entities->findWhere('ability_id', $request->abilityId());
+			$entities = $entities->findWhere(['ability_id', $request->abilityId()]);
 		}
 		$entities = $entities->paginate($request->get('per_page'));
 
@@ -111,11 +111,11 @@ class AbilityModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere('model_type', $request->modelType());
-			$entity = $entity->findWhere('model_id', $request->modelId());
+			$entity = $entity->findWhere(['model_type', $request->modelType()]);
+			$entity = $entity->findWhere(['model_id', $request->modelId()]);
 		}
 		if ($request->abilityId()) {
-			$entity = $entity->findWhere('ability_id', $request->abilityId());
+			$entity = $entity->findWhere(['ability_id', $request->abilityId()]);
 		}
 		$entity = $entity->find($request->id());
 
@@ -251,11 +251,11 @@ class AbilityModelController extends BfePermissionBaseController
 			->with($with)
 			->withCount($withCounts);
 		if ($request->modelType() && $request->modelId()) {
-			$entity = $entity->findWhere('model_type', $request->modelType());
-			$entity = $entity->findWhere('model_id', $request->modelId());
+			$entity = $entity->findWhere(['model_type', $request->modelType()]);
+			$entity = $entity->findWhere(['model_id', $request->modelId()]);
 		}
 		if ($request->abilityId()) {
-			$entity = $entity->findWhere('ability_id', $request->abilityId());
+			$entity = $entity->findWhere(['ability_id', $request->abilityId()]);
 		}
 		$entity = $entity->find($request->id());
 		$deleted = $entity->delete();
