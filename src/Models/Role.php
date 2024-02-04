@@ -8,6 +8,7 @@ use BigFiveEdition\Permission\Exceptions\BfeRoleDoesNotExist;
 use BigFiveEdition\Permission\Traits\HasBfePermissionAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Role extends Model implements RoleContract
 {
