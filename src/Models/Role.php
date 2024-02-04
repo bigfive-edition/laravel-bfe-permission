@@ -93,4 +93,9 @@ class Role extends Model implements RoleContract
 	{
 		return $this->hasMany(RoleModel::class, 'role_id', 'id');
 	}
+
+		public function users(): MorphToMany
+	{
+		return $this->morphedByMany(User::class, 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
+	}
 }
