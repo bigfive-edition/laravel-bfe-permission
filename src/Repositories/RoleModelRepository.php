@@ -2,7 +2,7 @@
 
 namespace BigFiveEdition\Permission\Repositories;
 
-use BigFiveEdition\Permission\Models\AbilityModel;
+use BigFiveEdition\Permission\Models\RoleModel;
 use BigFiveEdition\Permission\Repositories\Base\BaseRepository;
 use BigFiveEdition\Permission\Repositories\Base\PaginatedRequestCriteria;
 use BigFiveEdition\Permission\Repositories\Base\RequestCriteria;
@@ -28,6 +28,6 @@ class RoleModelRepository extends BaseRepository
      */
     public function model()
     {
-        return AbilityModel::class;
+	    return RoleModel::class;
     }
 }

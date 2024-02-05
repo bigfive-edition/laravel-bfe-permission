@@ -3,6 +3,7 @@
 namespace BigFiveEdition\Permission\Repositories;
 
 use BigFiveEdition\Permission\Models\AbilityModel;
+use BigFiveEdition\Permission\Models\TeamModel;
 use BigFiveEdition\Permission\Repositories\Base\BaseRepository;
 use BigFiveEdition\Permission\Repositories\Base\PaginatedRequestCriteria;
 use BigFiveEdition\Permission\Repositories\Base\RequestCriteria;
@@ -29,6 +30,6 @@ class TeamModelRepository extends BaseRepository
      */
     public function model()
     {
-        return AbilityModel::class;
+        return TeamModel::class;
     }
 }
