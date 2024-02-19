@@ -13,5 +13,6 @@ return [
 		\BigFiveEdition\Permission\Models\Ability::class,
 		\BigFiveEdition\Permission\Models\AbilityModel::class,
 	],
+	'user_class' => null,
 	'routes_prefix' => '',
 ];
