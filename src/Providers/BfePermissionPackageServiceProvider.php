@@ -19,54 +19,105 @@ use BigFiveEdition\Permission\Policies\PermissionRolePolicy;
 use BigFiveEdition\Permission\Policies\PermissionTeamPolicy;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 use Prettus\Repository\Providers\RepositoryServiceProvider;
 
 class BfePermissionPackageServiceProvider extends ServiceProvider
 {
+	private $packageName = 'bfe-permission';
+
 	public function boot()
 	{
-		$this->offerPublishing();
-
-		$this->registerMacroHelpers();
-
-		$this->registerCommands();
-
-		$this->registerModelBindings();
-
-		$this->registerRoutes();
-		$this->registerRouteMiddlewares();
-		$this->registerAuthGatesAndPolicies();
-	}
-
-	protected function offerPublishing()
-	{
+		//Configurations
 		if (!function_exists('config_path')) {
 			// function not available and 'publish' not relevant in Lumen
 			return;
 		}
-
 		$this->publishes([
 			__DIR__ . '/../../config/repository.php' => config_path('repository.php'),
 		], 'repository-config');
 
 		$this->publishes([
 			__DIR__ . '/../../config/bfe-permission.php' => config_path('bfe-permission.php'),
-		], 'bfe-permission-config');
+		], "{$this->packageName}-config");
 
+
+		//Migrations
 		$this->publishes([
 			__DIR__ . '/../../database/migrations/create_bfe_permission_tables.php.stub' => $this->getMigrationFileName('2023_01_26_195737_create_bfe_permission_tables.php'),
-		], 'bfe-permission-migrations');
-		
+		], "{$this->packageName}-migrations");
+
 		$this->publishes([
 			__DIR__ . '/../../database/migrations/add_bfe_permission_translations_tables.php.stub' => $this->getMigrationFileName('2023_08_02_195737_add_bfe_permission_translations_tables.php'),
-		], 'bfe-permission-migrations');
+		], "{$this->packageName}-migrations");
+//		$this->publishesMigrations([
+//			__DIR__.'/../../database/migrations' => database_path('migrations'),
+//		]);
+
+
+		//Languages
+		$this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', $this->packageName);
+		$this->publishes([
+			__DIR__ . '/../../resources/lang' => $this->app->langPath("vendor/{$this->packageName}"),
+		]);
+
+		//Views
+		$this->loadViewsFrom(__DIR__ . '/../../resources/views', $this->packageName);
+		$this->publishes([
+			__DIR__ . '/../../resources/views' => resource_path("views/vendor/{$this->packageName}"),
+		]);
+
+
+		//Public
+		$this->publishes([
+			__DIR__ . '/../../public' => public_path("vendor/{$this->packageName}"),
+		], 'public');
+
+
+		//Routes
+		$this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+
+
+		//Middlewares
+		app('router')->aliasMiddleware('bfe-permission.locale', LocaleMiddleware::class);
+		app('router')->aliasMiddleware('bfe-permission.teams', TeamMiddleware::class);
+		app('router')->aliasMiddleware('bfe-permission.roles', RoleMiddleware::class);
+		app('router')->aliasMiddleware('bfe-permission.abilities', AbilityMiddleware::class);
+
+
+		//Policies
+		Gate::define('bfe-permission-belongs-teams', [PermissionTeamPolicy::class, 'belongsToTeam']);
+		Gate::define('bfe-permission-has-roles', [PermissionRolePolicy::class, 'hasRole']);
+		Gate::define('bfe-permission-has-abilities', [PermissionAbilityPolicy::class, 'hasAbility']);
+		try {
+			$abilities = Ability::all();
+			foreach ($abilities as $ability) {
+				Gate::define($ability->slug, [PermissionAbilityPolicy::class, 'hasAbilityOnResource']);
+			}
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
+			Log::error($e->getTraceAsString());
+		}
+
+
+		//Commands
+		if ($this->app->runningInConsole()) {
+			$this->commands([
+				InstallBfePermission::class,
+				GenerateBfePermissionTeams::class,
+				GenerateBfePermissionRoles::class,
+				GenerateBfePermissionAbilities::class,
+//			RunBfePermissionSeeders::class,
+				CreateBfePermissionTeam::class,
+				CreateBfePermissionRole::class,
+				CreateBfePermissionAbility::class,
+			]);
+		}
 	}
+
 
 	protected function getMigrationFileName($migrationFileName): string
 	{
@@ -84,88 +135,20 @@ class BfePermissionPackageServiceProvider extends ServiceProvider
 			->first();
 	}
 
-	protected function registerMacroHelpers()
-	{
-		if (!method_exists(Route::class, 'macro')) { // Lumen
-			return;
-		}
-	}
-
-	protected function registerCommands()
-	{
-		$this->commands([
-			InstallBfePermission::class,
-			GenerateBfePermissionTeams::class,
-			GenerateBfePermissionRoles::class,
-			GenerateBfePermissionAbilities::class,
-//			RunBfePermissionSeeders::class,
-			CreateBfePermissionTeam::class,
-			CreateBfePermissionRole::class,
-			CreateBfePermissionAbility::class,
-		]);
-	}
-
-	protected function registerModelBindings()
-	{
-//		$config = $this->app->config['bfe-permission.models'];
-//
-//		if (!$config) {
-//			return;
-//		}
-	}
-
-	protected function registerRoutes()
-	{
-		$this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
-	}
-
-	protected function registerRouteMiddlewares()
-	{
-		app('router')->aliasMiddleware('bfe-permission.locale', LocaleMiddleware::class);
-		app('router')->aliasMiddleware('bfe-permission.teams', TeamMiddleware::class);
-		app('router')->aliasMiddleware('bfe-permission.roles', RoleMiddleware::class);
-		app('router')->aliasMiddleware('bfe-permission.abilities', AbilityMiddleware::class);
-	}
-
-	protected function registerAuthGatesAndPolicies()
-	{
-		Gate::define('bfe-permission-belongs-teams', [PermissionTeamPolicy::class, 'belongsToTeam']);
-		Gate::define('bfe-permission-has-roles', [PermissionRolePolicy::class, 'hasRole']);
-		Gate::define('bfe-permission-has-abilities', [PermissionAbilityPolicy::class, 'hasAbility']);
-
-		try {
-			$abilities = Ability::all();
-			foreach ($abilities as $ability) {
-				Gate::define($ability->slug, [PermissionAbilityPolicy::class, 'hasAbilityOnResource']);
-			}
-		} catch (Exception $e) {
-			Log::error($e->getMessage());
-			Log::error($e->getTraceAsString());
-		}
-	}
-
 
 	public function register()
 	{
 		$this->app->register(RepositoryServiceProvider::class);
 
+		//Configurations
 		$this->mergeConfigFrom(
 			__DIR__ . '/../../config/bfe-permission.php',
-			'bfe-permission'
+			"{$this->packageName}"
 		);
 		$this->mergeConfigFrom(
 			__DIR__ . '/../../config/repository.php',
 			'repository'
 		);
-
-
-		$this->callAfterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-			$this->registerBladeExtensions($bladeCompiler);
-		});
-	}
-
-	protected function registerBladeExtensions($bladeCompiler)
-	{
 
 	}
 }

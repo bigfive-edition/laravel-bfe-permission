@@ -97,6 +97,6 @@ class Role extends Model implements RoleContract
 
 		public function users(): MorphToMany
 	{
-		return $this->morphedByMany(config('bfe-permission.user_class'), 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
+		return $this->morphedByMany(config('bfe-permission.user_classopm'), 'model', 'bfe_permission_model_has_roles', 'model_id', 'role_id');
 	}
 }
